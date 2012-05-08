@@ -1,4 +1,4 @@
-package Bomberman;
+package bomberman;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -13,7 +13,8 @@ public class Spielfeld extends JFrame {
   private JButton jButton13 = new JButton();
   private JButton beendenButton = new JButton();
   private JLabel introBild = new JLabel(new ImageIcon("src/gfx/intro.jpg"));
-  private JLabel[] walls = new JLabel[150];
+  private JLabel[] solidWalls = new JLabel[142];
+  private BomberMan bomberMan = new BomberMan();
 
   Spielfeld(String title) {
     super(title);
@@ -43,9 +44,21 @@ public class Spielfeld extends JFrame {
         	introBild.setVisible(false);
         	createWalls();
         	placeWalls();
+        	bomberMan.put(jPanel);
       }
     });
     cp.add(solidWallsButton);
+    
+    Action moveRight = new MoveRight(bomberMan);
+    jPanel.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+    jPanel.getActionMap().put("moveRight",moveRight);
+    solidWallsButton.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+    solidWallsButton.getActionMap().put("moveRight",moveRight);
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+    beendenButton.getActionMap().put("moveRight",moveRight);
+    gitterButton.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+    gitterButton.getActionMap().put("moveRight",moveRight);
+    
     gitterButton.setBounds(232, 680, 137, 25);
     gitterButton.setText("Gitter");
     gitterButton.setMargin(new Insets(2, 2, 2, 2));
@@ -139,9 +152,9 @@ public class Spielfeld extends JFrame {
   }
   
   private void createWalls() {
-	  for (int i=0; i<150; i++) {
+	  for (int i=0; i<142; i++) {
 		  JLabel solidWall = new JLabel(new ImageIcon("src/gfx/solid_wall.png"));
-		  walls[i] = solidWall;
+		  solidWalls[i] = solidWall;
 	  }
   }
   
@@ -150,26 +163,26 @@ public class Spielfeld extends JFrame {
 	  
 	  // obere Wand	  
 	  for(i=1;i<=21; i++) {
-		  jPanel.add(walls[walls.length-i]);
-		  walls[walls.length-i].setBounds((40*(i-1))+1, 1, 40, 40);
+		  jPanel.add(solidWalls[solidWalls.length-i]);
+		  solidWalls[solidWalls.length-i].setBounds((40*(i-1))+1, 1, 40, 40);
 	  }
 	  
 	  // untere Wand
 	  for(j=1;j<=21; j++) {
-		  jPanel.add(walls[walls.length-i-j]);
-		  walls[walls.length-i-j].setBounds((40*(j-1))+1, 561, 40, 40);
+		  jPanel.add(solidWalls[solidWalls.length-i-j]);
+		  solidWalls[solidWalls.length-i-j].setBounds((40*(j-1))+1, 561, 40, 40);
 	  }
 	  
 	  // rechte Wand
 	  for(k=1;k<=21; k++) {
-		  jPanel.add(walls[walls.length-i-j-k]);
-		  walls[walls.length-i-j-k].setBounds(801, (40*k)+1, 40, 40);
+		  jPanel.add(solidWalls[solidWalls.length-i-j-k]);
+		  solidWalls[solidWalls.length-i-j-k].setBounds(801, (40*k)+1, 40, 40);
 	  }
 	  
 	  // linke Wand
 	  for(l=1;l<=21; l++) {
-		  jPanel.add(walls[walls.length-i-j-k-l]);
-		  walls[walls.length-i-j-k-l].setBounds(1, (40*l)+1, 40, 40);
+		  jPanel.add(solidWalls[solidWalls.length-i-j-k-l]);
+		  solidWalls[solidWalls.length-i-j-k-l].setBounds(1, (40*l)+1, 40, 40);
 	  }
 	  
 	  // position von Rechts im Array
@@ -179,8 +192,8 @@ public class Spielfeld extends JFrame {
 	  // spielfeld
 	  for(i=1; i<=9; i++) {
 		  for(k=1; k<=6; k++) {
-			  jPanel.add(walls[walls.length-arrayIndex-l]);
-			  walls[walls.length-arrayIndex-l].setBounds(80*i, 80*k, 40, 40);
+			  jPanel.add(solidWalls[solidWalls.length-arrayIndex-l]);
+			  solidWalls[solidWalls.length-arrayIndex-l].setBounds(80*i, 80*k, 40, 40);
 			  l++;
 		  }
 	  }
