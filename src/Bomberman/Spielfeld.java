@@ -37,27 +37,58 @@ public class Spielfeld extends JFrame {
     jPanel.add(introBild);
     introBild.setBounds(1,1,840,600);
     solidWallsButton.setBounds(56, 680, 137, 25);
-    solidWallsButton.setText("Feste Blöcke");
+    solidWallsButton.setText("Feste Bloecke");
     solidWallsButton.setMargin(new Insets(2, 2, 2, 2));
     solidWallsButton.addActionListener(new ActionListener() { 
       public void actionPerformed(ActionEvent evt) {
         	introBild.setVisible(false);
         	createWalls();
         	placeWalls();
+        	
         	bomberMan.put(jPanel);
       }
     });
     cp.add(solidWallsButton);
     
-    Action moveRight = new MoveRight(bomberMan);
-    jPanel.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+    Action moveRight = new Move(bomberMan, "right");
+    jPanel.getInputMap().put(KeyStroke.getKeyStroke("released D"),"moveRight");
     jPanel.getActionMap().put("moveRight",moveRight);
-    solidWallsButton.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+    solidWallsButton.getInputMap().put(KeyStroke.getKeyStroke("released D"),"moveRight");
     solidWallsButton.getActionMap().put("moveRight",moveRight);
-    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released D"),"moveRight");
     beendenButton.getActionMap().put("moveRight",moveRight);
-    gitterButton.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+    gitterButton.getInputMap().put(KeyStroke.getKeyStroke("released D"),"moveRight");
     gitterButton.getActionMap().put("moveRight",moveRight);
+    
+    Action moveLeft = new Move(bomberMan, "left");
+    jPanel.getInputMap().put(KeyStroke.getKeyStroke("released A"),"moveLeft");
+    jPanel.getActionMap().put("moveLeft",moveLeft);
+    solidWallsButton.getInputMap().put(KeyStroke.getKeyStroke("released A"),"moveLeft");
+    solidWallsButton.getActionMap().put("moveLeft",moveLeft);
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released A"),"moveLeft");
+    beendenButton.getActionMap().put("moveLeft",moveLeft);
+    gitterButton.getInputMap().put(KeyStroke.getKeyStroke("released A"),"moveLeft");
+    gitterButton.getActionMap().put("moveLeft",moveLeft);
+    
+    Action moveUp = new Move(bomberMan, "up");
+    jPanel.getInputMap().put(KeyStroke.getKeyStroke("released W"),"moveUp");
+    jPanel.getActionMap().put("moveUp",moveUp);
+    solidWallsButton.getInputMap().put(KeyStroke.getKeyStroke("released W"),"moveUp");
+    solidWallsButton.getActionMap().put("moveUp",moveUp);
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released W"),"moveUp");
+    beendenButton.getActionMap().put("moveUp",moveUp);
+    gitterButton.getInputMap().put(KeyStroke.getKeyStroke("released W"),"moveUp");
+    gitterButton.getActionMap().put("moveUp",moveUp);
+    
+    Action moveDown = new Move(bomberMan, "down");
+    jPanel.getInputMap().put(KeyStroke.getKeyStroke("released S"),"moveDown");
+    jPanel.getActionMap().put("moveDown",moveDown);
+    solidWallsButton.getInputMap().put(KeyStroke.getKeyStroke("released S"),"moveDown");
+    solidWallsButton.getActionMap().put("moveDown",moveDown);
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released S"),"moveDown");
+    beendenButton.getActionMap().put("moveDown",moveDown);
+    gitterButton.getInputMap().put(KeyStroke.getKeyStroke("released S"),"moveDown");
+    gitterButton.getActionMap().put("moveDown",moveDown);
     
     gitterButton.setBounds(232, 680, 137, 25);
     gitterButton.setText("Gitter");
@@ -141,13 +172,6 @@ public class Spielfeld extends JFrame {
       }
     });
     cp.add(beendenButton);
-//    jLabel1.setBounds(64, 8, 835, 49);
-//    jLabel1.setText("Bomberman");
-//    jLabel1.setFont(new Font("Calibri", Font.BOLD, 36));
-//    jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-//    jLabel1.setHorizontalTextPosition(SwingConstants.CENTER);
-//    cp.add(jLabel1);
-
     setVisible(true);
   }
   
@@ -198,7 +222,6 @@ public class Spielfeld extends JFrame {
 		  }
 	  }
   }
-
   public static void main(String[] args) {
     new Spielfeld("bomberman");
   }
