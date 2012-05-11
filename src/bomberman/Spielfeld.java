@@ -30,8 +30,9 @@ public class Spielfeld extends JFrame {
     Container cp = getContentPane();
     cp.setLayout(null);
 
+    Color DARKGREEN = new Color(51,153,0);
     jPanel.setBounds(60, 60, 840, 600);
-    jPanel.setBackground(Color.GRAY);
+    jPanel.setBackground(DARKGREEN);
     jPanel.setBorder(new javax.swing.border.LineBorder(Color.BLACK, 3));
     cp.add(jPanel);
     jPanel.add(introBild);
