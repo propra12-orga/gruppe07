@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class Animation implements Runnable {
@@ -12,14 +13,14 @@ public class Animation implements Runnable {
 	private ImageIcon frames[] = new ImageIcon[5];
 	private ImageIcon icon = new ImageIcon();
 	private String richtung;
-	private Spielfeld spielfeld;
+	private JLabel solidWalls[][];
 	
 	public Animation(BomberMan b, String r, Spielfeld spielfeld) {
 		this.b = b;
 		this.richtung = r;
 		this.nextPositionX = b.getX();
 		this.nextPositionY = b.getY();
-		this.spielfeld = spielfeld;
+		this.solidWalls = spielfeld.getSolidWalls();
 	}	
 	
 	@Override
@@ -47,16 +48,16 @@ public class Animation implements Runnable {
 				t.stop();
 			}
 			
-			if(richtung.equals("right") && spielfeld.solidWalls[b.getRasterPunktX()+1][b.getRasterPunktY()].getName().equals("walkable")) {
+			if(richtung.equals("right") && solidWalls[b.getRasterPunktX()+1][b.getRasterPunktY()].getName().equals("walkable")) {
 				nextPositionX = b.getX()+8;
 			}
-			if(richtung.equals("left") && spielfeld.solidWalls[b.getRasterPunktX()-1][b.getRasterPunktY()].getName().equals("walkable")) {
+			if(richtung.equals("left") && solidWalls[b.getRasterPunktX()-1][b.getRasterPunktY()].getName().equals("walkable")) {
 				nextPositionX = b.getX()-8;
 			}
-			if(richtung.equals("up") && spielfeld.solidWalls[b.getRasterPunktX()][b.getRasterPunktY()-1].getName().equals("walkable")) {
+			if(richtung.equals("up") && solidWalls[b.getRasterPunktX()][b.getRasterPunktY()-1].getName().equals("walkable")) {
 				nextPositionY = b.getY()-8;
 			}
-			if(richtung.equals("down") && spielfeld.solidWalls[b.getRasterPunktX()][b.getRasterPunktY()+1].getName().equals("walkable")) {
+			if(richtung.equals("down") && solidWalls[b.getRasterPunktX()][b.getRasterPunktY()+1].getName().equals("walkable")) {
 				nextPositionY = b.getY()+8;
 			}
 			

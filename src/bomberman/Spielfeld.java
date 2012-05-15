@@ -6,11 +6,12 @@ import javax.swing.*;
 public class Spielfeld extends JFrame {
   private static final long serialVersionUID = 1L;
   private JPanel jPanel = new JPanel(null, true);
-  private JButton solidWallsButton = new JButton();
+  private JButton startButton = new JButton();
   private JButton beendenButton = new JButton();
   private JLabel introBild = new JLabel(new ImageIcon("src/gfx/intro.jpg"));
-  JLabel solidWalls[][] = new JLabel[22][15];
-  private BomberMan bomberMan = new BomberMan();
+  private JLabel solidWalls[][] = new JLabel[22][15];
+
+private BomberMan bomberMan = new BomberMan();
 
   Spielfeld(String title) {
     super(title);
@@ -33,10 +34,10 @@ public class Spielfeld extends JFrame {
     cp.add(jPanel);
     jPanel.add(introBild);
     introBild.setBounds(1,1,840,600);
-    solidWallsButton.setBounds(56, 680, 137, 25);
-    solidWallsButton.setText("Starten");
-    solidWallsButton.setMargin(new Insets(2, 2, 2, 2));
-    solidWallsButton.addActionListener(new ActionListener() { 
+    startButton.setBounds(56, 680, 137, 25);
+    startButton.setText("Starten");
+    startButton.setMargin(new Insets(2, 2, 2, 2));
+    startButton.addActionListener(new ActionListener() { 
     public void actionPerformed(ActionEvent evt) {
         	introBild.setVisible(false);
         	createWalls();
@@ -45,7 +46,7 @@ public class Spielfeld extends JFrame {
         	bomberMan.put(jPanel);
       }
     });        
-    cp.add(solidWallsButton);
+    cp.add(startButton);
     
     beendenButton.setBounds(760, 680, 137, 25);
     beendenButton.setText("Beenden");
@@ -58,21 +59,31 @@ public class Spielfeld extends JFrame {
     cp.add(beendenButton);
     setVisible(true);
     
+    
+    // Moves for first player
     Action moveRight = new Move(bomberMan, "right",this);
-    solidWallsButton.getInputMap().put(KeyStroke.getKeyStroke("released D"),"moveRight");
-    solidWallsButton.getActionMap().put("moveRight",moveRight);
+    startButton.getInputMap().put(KeyStroke.getKeyStroke("released D"),"moveRight");
+    startButton.getActionMap().put("moveRight",moveRight);
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released D"),"moveRight");
+    beendenButton.getActionMap().put("moveRight",moveRight);
     
     Action moveLeft = new Move(bomberMan, "left", this);
-    solidWallsButton.getInputMap().put(KeyStroke.getKeyStroke("released A"),"moveLeft");
-    solidWallsButton.getActionMap().put("moveLeft",moveLeft);
+    startButton.getInputMap().put(KeyStroke.getKeyStroke("released A"),"moveLeft");
+    startButton.getActionMap().put("moveLeft",moveLeft);
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released A"),"moveLeft");
+    beendenButton.getActionMap().put("moveLeft",moveLeft);
     
     Action moveUp = new Move(bomberMan, "up", this);
-    solidWallsButton.getInputMap().put(KeyStroke.getKeyStroke("released W"),"moveUp");
-    solidWallsButton.getActionMap().put("moveUp",moveUp);
+    startButton.getInputMap().put(KeyStroke.getKeyStroke("released W"),"moveUp");
+    startButton.getActionMap().put("moveUp",moveUp);
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released W"),"moveUp");
+    beendenButton.getActionMap().put("moveUp",moveUp);
     
     Action moveDown = new Move(bomberMan, "down", this);
-    solidWallsButton.getInputMap().put(KeyStroke.getKeyStroke("released S"),"moveDown");
-    solidWallsButton.getActionMap().put("moveDown",moveDown);   
+    startButton.getInputMap().put(KeyStroke.getKeyStroke("released S"),"moveDown");
+    startButton.getActionMap().put("moveDown",moveDown);
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released S"),"moveDown");
+    beendenButton.getActionMap().put("moveDown",moveDown);
   }
   
   private void createWalls() {
@@ -115,7 +126,6 @@ public class Spielfeld extends JFrame {
 	  // Spielfeld
 	  for (int i=1;i<19;i++) {
 		  for (int j=1;j<13;j++) {
-			  
 			  if(i%2==0 && j%2==0) {
 			  	  jPanel.add(solidWalls[i][j]);
 				  solidWalls[i][j].setBounds(40*i, 40*j, 40, 40);
@@ -127,6 +137,9 @@ public class Spielfeld extends JFrame {
 
   }
   
+  public JLabel[][] getSolidWalls() {
+		return solidWalls;
+  }
   
   public static void main(String[] args) {
     new Spielfeld("bomberman");
