@@ -12,12 +12,14 @@ public class Animation implements Runnable {
 	private ImageIcon frames[] = new ImageIcon[5];
 	private ImageIcon icon = new ImageIcon();
 	private String richtung;
+	private Spielfeld spielfeld;
 	
-	public Animation(BomberMan b, String r) {
+	public Animation(BomberMan b, String r, Spielfeld spielfeld) {
 		this.b = b;
 		this.richtung = r;
 		this.nextPositionX = b.getX();
 		this.nextPositionY = b.getY();
+		this.spielfeld = spielfeld;
 	}	
 	
 	@Override
@@ -45,16 +47,16 @@ public class Animation implements Runnable {
 				t.stop();
 			}
 			
-			if(richtung.equals("right")) {
+			if(richtung.equals("right") && spielfeld.solidWalls[b.getRasterPunktX()+1][b.getRasterPunktY()].getName().equals("walkable")) {
 				nextPositionX = b.getX()+8;
 			}
-			if(richtung.equals("left")) {
+			if(richtung.equals("left") && spielfeld.solidWalls[b.getRasterPunktX()-1][b.getRasterPunktY()].getName().equals("walkable")) {
 				nextPositionX = b.getX()-8;
 			}
-			if(richtung.equals("up")) {
+			if(richtung.equals("up") && spielfeld.solidWalls[b.getRasterPunktX()][b.getRasterPunktY()-1].getName().equals("walkable")) {
 				nextPositionY = b.getY()-8;
 			}
-			if(richtung.equals("down")) {
+			if(richtung.equals("down") && spielfeld.solidWalls[b.getRasterPunktX()][b.getRasterPunktY()+1].getName().equals("walkable")) {
 				nextPositionY = b.getY()+8;
 			}
 			
@@ -65,7 +67,9 @@ public class Animation implements Runnable {
 			b.getBomberMan().setLocation(nextPositionX, b.getY());
 			b.setX(nextPositionX);
 			b.setY(nextPositionY);
-			b.getBomberMan().repaint();	
+			b.setRasterPunktX(nextPositionX/40);
+			b.setRasterPunktY(nextPositionY/40);
+			b.getBomberMan().repaint();
 		}
 	}
 }
