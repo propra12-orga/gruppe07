@@ -20,5 +20,11 @@ public class Move extends AbstractAction {
 		Animation a = new Animation(this.b, richtung,this.spielfeld);
 		Thread t = new Thread(a);
 		t.start();
+		while (t.isAlive()) {
+			spielfeld.getStartButton().getActionMap().put("moveRight", null);
+			spielfeld.getStartButton().getActionMap().put("moveLeft", null);
+			spielfeld.getStartButton().getActionMap().put("moveUp", null);
+			spielfeld.getStartButton().getActionMap().put("moveDown", null);
+		}
 	}
 }

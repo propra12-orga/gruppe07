@@ -14,6 +14,7 @@ public class Animation implements Runnable {
 	private ImageIcon icon = new ImageIcon();
 	private String richtung;
 	private JLabel solidWalls[][];
+	private Spielfeld spielfeld;
 	
 	public Animation(BomberMan b, String r, Spielfeld spielfeld) {
 		this.b = b;
@@ -21,6 +22,7 @@ public class Animation implements Runnable {
 		this.nextPositionX = b.getX();
 		this.nextPositionY = b.getY();
 		this.solidWalls = spielfeld.getSolidWalls();
+		this.spielfeld = spielfeld;
 	}	
 	
 	@Override
@@ -46,6 +48,7 @@ public class Animation implements Runnable {
 		{
 			if(currentFrame == 4) {
 				t.stop();
+				spielfeld.setKeysBack();
 			}
 			
 			if(richtung.equals("right") && solidWalls[b.getRasterPunktX()+1][b.getRasterPunktY()].getName().equals("walkable")) {

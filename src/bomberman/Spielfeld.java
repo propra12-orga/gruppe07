@@ -10,8 +10,9 @@ public class Spielfeld extends JFrame {
   private JButton beendenButton = new JButton();
   private JLabel introBild = new JLabel(new ImageIcon("src/gfx/intro.jpg"));
   private JLabel solidWalls[][] = new JLabel[22][15];
-
-private BomberMan bomberMan = new BomberMan();
+  private Action moveRight,moveLeft,moveUp,moveDown, Bombe;
+  private BomberMan bomberMan = new BomberMan(jPanel, this);
+  
 
   Spielfeld(String title) {
     super(title);
@@ -61,29 +62,36 @@ private BomberMan bomberMan = new BomberMan();
     
     
     // Moves for first player
-    Action moveRight = new Move(bomberMan, "right",this);
-    startButton.getInputMap().put(KeyStroke.getKeyStroke("released D"),"moveRight");
+    moveRight = new Move(bomberMan, "right",this);
+    startButton.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
     startButton.getActionMap().put("moveRight",moveRight);
-    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released D"),"moveRight");
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
     beendenButton.getActionMap().put("moveRight",moveRight);
     
-    Action moveLeft = new Move(bomberMan, "left", this);
-    startButton.getInputMap().put(KeyStroke.getKeyStroke("released A"),"moveLeft");
+    moveLeft = new Move(bomberMan, "left", this);
+    startButton.getInputMap().put(KeyStroke.getKeyStroke("A"),"moveLeft");
     startButton.getActionMap().put("moveLeft",moveLeft);
-    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released A"),"moveLeft");
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("A"),"moveLeft");
     beendenButton.getActionMap().put("moveLeft",moveLeft);
     
-    Action moveUp = new Move(bomberMan, "up", this);
-    startButton.getInputMap().put(KeyStroke.getKeyStroke("released W"),"moveUp");
+    moveUp = new Move(bomberMan, "up", this);
+    startButton.getInputMap().put(KeyStroke.getKeyStroke("W"),"moveUp");
     startButton.getActionMap().put("moveUp",moveUp);
-    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released W"),"moveUp");
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("W"),"moveUp");
     beendenButton.getActionMap().put("moveUp",moveUp);
     
-    Action moveDown = new Move(bomberMan, "down", this);
-    startButton.getInputMap().put(KeyStroke.getKeyStroke("released S"),"moveDown");
+    moveDown = new Move(bomberMan, "down", this);
+    startButton.getInputMap().put(KeyStroke.getKeyStroke("S"),"moveDown");
     startButton.getActionMap().put("moveDown",moveDown);
-    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released S"),"moveDown");
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("S"),"moveDown");
     beendenButton.getActionMap().put("moveDown",moveDown);
+    
+    Bombe = new Bombe(bomberMan, jPanel);
+    bomberMan.setBombe((Bombe)Bombe);
+    startButton.getInputMap().put(KeyStroke.getKeyStroke("released K"),"Bombe");
+    startButton.getActionMap().put("Bombe",Bombe);
+    beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released K"),"Bombe");
+    beendenButton.getActionMap().put("Bombe",Bombe);
   }
   
   private void createWalls() {
@@ -139,6 +147,17 @@ private BomberMan bomberMan = new BomberMan();
   
   public JLabel[][] getSolidWalls() {
 		return solidWalls;
+  }
+  
+  public JButton getStartButton() {
+	  return startButton;
+  }
+  
+  public void setKeysBack() {
+	  startButton.getActionMap().put("moveRight", moveRight);
+	  startButton.getActionMap().put("moveLeft", moveLeft);
+	  startButton.getActionMap().put("moveUp", moveUp);
+	  startButton.getActionMap().put("moveDown", moveDown);
   }
   
   public static void main(String[] args) {

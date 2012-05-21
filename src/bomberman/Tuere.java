@@ -1,0 +1,64 @@
+package bomberman;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class Tuere extends JFrame {
+	private static final long serialVersionUID = -2181712976539020219L;
+	private JPanel jPanel;
+	private BomberMan b;
+	private JLabel win = new JLabel(new ImageIcon("src/gfx/win.jpg"));
+	private JLabel exit = new JLabel(new ImageIcon("src/gfx/door/door.png"));
+	private int x = 400, y = 280;
+	private Spielfeld s;
+	private Bombe bo;
+
+	public Tuere(JPanel jPanel, BomberMan b, Spielfeld s, Bombe bo) {
+		this.jPanel = jPanel;
+		this.b = b;
+		this.s = s;
+		this.bo = bo;
+		exit.setBounds(x, y, 40, 40);
+		exit.setVisible(true);
+		jPanel.add(exit);
+		
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	private boolean isExit() {
+		if(b.getX() == x && b.getY() == y) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void end() {
+		if(isExit()) {
+			JLabel w[][] = s.getSolidWalls(); 
+			for (int i = 0; i < 22; i++) {
+				for (int j = 0; j < 15; j++) {
+					jPanel.remove(w[i][j]);
+				}
+			}
+			
+			jPanel.remove(exit);
+			jPanel.remove(b.getBomberMan());
+			jPanel.remove(bo.getBomb());
+			
+			jPanel.add(win);
+			win.setBounds(1,1,840,600);
+			win.setVisible(true);
+			
+		}
+	}
+
+}
