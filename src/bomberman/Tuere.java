@@ -9,7 +9,8 @@ public class Tuere extends JFrame {
 	private static final long serialVersionUID = -2181712976539020219L;
 	private JPanel jPanel;
 	private BomberMan b;
-	private JLabel win = new JLabel(new ImageIcon("src/gfx/win.jpg"));
+	private JLabel win1 = new JLabel(new ImageIcon("src/gfx/win3.gif"));
+	private JLabel win2 = new JLabel(new ImageIcon("src/gfx/explode.gif"));
 	private JLabel exit = new JLabel(new ImageIcon("src/gfx/door/door.png"));
 	private int x = 400, y = 280;
 	private Spielfeld s;
@@ -54,9 +55,12 @@ public class Tuere extends JFrame {
 			jPanel.remove(b.getBomberMan());
 			jPanel.remove(bo.getBomb());
 			
-			jPanel.add(win);
-			win.setBounds(1,1,840,600);
-			win.setVisible(true);
+			jPanel.add(win1);
+			win1.setBounds(1,1,840,600);
+			win1.setVisible(true);
+			jPanel.add(win2);
+			win2.setBounds(225, 10, 390, 196);
+			win2.setVisible(true);
 			
 		}
 	}
