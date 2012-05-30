@@ -5,22 +5,31 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class BomberMan {
-	private JLabel bomberMan = new JLabel(new ImageIcon("src/gfx/player1/6.png"));
+	private int playerID = 1;
+	private JLabel bomberMan;
 	private JPanel jPanel;
 	private Tuere ausgang;
-	private int x=40, y=40, width=40, height=40;
+	private int x=40, y=40, width=40 ,height=40;
 	private int rasterPunktX;
 	private int rasterPunktY;
 	private Spielfeld s;
 	private Bombe b;
 	
-	public BomberMan(JPanel jPanel, Spielfeld s) {
+	public BomberMan(int id, JPanel jPanel, Spielfeld s) {
+		this.playerID = id;
+		if( playerID == 2) {
+			x=760;
+			y=520;
+		}
+		bomberMan = new JLabel(new ImageIcon("src/gfx/player"+ this.playerID +"/down0.png"));
 		bomberMan.setBounds(x, y, width, width);
 		rasterPunktX = x/40;
 		rasterPunktY = y/40;
 		this.jPanel = jPanel;
 		this.s = s;
 	}
+	
+	
 	
 	public void put(JPanel jPanel) {
 		jPanel.add(bomberMan);
@@ -69,6 +78,10 @@ public class BomberMan {
 		return rasterPunktY;
 	}
 	
+	public int getPlayerID() {
+		return playerID;
+	}
+
 	public void setBombe(Bombe b) {
 		this.b = b;
 	}
