@@ -7,9 +7,8 @@ public class ReadFile {
 	private Charset encoding = Charset.defaultCharset();
 	private InputStream in;
 	private Reader reader;
-	private Reader buffer;
 	private File file;
-	private String zeile = "";
+	private char spielFeld[][] = new char[21][15];
 
 	public ReadFile(String fileName) {
 		file = new File(fileName);
@@ -23,14 +22,24 @@ public class ReadFile {
 	private void openFile() throws FileNotFoundException {
 		this.in = new FileInputStream(this.file);
 		this.reader = new InputStreamReader(this.in, this.encoding);
-		this.buffer = new BufferedReader(this.reader);
 	}
 
 	public void read() throws IOException {
-		int r;
+		int r, i=0, j=0;
 		while ((r = reader.read()) != -1) {
-			char ch = (char)r;
-			// TODO ch in array schreiben.
+			// newline
+			if(r==13) {
+				i++;
+				j=0;
+				continue;
+			}
+			if(r == 10) {
+				System.out.println();
+				continue;
+			}
+			System.out.print((char)r);
+			spielFeld[j][i] = (char)r;
+			j++;
 		}
 	}
 }
