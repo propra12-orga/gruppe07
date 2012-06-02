@@ -103,6 +103,7 @@ public class Animation implements Runnable {
 			b.setRasterPunktX((int)Math.ceil(nextPositionX/40D));
 			b.setRasterPunktY((int)Math.ceil(nextPositionY/40D));
 			b.getBomberMan().repaint();
+			spielfeld.exit.isExit(b);
 		}
 	}
 }

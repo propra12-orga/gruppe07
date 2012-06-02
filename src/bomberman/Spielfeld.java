@@ -15,6 +15,7 @@ public class Spielfeld extends JFrame {
 	private JLabel walls[][] = new JLabel[21][15];
 	private char[][] spielFeld;
 	private Action moveRight, moveLeft, moveUp, moveDown, moveRight2, moveLeft2, moveUp2, moveDown2, Bombe;
+	public Tuere exit;
 	private BomberMan player1 = new BomberMan(1);
 	private BomberMan player2 = new BomberMan(2);
 
@@ -166,7 +167,12 @@ public class Spielfeld extends JFrame {
 					walls[i][j].setName("exit");
 					jPanel.add(walls[i][j]);
 					
+					JLabel[] toRemove = new JLabel[3];
+					toRemove[0] = this.player1.getBomberMan();
+					toRemove[1] = this.player2.getBomberMan();
+					toRemove[2] = walls[i][j];
 					
+					exit = new Tuere(i, j, jPanel, toRemove);
 				}
 				
 				// Player(s)
