@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 public class BomberMan {
 	private int playerID = 1;
 	private JLabel bomberMan;
-	private Tuere ausgang;
 	private int x=40, y=40, width=40 ,height=40;
 	private int rasterPunktX;
 	private int rasterPunktY;

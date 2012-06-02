@@ -18,7 +18,7 @@ public class Animation implements Runnable {
 	private ImageIcon frames[] = new ImageIcon[5];
 	private ImageIcon icon = new ImageIcon();
 	private String richtung;
-	private JLabel solidWalls[][];
+	private JLabel walls[][];
 	private Spielfeld spielfeld;
 	
 	/**
@@ -33,7 +33,7 @@ public class Animation implements Runnable {
 		this.richtung = r;
 		this.nextPositionX = b.getX();
 		this.nextPositionY = b.getY();
-		this.solidWalls = spielfeld.getWalls();
+		this.walls = spielfeld.getWalls();
 		this.spielfeld = spielfeld;
 	}	
 	
@@ -72,23 +72,24 @@ public class Animation implements Runnable {
 		 * @param t.stop(); Die Animation wird angehalten, sobald currentFrame == 4 erreicht wurde.
 		 * @param spielfeld.setKeysBack(); Tasten werden für erneute Eingabe zur&uuml;ck gesetzt.
 		 */
-		public synchronized void actionPerformed(ActionEvent evt)
+		public void actionPerformed(ActionEvent evt)
 		{
 			if(currentFrame == 4) {
 				t.stop();
 				spielfeld.setKeysBack();
 			}
 			
-			if(richtung.equals("right") && solidWalls[b.getRasterPunktX()+1][b.getRasterPunktY()].getName().equals("walkable")) {
+			if(richtung.equals("right") && (walls[b.getRasterPunktX()+1][b.getRasterPunktY()].getName().equals("walkable") || walls[b.getRasterPunktX()+1][b.getRasterPunktY()].getName().equals("exit"))) {
 				nextPositionX = b.getX()+8;
 			}
-			if(richtung.equals("left") && solidWalls[b.getRasterPunktX()-1][b.getRasterPunktY()].getName().equals("walkable")) {
+			if(richtung.equals("left") && (walls[b.getRasterPunktX()-1][b.getRasterPunktY()].getName().equals("walkable") || walls[b.getRasterPunktX()-1][b.getRasterPunktY()].getName().equals("exit"))) {
 				nextPositionX = b.getX()-8;
 			}
-			if(richtung.equals("up") && solidWalls[b.getRasterPunktX()][b.getRasterPunktY()-1].getName().equals("walkable")) {
+			if(richtung.equals("up") && (walls[b.getRasterPunktX()][b.getRasterPunktY()-1].getName().equals("walkable") || walls[b.getRasterPunktX()][b.getRasterPunktY()-1].getName().equals("exit"))) {
 				nextPositionY = b.getY()-8;
 			}
-			if(richtung.equals("down") && solidWalls[b.getRasterPunktX()][b.getRasterPunktY()+1].getName().equals("walkable")) {
+			
+			if(richtung.equals("down") && (walls[b.getRasterPunktX()][b.getRasterPunktY()+1].getName().equals("walkable") || walls[b.getRasterPunktX()][b.getRasterPunktY()+1].getName().equals("exit"))) {
 				nextPositionY = b.getY()+8;
 			}
 			
@@ -96,7 +97,7 @@ public class Animation implements Runnable {
 			icon = frames[currentFrame];
 			
 			b.getBomberMan().setIcon(icon);			
-			b.getBomberMan().setLocation(nextPositionX, b.getY());
+			b.getBomberMan().setLocation(nextPositionX, nextPositionY);
 			b.setX(nextPositionX);
 			b.setY(nextPositionY);
 			b.setRasterPunktX(nextPositionX/40);

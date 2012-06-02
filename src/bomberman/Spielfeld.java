@@ -3,9 +3,7 @@ package bomberman;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-
 import javax.swing.*;
-
 import readSpielfeld.ReadFile;
 
 public class Spielfeld extends JFrame {

@@ -17,7 +17,7 @@ public class Move extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Animation a = new Animation(this.b, richtung,this.spielfeld);
+		Animation a = new Animation(this.b, richtung, this.spielfeld);
 		Thread t = new Thread(a);
 		t.start();
 		while (t.isAlive()) {
