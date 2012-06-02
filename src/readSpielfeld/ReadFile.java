@@ -12,7 +12,7 @@ public class ReadFile {
 	private InputStream in;
 	private Reader reader;
 	private File file;
-	private char spielFeld[][] = new char[15][21];
+	private char spielFeld[][] = new char[21][15];
 
 	/**
 	 *  
@@ -41,7 +41,7 @@ public class ReadFile {
 	/**
 	 * Kopiert die Datei in ein 2-Dimensinales Array
 	 * 
-	 * @return char[][] spielFeld
+	 * @return spielFeld[][]
 	 * @throws IOException
 	 */
 	public char[][] read() throws IOException {
@@ -80,12 +80,12 @@ public class ReadFile {
 			}
 			
 			// ist das Zeichen erlaubt?
-			if( ch != 'X' && ch != 'P' && ch != 'O' && ch != 'L' ) {
+			if( ch != 'X' && ch != 'P' && ch != 'O' && ch != 'L' && ch != 'T' && ch != 'Z' ) {
 				System.out.println("Das Zeichen "+ ch +" in Spalte "+ (j+1) +" und Zeile "+ (i+1) +" ist verboten.");
 				System.exit(0);
 			}
 			
-			spielFeld[i][j] = ch;
+			spielFeld[j][i] = ch;
 			j++;
 		}
 		
