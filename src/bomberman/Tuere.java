@@ -44,7 +44,7 @@ public class Tuere extends JFrame {
 	
 	public void end() {
 		if(isExit()) {
-			JLabel w[][] = s.getSolidWalls(); 
+			JLabel w[][] = s.getWalls(); 
 			for (int i = 0; i < 22; i++) {
 				for (int j = 0; j < 15; j++) {
 					jPanel.remove(w[i][j]);

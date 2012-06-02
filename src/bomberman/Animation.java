@@ -33,7 +33,7 @@ public class Animation implements Runnable {
 		this.richtung = r;
 		this.nextPositionX = b.getX();
 		this.nextPositionY = b.getY();
-		this.solidWalls = spielfeld.getSolidWalls();
+		this.solidWalls = spielfeld.getWalls();
 		this.spielfeld = spielfeld;
 	}	
 	
