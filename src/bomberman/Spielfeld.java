@@ -15,8 +15,8 @@ public class Spielfeld extends JFrame {
 	private JLabel walls[][] = new JLabel[21][15];
 	private char[][] spielFeld;
 	private Action moveRight, moveLeft, moveUp, moveDown, moveRight2, moveLeft2, moveUp2, moveDown2, Bombe;
-	private BomberMan bomberMan = new BomberMan(1);
-	private BomberMan bomberMan2 = new BomberMan(2);
+	private BomberMan player1 = new BomberMan(1);
+	private BomberMan player2 = new BomberMan(2);
 
 	Spielfeld(String title) {
 		super(title);
@@ -46,8 +46,8 @@ public class Spielfeld extends JFrame {
 			public void actionPerformed(ActionEvent evt) {
 				introBild.setVisible(false);
 				createWorld();
-				bomberMan.put(jPanel);
-				bomberMan2.put(jPanel);
+				player1.put(jPanel);
+				player2.put(jPanel);
 			}
 		});
 		cp.add(startButton);
@@ -64,25 +64,25 @@ public class Spielfeld extends JFrame {
 		setVisible(true);
 
 		// Moves for first player
-		moveRight = new Move(bomberMan, "right", this);
+		moveRight = new Move(player1, "right", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("D"), "moveRight");
 		startButton.getActionMap().put("moveRight", moveRight);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("D"), "moveRight");
 		beendenButton.getActionMap().put("moveRight", moveRight);
 
-		moveLeft = new Move(bomberMan, "left", this);
+		moveLeft = new Move(player1, "left", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("A"), "moveLeft");
 		startButton.getActionMap().put("moveLeft", moveLeft);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("A"), "moveLeft");
 		beendenButton.getActionMap().put("moveLeft", moveLeft);
 
-		moveUp = new Move(bomberMan, "up", this);
+		moveUp = new Move(player1, "up", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
 		startButton.getActionMap().put("moveUp", moveUp);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
 		beendenButton.getActionMap().put("moveUp", moveUp);
 
-		moveDown = new Move(bomberMan, "down", this);
+		moveDown = new Move(player1, "down", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
 		startButton.getActionMap().put("moveDown", moveDown);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
@@ -94,25 +94,25 @@ public class Spielfeld extends JFrame {
 		beendenButton.getActionMap().put("Bombe", Bombe);
 
 		// Moves for second player
-		moveRight2 = new Move(bomberMan2, "right", this);
+		moveRight2 = new Move(player2, "right", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "moveRight2");
 		startButton.getActionMap().put("moveRight2", moveRight2);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "moveRight2");
 		beendenButton.getActionMap().put("moveRight2", moveRight2);
 
-		moveLeft2 = new Move(bomberMan2, "left", this);
+		moveLeft2 = new Move(player2, "left", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "moveLeft2");
 		startButton.getActionMap().put("moveLeft2", moveLeft2);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "moveLeft2");
 		beendenButton.getActionMap().put("moveLeft2", moveLeft2);
 
-		moveUp2 = new Move(bomberMan2, "up", this);
+		moveUp2 = new Move(player2, "up", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp2");
 		startButton.getActionMap().put("moveUp2", moveUp2);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp2");
 		beendenButton.getActionMap().put("moveUp2", moveUp2);
 
-		moveDown2 = new Move(bomberMan2, "down", this);
+		moveDown2 = new Move(player2, "down", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "moveDown2");
 		startButton.getActionMap().put("moveDown2", moveDown2);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "moveDown2");
@@ -165,6 +165,8 @@ public class Spielfeld extends JFrame {
 					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
 					walls[i][j].setName("exit");
 					jPanel.add(walls[i][j]);
+					
+					
 				}
 				
 				// Player(s)
