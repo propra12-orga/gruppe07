@@ -8,7 +8,7 @@ import readSpielfeld.ReadFile;
 
 public class Spielfeld extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private JPanel jPanel = new JPanel(null, true);
+	private JLayeredPane  jPanel = new JLayeredPane();
 	private JButton startButton = new JButton();
 	private JButton beendenButton = new JButton();
 	private JLabel introBild = new JLabel(new ImageIcon("src/gfx/intro.jpg"));
@@ -35,6 +35,7 @@ public class Spielfeld extends JFrame {
 
 		Color DARKGREEN = new Color(51, 153, 0);
 		jPanel.setBounds(60, 60, 840, 600);
+		jPanel.setOpaque(true);
 		jPanel.setBackground(DARKGREEN);
 		jPanel.setBorder(new javax.swing.border.LineBorder(Color.BLACK, 3));
 		cp.add(jPanel);

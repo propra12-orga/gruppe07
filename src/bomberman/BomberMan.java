@@ -2,7 +2,7 @@ package bomberman;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JLayeredPane;
 
 public class BomberMan {
 	private int playerID = 1;
@@ -23,7 +23,7 @@ public class BomberMan {
 		rasterPunktY = y/40;
 	}
 	
-	public void put(JPanel jPanel) {
+	public void put(JLayeredPane jPanel) {
 		jPanel.add(bomberMan);
 	}
 	
