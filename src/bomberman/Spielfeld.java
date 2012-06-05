@@ -14,7 +14,7 @@ public class Spielfeld extends JFrame {
 	private JLabel introBild = new JLabel(new ImageIcon("src/gfx/intro.jpg"));
 	private JLabel walls[][] = new JLabel[21][15];
 	private char[][] spielFeld;
-	private Action moveRight, moveLeft, moveUp, moveDown, moveRight2, moveLeft2, moveUp2, moveDown2, Bombe;
+	private Action moveRight, moveLeft, moveUp, moveDown, moveRight2, moveLeft2, moveUp2, moveDown2, Bombe1, Bombe2;
 	public Tuere exit;
 	private BomberMan player1 = new BomberMan(1);
 	private BomberMan player2 = new BomberMan(2);
@@ -90,7 +90,7 @@ public class Spielfeld extends JFrame {
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
 		beendenButton.getActionMap().put("moveDown", moveDown);
 		
-		Bombe Bombe1 = new Bombe(player1, jPanel);
+		Bombe Bombe1 = new Bombe(player1, jPanel, this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("F"),"Bombe1");
 		startButton.getActionMap().put("Bombe1",Bombe1);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("F"),"Bombe1");
@@ -121,7 +121,7 @@ public class Spielfeld extends JFrame {
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "moveDown2");
 		beendenButton.getActionMap().put("moveDown2", moveDown2);
 		
-		Bombe Bombe2 = new Bombe(player2, jPanel);
+		Bombe Bombe2 = new Bombe(player2, jPanel, this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("K"),"Bombe2");
 		startButton.getActionMap().put("Bombe2",Bombe2);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("K"),"Bombe2");
@@ -150,7 +150,7 @@ public class Spielfeld extends JFrame {
 				if(spielFeld[i][j] == 'Z') {
 					walls[i][j] = new JLabel(new ImageIcon("src/gfx/explodable_wall.png"));
 					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
-					walls[i][j].setName("nowalkable");
+					walls[i][j].setName("destroyable");
 					jPanel.add(walls[i][j]);
 				}
 				
