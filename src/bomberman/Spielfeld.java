@@ -89,11 +89,12 @@ public class Spielfeld extends JFrame {
 		startButton.getActionMap().put("moveDown", moveDown);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
 		beendenButton.getActionMap().put("moveDown", moveDown);
-
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("K"), "Bombe");
-		startButton.getActionMap().put("Bombe", Bombe);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("K"), "Bombe");
-		beendenButton.getActionMap().put("Bombe", Bombe);
+		
+		Bombe Bombe1 = new Bombe(player1, jPanel);
+		startButton.getInputMap().put(KeyStroke.getKeyStroke("F"),"Bombe1");
+		startButton.getActionMap().put("Bombe1",Bombe1);
+		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("F"),"Bombe1");
+		beendenButton.getActionMap().put("Bombe1",Bombe1);
 
 		// Moves for second player
 		moveRight2 = new Move(player2, "right", this);
@@ -119,17 +120,16 @@ public class Spielfeld extends JFrame {
 		startButton.getActionMap().put("moveDown2", moveDown2);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "moveDown2");
 		beendenButton.getActionMap().put("moveDown2", moveDown2);
-
-		// Bombe = new Bombe(bomberMan2, jPanel);
-		// bomberMan.setBombe((Bombe)Bombe);
-		// startButton.getInputMap().put(KeyStroke.getKeyStroke("released K"),"Bombe");
-		// startButton.getActionMap().put("Bombe",Bombe);
-		// beendenButton.getInputMap().put(KeyStroke.getKeyStroke("released K"),"Bombe");
-		// beendenButton.getActionMap().put("Bombe",Bombe);
+		
+		Bombe Bombe2 = new Bombe(player2, jPanel);
+		startButton.getInputMap().put(KeyStroke.getKeyStroke("K"),"Bombe2");
+		startButton.getActionMap().put("Bombe2",Bombe2);
+		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("K"),"Bombe2");
+		beendenButton.getActionMap().put("Bombe2",Bombe2);
 	}
 
 	private void createWorld() {
-		ReadFile rf = new ReadFile("src/readSpielfeld/ohneWaende.txt");
+		ReadFile rf = new ReadFile("src/readSpielfeld/mitWaende.txt");
 		try {
 			this.spielFeld = rf.read();
 		} catch (IOException e) {

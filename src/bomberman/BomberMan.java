@@ -24,7 +24,7 @@ public class BomberMan {
 	}
 	
 	public void put(JLayeredPane jPanel) {
-		jPanel.add(bomberMan);
+		jPanel.add(bomberMan, 0);
 	}
 	
 	public int getX() {
