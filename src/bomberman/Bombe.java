@@ -7,11 +7,13 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class Bombe extends AbstractAction {
 	private static final long serialVersionUID = -7038533653091561580L;
-	private BomberMan b;
+	private BomberMan player1;
+	private BomberMan player2;
 	private JLayeredPane s;
 	private JLabel bomb = new JLabel(new ImageIcon("src/gfx/bomb/1.png"));
 	private JLabel boom1 = new JLabel(new ImageIcon("src/gfx/bomb/6.png"));
@@ -25,8 +27,9 @@ public class Bombe extends AbstractAction {
 	Timer LayTimer = new Timer(3000,new LayBomb());
 	Timer ExploTimer = new Timer(3500,new ExploBomb());
 	
-	public Bombe(BomberMan b, JLayeredPane s, Spielfeld spielfeld) { 
-		this.b = b;
+	public Bombe(BomberMan player1, BomberMan player2, JLayeredPane s, Spielfeld spielfeld) { 
+		this.player1 = player1;
+		this.player2 = player2;
 		this.s = s;
 		this.spielfeld = spielfeld;
 		this.walls = spielfeld.getWalls();
@@ -52,11 +55,12 @@ public class Bombe extends AbstractAction {
 		return bomb;
 	}
 	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (!LayTimer.isRunning()) {
-			x = b.getX();
-			y = b.getY();
+			x = player1.getX();
+			y = player1.getY();
 			bomb.setBounds(x,y, width, height);
 			s.add(bomb, 2);
 		
@@ -65,6 +69,7 @@ public class Bombe extends AbstractAction {
 		ExploTimer.start();
 	}
 	
+	// Anfang der Explosion
 	class LayBomb implements ActionListener {
 		  public void actionPerformed(ActionEvent e) {
 
@@ -76,6 +81,7 @@ public class Bombe extends AbstractAction {
 		  }
 	}
 	
+	// Ende der Explosion
 	class ExploBomb implements ActionListener {
 		  public void actionPerformed(ActionEvent e) {
 			s.remove(boom1);
@@ -89,7 +95,7 @@ public class Bombe extends AbstractAction {
 	
 	public void Explosion() {
 		boom1.setBounds(x, y, width, height);
-		s.add(boom1,1);
+		s.add(boom1,0);
 		
 		// Pruefe ein Feld weiter rechts
 		if (walls[(x/40)+1][(y/40)].getName().equals("walkable")) {
@@ -103,6 +109,7 @@ public class Bombe extends AbstractAction {
 			walls[(x/40)+1][(y/40)].setName("walkable");
 		}
 		
+		// Pruefe Felder auf walls
 		// Pruefe ein Feld weiter links
 		if (walls[(x/40)-1][(y/40)].getName().equals("walkable")) {
 			boom3.setBounds(x-40, y, width, height);
@@ -139,5 +146,55 @@ public class Bombe extends AbstractAction {
 			walls[x/40][(y/40)-1].setName("walkable");
 		}
 		
+		//Pruefe Felder auf Spieler
+		//Aktuelles Feld
+		if (x == player1.getX() && y == player1.getY()) {
+			spielfeld.unbindAllControls();
+			JOptionPane.showMessageDialog(null, "Spieler " + player2.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
+		} 
+		else if (x == player2.getX() && y == player2.getY()) {
+			spielfeld.unbindAllControls();
+			JOptionPane.showMessageDialog(null, "Spieler " + player1.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
+		}
+		
+		//Feld weiter rechts
+		if (x+40 == player1.getX() && y == player1.getY()) {
+			spielfeld.unbindAllControls();
+			JOptionPane.showMessageDialog(null, "Spieler " + player2.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
+		} 
+		else if (x+40 == player2.getX() && y == player2.getY()) {
+			spielfeld.unbindAllControls();
+			JOptionPane.showMessageDialog(null, "Spieler " + player1.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
+		}
+		
+		//Feld weiter links
+		if (x-40 == player1.getX() && y == player1.getY()) {
+			spielfeld.unbindAllControls();
+			JOptionPane.showMessageDialog(null, "Spieler " + player2.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
+		} 
+		else if (x-40 == player2.getX() && y == player2.getY()) {
+			spielfeld.unbindAllControls();
+			JOptionPane.showMessageDialog(null, "Spieler " + player1.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
+		}
+		
+		//Feld weiter oben
+		if (x == player1.getX() && y+40 == player1.getY()) {
+			spielfeld.unbindAllControls();
+			JOptionPane.showMessageDialog(null, "Spieler " + player2.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
+		} 
+		else if (x == player2.getX() && y+40 == player2.getY()) {
+			spielfeld.unbindAllControls();
+			JOptionPane.showMessageDialog(null, "Spieler " + player1.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
+		}
+		
+		//Feld weiter unten
+		if (x == player1.getX() && y-40 == player1.getY()) {
+			spielfeld.unbindAllControls();
+			JOptionPane.showMessageDialog(null, "Spieler " + player2.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
+		} 
+		else if (x == player2.getX() && y-40 == player2.getY()) {
+			spielfeld.unbindAllControls();
+			JOptionPane.showMessageDialog(null, "Spieler " + player1.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
+		}
 	}
 }
