@@ -21,11 +21,16 @@ public class Bombe extends AbstractAction {
 	private JLabel boom3 = new JLabel(new ImageIcon("src/gfx/bomb/6.png"));
 	private JLabel boom4 = new JLabel(new ImageIcon("src/gfx/bomb/6.png"));
 	private JLabel boom5 = new JLabel(new ImageIcon("src/gfx/bomb/6.png"));
-	private int x=40, y=40, width=40, height=40;
+	private int x, y, width=40, height=40;
 	private Spielfeld spielfeld;
 	private JLabel walls[][];
-	Timer LayTimer = new Timer(3000,new LayBomb());
-	Timer ExploTimer = new Timer(3500,new ExploBomb());
+	private Timer LayTimer = new Timer(3000,new LayBomb());
+	private Timer ExploTimer = new Timer(3500,new ExploBomb());
+	private Timer LayTimer2 = new Timer(0,new LayBomb());
+	private Timer ExploTimer2 = new Timer(500,new ExploBomb());
+	private boolean kette;
+	private boolean bombIsLayed;
+	
 	
 	public Bombe(BomberMan player1, BomberMan player2, JLayeredPane s, Spielfeld spielfeld) { 
 		this.player1 = player1;
@@ -63,6 +68,7 @@ public class Bombe extends AbstractAction {
 			y = player1.getY();
 			bomb.setBounds(x,y, width, height);
 			s.add(bomb, 2);
+			bombIsLayed = true;
 		
 			LayTimer.start();
 		}
@@ -74,9 +80,11 @@ public class Bombe extends AbstractAction {
 		  public void actionPerformed(ActionEvent e) {
 
 		    s.remove(bomb);
+		    bombIsLayed = false;
 		    s.repaint();
 		    Explosion();
 		    LayTimer.stop();
+		    LayTimer2.stop();
 
 		  }
 	}
@@ -90,8 +98,25 @@ public class Bombe extends AbstractAction {
 			s.remove(boom4);
 			s.remove(boom5);
 			s.repaint();
+			ExploTimer.stop();
+			ExploTimer2.stop();
 		  }
 	}
+	
+	public void Kettenreaktion() {
+		kette=true;
+		LayTimer.stop();
+		ExploTimer.stop();
+		
+		LayTimer2.start();
+		ExploTimer2.start();
+		kette = false;
+	}
+	
+	public boolean bombActive() {
+		return bombIsLayed;
+	}
+	
 	
 	public void Explosion() {
 		boom1.setBounds(x, y, width, height);
@@ -195,6 +220,73 @@ public class Bombe extends AbstractAction {
 		else if (x == player2.getX() && y-40 == player2.getY()) {
 			spielfeld.unbindAllControls();
 			JOptionPane.showMessageDialog(null, "Spieler " + player1.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
+		}			
+
+		// Pruefe auf Bomben
+		// Wenn Spieler 1 Bombe legt ...
+			if (player1.getPlayerID() == 1) {				
+				
+				// Nur ausführen, wenn nicht durch eine Kettenreaktion ausgeloest und Bombe 2 liegt
+				if (kette == false && spielfeld.getBomb2().bombActive() == true) {					
+					
+					// ... Pruefe auf Bombe 2
+					// Aktuelle Position
+					if (x == spielfeld.getBomb2().getX() && y == spielfeld.getBomb2().getY()) {
+						spielfeld.getBomb2().Kettenreaktion();
+					}
+					
+					// Ein Feld nach Rechts
+					if (x+40 == spielfeld.getBomb2().getX() && y == spielfeld.getBomb2().getY()) {
+						spielfeld.getBomb2().Kettenreaktion();
+					}
+					
+					// Ein Feld nach Links
+					if (x-40 == spielfeld.getBomb2().getX() && y == spielfeld.getBomb2().getY()) {
+						spielfeld.getBomb2().Kettenreaktion();
+					}
+					
+					// Ein Feld nach Oben
+					if (x == spielfeld.getBomb2().getX() && y+40 == spielfeld.getBomb2().getY()) {
+						spielfeld.getBomb2().Kettenreaktion();
+					}
+					// Ein Feld nach Unten
+					if (x == spielfeld.getBomb2().getX() && y-40 == spielfeld.getBomb2().getY()) {
+						spielfeld.getBomb2().Kettenreaktion();
+					}
+			}
+		}
+			
+			// Wenn Spieler 2 Bombe legt ...
+			if (player1.getPlayerID() == 2) {				
+				
+				// Nur ausführen, wenn nicht durch eine Kettenreaktion ausgeloest und Bombe 2 liegt
+				if (kette == false && spielfeld.getBomb1().bombActive() == true) {
+					
+					// ... Pruefe auf Bombe 2
+					// Aktuelle Position
+					if (x == spielfeld.getBomb1().getX() && y == spielfeld.getBomb1().getY()) {
+						spielfeld.getBomb1().Kettenreaktion();
+					}
+					
+					// Ein Feld nach Rechts
+					if (x+40 == spielfeld.getBomb1().getX() && y == spielfeld.getBomb1().getY()) {
+						spielfeld.getBomb1().Kettenreaktion();
+					}
+					
+					// Ein Feld nach Links
+					if (x-40 == spielfeld.getBomb1().getX() && y == spielfeld.getBomb1().getY()) {
+						spielfeld.getBomb1().Kettenreaktion();
+					}
+					
+					// Ein Feld nach Oben
+					if (x == spielfeld.getBomb1().getX() && y+40 == spielfeld.getBomb1().getY()) {
+						spielfeld.getBomb1().Kettenreaktion();
+					}
+					// Ein Feld nach Unten
+					if (x == spielfeld.getBomb1().getX() && y-40 == spielfeld.getBomb1().getY()) {
+						spielfeld.getBomb1().Kettenreaktion();
+					}
+			}
 		}
 	}
 }

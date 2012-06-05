@@ -15,6 +15,7 @@ public class Spielfeld extends JFrame {
 	private JLabel walls[][] = new JLabel[21][15];
 	private char[][] spielFeld;
 	private Action moveRight, moveLeft, moveUp, moveDown, moveRight2, moveLeft2, moveUp2, moveDown2;
+	private Bombe bombe1,bombe2;
 	public Tuere exit;
 	private BomberMan player1 = new BomberMan(1);
 	private BomberMan player2 = new BomberMan(2);
@@ -90,11 +91,11 @@ public class Spielfeld extends JFrame {
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
 		beendenButton.getActionMap().put("moveDown", moveDown);
 		
-		Bombe Bombe1 = new Bombe(player1,player2, jPanel, this);
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("F"),"Bombe1");
-		startButton.getActionMap().put("Bombe1",Bombe1);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("F"),"Bombe1");
-		beendenButton.getActionMap().put("Bombe1",Bombe1);
+		bombe1 = new Bombe(player1,player2, jPanel, this);
+		startButton.getInputMap().put(KeyStroke.getKeyStroke("F"),"bombe1");
+		startButton.getActionMap().put("bombe1",bombe1);
+		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("F"),"bombe1");
+		beendenButton.getActionMap().put("bombe1",bombe1);
 
 		// Moves for second player
 		moveRight2 = new Move(player2, "right", this);
@@ -121,11 +122,11 @@ public class Spielfeld extends JFrame {
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "moveDown2");
 		beendenButton.getActionMap().put("moveDown2", moveDown2);
 		
-		Bombe Bombe2 = new Bombe(player2,player1, jPanel, this);
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("K"),"Bombe2");
-		startButton.getActionMap().put("Bombe2",Bombe2);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("K"),"Bombe2");
-		beendenButton.getActionMap().put("Bombe2",Bombe2);
+		bombe2 = new Bombe(player2,player1, jPanel, this);
+		startButton.getInputMap().put(KeyStroke.getKeyStroke("K"),"bombe2");
+		startButton.getActionMap().put("bombe2",bombe2);
+		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("K"),"bombe2");
+		beendenButton.getActionMap().put("bombe2",bombe2);
 	}
 
 	private void createWorld() {
@@ -209,6 +210,14 @@ public class Spielfeld extends JFrame {
 	public void unbindAllControls() {
 		startButton.getInputMap().clear();
 		startButton.getActionMap().clear();
+	}
+	
+	public Bombe getBomb1() {
+		return bombe1;
+	}
+	
+	public Bombe getBomb2() {
+		return bombe2;
 	}
 
 	public static void main(String[] args) {
