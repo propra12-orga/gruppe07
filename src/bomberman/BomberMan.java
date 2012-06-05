@@ -34,11 +34,19 @@ public class BomberMan {
 	public void setX(int x) {
 		if(x <= 760 && x >= 40)
 			this.x = x;
+		
+		if (x % 40 == 0) {
+			rasterPunktX = x/40;
+		}
 	}
 
 	public void setY(int y) {
 		if(y <= 520 && y >= 40)
 			this.y = y;
+		
+		if (y % 40 == 0) {
+			rasterPunktY = y/40;
+		}
 	}
 
 	public int getY() {
@@ -67,25 +75,5 @@ public class BomberMan {
 	
 	public int getPlayerID() {
 		return playerID;
-	}
-
-	public void setRasterPunktX(int x) {
-		if(x < 1) {
-			rasterPunktX = 1;
-		} else if (x > 19) {
-			rasterPunktX = 19;
-		} else {
-			this.rasterPunktX = x;
-		}
-	}
-
-	public void setRasterPunktY(int y) {
-		if(y < 1) {
-			rasterPunktY = 1;
-		} else if (y > 13) {
-			rasterPunktY = 13;
-		} else {
-			this.rasterPunktY = y;
-		}
 	}
 }

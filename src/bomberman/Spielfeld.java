@@ -199,6 +199,11 @@ public class Spielfeld extends JFrame {
 		startButton.getActionMap().put("moveLeft", moveLeft);
 		startButton.getActionMap().put("moveUp", moveUp);
 		startButton.getActionMap().put("moveDown", moveDown);
+		
+		startButton.getActionMap().put("moveRight2", moveRight2);
+		startButton.getActionMap().put("moveLeft2", moveLeft2);
+		startButton.getActionMap().put("moveUp2", moveUp2);
+		startButton.getActionMap().put("moveDown2", moveDown2);
 	}
 
 	public static void main(String[] args) {
