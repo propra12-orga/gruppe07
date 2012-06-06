@@ -133,7 +133,7 @@ public class Spielfeld extends JFrame {
 	private void createWorld() {
 		ReadFile rf = null;
 		try {
-			rf = new ReadFile("src/readSpielfeld/mitWaende.txt");
+			rf = new ReadFile("src/readSpielfeld/level1.txt");
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}
@@ -145,7 +145,7 @@ public class Spielfeld extends JFrame {
 		
 		for(int i=0; i<spielFeld.length; i++) {
 			for(int j=0; j<spielFeld[0].length; j++) {
-				// Unzerstörbare Wand
+				// Unzerstï¿½rbare Wand
 				if(spielFeld[i][j] == 'X') {
 					walls[i][j] = new JLabel(new ImageIcon("src/gfx/solid_wall.png"));
 					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
@@ -153,7 +153,7 @@ public class Spielfeld extends JFrame {
 					jPanel.add(walls[i][j]);
 				}
 				
-				// Zerstörbare Wand
+				// Zerstï¿½rbare Wand
 				if(spielFeld[i][j] == 'Z') {
 					walls[i][j] = new JLabel(new ImageIcon("src/gfx/explodable_wall.png"));
 					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
