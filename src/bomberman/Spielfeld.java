@@ -2,6 +2,7 @@ package bomberman;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.*;
 import readSpielfeld.ReadFile;
@@ -130,7 +131,12 @@ public class Spielfeld extends JFrame {
 	}
 
 	private void createWorld() {
-		ReadFile rf = new ReadFile("src/readSpielfeld/mitWaende.txt");
+		ReadFile rf = null;
+		try {
+			rf = new ReadFile("src/readSpielfeld/mitWaende.txt");
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
 		try {
 			this.spielFeld = rf.read();
 		} catch (IOException e) {
