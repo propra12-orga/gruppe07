@@ -76,7 +76,11 @@ public class Animation implements Runnable {
 		{
 			if(currentFrame == 4) {
 				t.stop();
-				spielfeld.setKeysBack();
+				if (b.getPlayerID() == 1) {
+					spielfeld.setKeysBackP1();
+				} else {
+					spielfeld.setKeysBackP2();
+				}
 			}
 			
 			if(richtung.equals("right") && (walls[b.getRasterPunktX()+1][b.getRasterPunktY()].getName().equals("walkable") || walls[b.getRasterPunktX()+1][b.getRasterPunktY()].getName().equals("exit"))) {

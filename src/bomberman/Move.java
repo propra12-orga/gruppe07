@@ -20,6 +20,10 @@ public class Move extends AbstractAction {
 		Animation a = new Animation(this.b, richtung, this.spielfeld);
 		Thread t = new Thread(a);
 		t.start();
-		spielfeld.removeKeys();
+		if (b.getPlayerID() == 1) {
+		spielfeld.removeKeysP1();
+		} else {
+		spielfeld.removeKeysP2();
+		}
 	}
 }
