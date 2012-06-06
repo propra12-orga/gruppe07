@@ -213,6 +213,18 @@ public class Spielfeld extends JFrame {
 		startButton.getActionMap().put("moveDown2", moveDown2);
 	}
 	
+	public void removeKeys() {
+		startButton.getActionMap().put("moveRight", null);
+		startButton.getActionMap().put("moveLeft", null);
+		startButton.getActionMap().put("moveUp", null);
+		startButton.getActionMap().put("moveDown", null);
+		
+		startButton.getActionMap().put("moveRight2", null);
+		startButton.getActionMap().put("moveLeft2", null);
+		startButton.getActionMap().put("moveUp2", null);
+		startButton.getActionMap().put("moveDown2", null);
+	}
+	
 	public void unbindAllControls() {
 		startButton.getInputMap().clear();
 		startButton.getActionMap().clear();
