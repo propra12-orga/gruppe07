@@ -15,17 +15,17 @@ public class Bombe extends AbstractAction {
 	private BomberMan player1;
 	private BomberMan player2;
 	private JLayeredPane s;
-	private JLabel bomb = new JLabel(new ImageIcon("src/gfx/bomb/1.png"));
-	private JLabel boom1 = new JLabel(new ImageIcon("src/gfx/bomb/6.png"));
-	private JLabel boom2 = new JLabel(new ImageIcon("src/gfx/bomb/6.png"));
-	private JLabel boom3 = new JLabel(new ImageIcon("src/gfx/bomb/6.png"));
-	private JLabel boom4 = new JLabel(new ImageIcon("src/gfx/bomb/6.png"));
-	private JLabel boom5 = new JLabel(new ImageIcon("src/gfx/bomb/6.png"));
+	private JLabel bomb = new JLabel(new ImageIcon("src/gfx/bomb/bomb2.gif"));
+	private JLabel boom1 = new JLabel(new ImageIcon("src/gfx/bomb/bombfast.gif"));
+	private JLabel boom2 = new JLabel(new ImageIcon("src/gfx/bomb/bombfast.gif"));
+	private JLabel boom3 = new JLabel(new ImageIcon("src/gfx/bomb/bombfast.gif"));
+	private JLabel boom4 = new JLabel(new ImageIcon("src/gfx/bomb/bombfast.gif"));
+	private JLabel boom5 = new JLabel(new ImageIcon("src/gfx/bomb/bombfast.gif"));
 	private int x, y, width=40, height=40;
 	private Spielfeld spielfeld;
 	private JLabel walls[][];
-	private Timer LayTimer = new Timer(3000,new LayBomb());
-	private Timer ExploTimer = new Timer(3500,new ExploBomb());
+	private Timer LayTimer = new Timer(1225,new LayBomb());
+	private Timer ExploTimer = new Timer(1725,new ExploBomb());
 	private Timer LayTimer2 = new Timer(0,new LayBomb());
 	private Timer ExploTimer2 = new Timer(500,new ExploBomb());
 	private boolean kette;
@@ -226,7 +226,7 @@ public class Bombe extends AbstractAction {
 		// Wenn Spieler 1 Bombe legt ...
 			if (player1.getPlayerID() == 1) {				
 				
-				// Nur ausführen, wenn nicht durch eine Kettenreaktion ausgeloest und Bombe 2 liegt
+				// Nur ausfï¿½hren, wenn nicht durch eine Kettenreaktion ausgeloest und Bombe 2 liegt
 				if (kette == false && spielfeld.getBomb2().bombActive() == true) {					
 					
 					// ... Pruefe auf Bombe 2
@@ -259,7 +259,7 @@ public class Bombe extends AbstractAction {
 			// Wenn Spieler 2 Bombe legt ...
 			if (player1.getPlayerID() == 2) {				
 				
-				// Nur ausführen, wenn nicht durch eine Kettenreaktion ausgeloest und Bombe 2 liegt
+				// Nur ausfï¿½hren, wenn nicht durch eine Kettenreaktion ausgeloest und Bombe 2 liegt
 				if (kette == false && spielfeld.getBomb1().bombActive() == true) {
 					
 					// ... Pruefe auf Bombe 2
