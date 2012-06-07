@@ -5,6 +5,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
+/**
+ * Erstellt eine T&uuml;re, die als Sieg-Option fungiert.<br>
+ * <br>
+ * Beim erreichen der T&uuml;re wird eine Siegesmeldung ausgegeben, welcher Spieler gewonnen hat<br>
+ * und es gibt die M&ouml;glichkeit das Spiel neu zu starten, oder zu beenden.
+ */
 public class Tuere extends JFrame {
 	private static final long serialVersionUID = -2181712976539020219L;
 	private JLabel win1 = new JLabel(new ImageIcon("src/gfx/win3.gif"));
@@ -21,13 +27,20 @@ public class Tuere extends JFrame {
 	}
 
 	
-	 public void isExit(BomberMan b) {
+	/**
+	 * 
+	 * @param b Wenn ein Spieler (b = BomberMan) in der T&uuml;re steht, wird das Spiel beendet.
+	 */
+	public void isExit(BomberMan b) {
 		 if(b.getRasterPunktX() == rasterPunktX && b.getRasterPunktY() == rasterPunktY) {
 			 end();
 		 }
 	 }
 	 
-
+	/**
+	 * @param jPanel Wenn ein Spieler (b = BomberMan) in der T&uuml; steht, wird das aktuelle<br>
+	 * jPanel entfernt und durch einen "win-screen" ersetzt.
+	 */
 	private void end() {
 		for( JLabel r : toRemove ) {
 			jPanel.remove(r);

@@ -10,6 +10,12 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
+/**
+ * Erzeugt die Bombe. Spieler 1 legt diese mit dem Buchstaben "F", Spieler 2 mit der Taste "K".<br>
+ * <br>
+ * Beinhaltet das Bomben legen, die Grafiken f&uuml;r Bombe & Explosion, s&auml;mtliche Timer, sowie<br>
+ * die Vorraussetzungen f&uuml;r das explodieren der Bombe.
+ */
 public class Bombe extends AbstractAction {
 	private static final long serialVersionUID = -7038533653091561580L;
 	private BomberMan player1;
@@ -40,26 +46,45 @@ public class Bombe extends AbstractAction {
 		this.walls = spielfeld.getWalls();
 	}
 
+	/**
+	 * @return width
+	 */
 	public int getWidth() {
 		return width;
 	}
 
+	/**
+	 * @return height
+	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * @return x
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * @return y
+	 */
 	public int getY() {
 		return y;
 	}
 
+	/**
+	 * @return bomb
+	 */
 	public JLabel getBomb() {
 		return bomb;
 	}
 
+	/**
+	 * &Uuml;berpr&uuml;ft, ob sich die Spieler bewegen und wo diese sich befinden.<br>
+	 * Die Bombe wird bei Aktivierung an die Position des jeweiligen Spieler gesetzt.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (!LayTimer.isRunning()) {
@@ -102,6 +127,11 @@ public class Bombe extends AbstractAction {
 		}
 	}
 
+	/**
+	 * Die Methode &uuml;berpr&uuml;ft, ob sich mehrere Bomben in einer Reihe befinden.<br>
+	 * ist dies der Fall, wird Kettenreaktion ausgel%ouml;. Ist dies nicht der Fall, greift ExploTimer2<br>
+	 * und die Bombe detoniert ganz normal.
+	 */
 	public void Kettenreaktion() {
 		kette = true;
 		LayTimer.stop();
@@ -112,10 +142,19 @@ public class Bombe extends AbstractAction {
 		kette = false;
 	}
 
+	/**
+	 * @return bombIsLayed
+	 */
 	public boolean bombActive() {
 		return bombIsLayed;
 	}
 
+	/**
+	 * Explosion der Bombe.<br>
+	 * Ein Feld um die Bombe ist als Radius gesetzt. befindet sich in diesem Radius ein zerst&ouml;rbarer Stein,<br>
+	 * so wird dieser entfernt und die Animation der Explosion angezeigt. Das selbe gilt f&uuml;r Spieler. Bei<br>
+	 * Explosion in einem Spieler erscheint eine Meldung mit "Spieler x hat das Spiel gewonnen".
+	 */
 	public void Explosion() {
 		boom1.setBounds(x, y, width, height);
 		s.add(boom1, 0);
