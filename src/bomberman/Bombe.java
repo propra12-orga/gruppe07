@@ -15,7 +15,7 @@ public class Bombe extends AbstractAction {
 	private BomberMan player1;
 	private BomberMan player2;
 	private JLayeredPane s;
-	private JLabel bomb = new JLabel(new ImageIcon("src/gfx/bomb/bomb2.gif"));
+	private JLabel bomb = new JLabel(new ImageIcon("src/gfx/bomb/bomb.gif"));
 	private JLabel boom1 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
 	private JLabel boom2 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
 	private JLabel boom3 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
@@ -24,8 +24,8 @@ public class Bombe extends AbstractAction {
 	private int x, y, width = 40, height = 40;
 	private Spielfeld spielfeld;
 	private JLabel walls[][];
-	private Timer LayTimer = new Timer(1225, new LayBomb());
-	private Timer ExploTimer = new Timer(2000, new ExploBomb());
+	private Timer LayTimer = new Timer(1650, new LayBomb());
+	private Timer ExploTimer = new Timer(2425, new ExploBomb());
 	private Timer LayTimer2 = new Timer(0, new LayBomb());
 	private Timer ExploTimer2 = new Timer(500, new ExploBomb());
 	private boolean kette;
