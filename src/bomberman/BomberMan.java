@@ -18,12 +18,12 @@ public class BomberMan {
 			y=520;
 		}
 		bomberMan = new JLabel(new ImageIcon("src/gfx/player"+ this.playerID +"/down0.png"));
-		bomberMan.setBounds(x, y, width, width);
 		rasterPunktX = x/40;
 		rasterPunktY = y/40;
 	}
 	
 	public void put(JLayeredPane jPanel) {
+		bomberMan.setBounds(x, y, width, width);
 		jPanel.add(bomberMan, 0);
 	}
 	
