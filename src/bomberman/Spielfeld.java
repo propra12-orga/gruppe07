@@ -25,6 +25,7 @@ public class Spielfeld extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JLayeredPane jPanel = new JLayeredPane();
 	private JButton startButton = new JButton();
+	private JButton resetButton = new JButton();
 	private JButton beendenButton = new JButton();
 	private JLabel introBild = new JLabel(new ImageIcon("src/gfx/intro.jpg"));
 	private JLabel walls[][] = new JLabel[21][15];
@@ -56,7 +57,7 @@ public class Spielfeld extends JFrame {
 		jPanel.setBackground(DARKGREEN);
 		jPanel.setBorder(new javax.swing.border.LineBorder(Color.BLACK, 3));
 		cp.add(jPanel);
-		jPanel.add(introBild);
+		jPanel.add(introBild, 0);
 		introBild.setBounds(1, 1, 840, 600);
 		startButton.setBounds(56, 680, 137, 25);
 		startButton.setText("Starten");
@@ -64,12 +65,30 @@ public class Spielfeld extends JFrame {
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				introBild.setVisible(false);
+				jPanel.remove(introBild);
 				createWorld();
 				player1.put(jPanel);
 				player2.put(jPanel);
 			}
 		});
 		cp.add(startButton);
+		
+		resetButton.setBounds(200, 680, 137, 25);
+		resetButton.setText("Neu Starten");
+		resetButton.setMargin(new Insets(2, 2, 2, 2));
+		resetButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				exit.getWin1().setVisible(false);
+				exit.getWin2().setVisible(false);
+				jPanel.remove(exit.getWin1());
+				jPanel.remove(exit.getWin2());
+				
+				createWorld();
+				player1.put(jPanel);
+				player2.put(jPanel);
+			}
+		});
+		cp.add(resetButton);
 
 		beendenButton.setBounds(760, 680, 137, 25);
 		beendenButton.setText("Beenden");
@@ -86,73 +105,83 @@ public class Spielfeld extends JFrame {
 		moveRight = new Move(player1, "right", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("D"), "moveRight");
 		startButton.getActionMap().put("moveRight", moveRight);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("D"),
-				"moveRight");
+		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
 		beendenButton.getActionMap().put("moveRight", moveRight);
+		resetButton.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+		resetButton.getActionMap().put("moveRight", moveRight);
 
 		moveLeft = new Move(player1, "left", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("A"), "moveLeft");
 		startButton.getActionMap().put("moveLeft", moveLeft);
-		beendenButton.getInputMap()
-				.put(KeyStroke.getKeyStroke("A"), "moveLeft");
+		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("A"), "moveLeft");
 		beendenButton.getActionMap().put("moveLeft", moveLeft);
+		resetButton.getInputMap().put(KeyStroke.getKeyStroke("A"), "moveLeft");
+		resetButton.getActionMap().put("moveLeft", moveLeft);
 
 		moveUp = new Move(player1, "up", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
 		startButton.getActionMap().put("moveUp", moveUp);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
 		beendenButton.getActionMap().put("moveUp", moveUp);
+		resetButton.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
+		resetButton.getActionMap().put("moveUp", moveUp);
 
 		moveDown = new Move(player1, "down", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
 		startButton.getActionMap().put("moveDown", moveDown);
-		beendenButton.getInputMap()
-				.put(KeyStroke.getKeyStroke("S"), "moveDown");
+		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
 		beendenButton.getActionMap().put("moveDown", moveDown);
+		resetButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
+		resetButton.getActionMap().put("moveDown", moveDown);
 
 		bombe1 = new Bombe(player1, player2, jPanel, this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("F"), "bombe1");
 		startButton.getActionMap().put("bombe1", bombe1);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("F"), "bombe1");
 		beendenButton.getActionMap().put("bombe1", bombe1);
+		resetButton.getInputMap().put(KeyStroke.getKeyStroke("F"), "bombe1");
+		resetButton.getActionMap().put("bombe1", bombe1);
 
 		// Moves for second player
 		moveRight2 = new Move(player2, "right", this);
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),
-				"moveRight2");
+		startButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight2");
 		startButton.getActionMap().put("moveRight2", moveRight2);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),
-				"moveRight2");
+		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight2");
 		beendenButton.getActionMap().put("moveRight2", moveRight2);
+		resetButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight2");
+		resetButton.getActionMap().put("moveRight2", moveRight2);
 
 		moveLeft2 = new Move(player2, "left", this);
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),
-				"moveLeft2");
+		startButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"moveLeft2");
 		startButton.getActionMap().put("moveLeft2", moveLeft2);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),
-				"moveLeft2");
+		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"moveLeft2");
 		beendenButton.getActionMap().put("moveLeft2", moveLeft2);
+		resetButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"moveLeft2");
+		resetButton.getActionMap().put("moveLeft2", moveLeft2);
 
 		moveUp2 = new Move(player2, "up", this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp2");
 		startButton.getActionMap().put("moveUp2", moveUp2);
-		beendenButton.getInputMap()
-				.put(KeyStroke.getKeyStroke("UP"), "moveUp2");
+		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp2");
 		beendenButton.getActionMap().put("moveUp2", moveUp2);
+		resetButton.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp2");
+		resetButton.getActionMap().put("moveUp2", moveUp2);
 
 		moveDown2 = new Move(player2, "down", this);
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),
-				"moveDown2");
+		startButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),"moveDown2");
 		startButton.getActionMap().put("moveDown2", moveDown2);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),
-				"moveDown2");
+		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),"moveDown2");
 		beendenButton.getActionMap().put("moveDown2", moveDown2);
+		resetButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),"moveDown2");
+		resetButton.getActionMap().put("moveDown2", moveDown2);
 
 		bombe2 = new Bombe(player2, player1, jPanel, this);
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("K"), "bombe2");
 		startButton.getActionMap().put("bombe2", bombe2);
 		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("K"), "bombe2");
 		beendenButton.getActionMap().put("bombe2", bombe2);
+		resetButton.getInputMap().put(KeyStroke.getKeyStroke("K"), "bombe2");
+		resetButton.getActionMap().put("bombe2", bombe2);
 	}
 
 	private String randomLevel() {
@@ -267,6 +296,17 @@ public class Spielfeld extends JFrame {
 		startButton.getActionMap().put("moveLeft", moveLeft);
 		startButton.getActionMap().put("moveUp", moveUp);
 		startButton.getActionMap().put("moveDown", moveDown);
+		
+		beendenButton.getActionMap().put("moveRight", moveRight);
+		beendenButton.getActionMap().put("moveLeft", moveLeft);
+		beendenButton.getActionMap().put("moveUp", moveUp);
+		beendenButton.getActionMap().put("moveDown", moveDown);
+		
+		resetButton.getActionMap().put("moveRight", moveRight);
+		resetButton.getActionMap().put("moveLeft", moveLeft);
+		resetButton.getActionMap().put("moveUp", moveUp);
+		resetButton.getActionMap().put("moveDown", moveDown);
+
 	}
 
 	public void setKeysBackP2() {
@@ -274,6 +314,17 @@ public class Spielfeld extends JFrame {
 		startButton.getActionMap().put("moveLeft2", moveLeft2);
 		startButton.getActionMap().put("moveUp2", moveUp2);
 		startButton.getActionMap().put("moveDown2", moveDown2);
+		
+		beendenButton.getActionMap().put("moveRight2", moveRight2);
+		beendenButton.getActionMap().put("moveLeft2", moveLeft2);
+		beendenButton.getActionMap().put("moveUp2", moveUp2);
+		beendenButton.getActionMap().put("moveDown2", moveDown2);
+		
+		resetButton.getActionMap().put("moveRight2", moveRight2);
+		resetButton.getActionMap().put("moveLeft2", moveLeft2);
+		resetButton.getActionMap().put("moveUp2", moveUp2);
+		resetButton.getActionMap().put("moveDown2", moveDown2);
+		
 	}
 
 	public void removeKeysP1() {
@@ -281,6 +332,16 @@ public class Spielfeld extends JFrame {
 		startButton.getActionMap().put("moveLeft", null);
 		startButton.getActionMap().put("moveUp", null);
 		startButton.getActionMap().put("moveDown", null);
+		
+		beendenButton.getActionMap().put("moveRight", null);
+		beendenButton.getActionMap().put("moveLeft", null);
+		beendenButton.getActionMap().put("moveUp", null);
+		beendenButton.getActionMap().put("moveDown", null);
+		
+		resetButton.getActionMap().put("moveRight", null);
+		resetButton.getActionMap().put("moveLeft", null);
+		resetButton.getActionMap().put("moveUp", null);
+		resetButton.getActionMap().put("moveDown", null);
 	}
 
 	public void removeKeysP2() {
@@ -288,11 +349,27 @@ public class Spielfeld extends JFrame {
 		startButton.getActionMap().put("moveLeft2", null);
 		startButton.getActionMap().put("moveUp2", null);
 		startButton.getActionMap().put("moveDown2", null);
+		
+		beendenButton.getActionMap().put("moveRight2", null);
+		beendenButton.getActionMap().put("moveLeft2", null);
+		beendenButton.getActionMap().put("moveUp2", null);
+		beendenButton.getActionMap().put("moveDown2", null);
+		
+		resetButton.getActionMap().put("moveRight2", null);
+		resetButton.getActionMap().put("moveLeft2", null);
+		resetButton.getActionMap().put("moveUp2", null);
+		resetButton.getActionMap().put("moveDown2", null);
 	}
 
 	public void unbindAllControls() {
 		startButton.getInputMap().clear();
 		startButton.getActionMap().clear();
+		
+		beendenButton.getInputMap().clear();
+		beendenButton.getActionMap().clear();
+		
+		resetButton.getInputMap().clear();
+		resetButton.getActionMap().clear();
 	}
 
 	public Bombe getBomb1() {

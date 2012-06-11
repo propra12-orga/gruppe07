@@ -57,4 +57,12 @@ public class Tuere extends JFrame {
 		win2.repaint();
 	}
 
+
+	public JLabel getWin1() {
+		return win1;
+	}
+
+	public JLabel getWin2() {
+		return win2;
+	}
 }
