@@ -158,144 +158,116 @@ public class Bombe extends AbstractAction {
 	public void Explosion() {
 		boom1.setBounds(x, y, width, height);
 		s.add(boom1, 0);
-		
-		// Pruefe Felder auf walls
+
 		// Pruefe ein Feld weiter rechts
 		if (walls[(x / 40) + 1][(y / 40)].getName().equals("walkable")) {
 			boom2.setBounds(x + 40, y, width, height);
 			s.add(boom2, 1);
-		} else if (walls[(x / 40) + 1][(y / 40)].getName()
-				.equals("destroyable")) {
+		} else if (walls[(x / 40) + 1][(y / 40)].getName().equals("destroyable")) {
 			boom2.setBounds(x + 40, y, width, height);
 			s.add(boom2, 1);
 			walls[(x / 40) + 1][(y / 40)].setIcon(null);
 			walls[(x / 40) + 1][(y / 40)].setName("walkable");
-		} else if (walls[(x / 40) + 1][(y / 40)].getName()
-				.equals("hiddendoor")) {
+		} else if (walls[(x / 40) + 1][(y / 40)].getName().equals("hidden")) {
 			boom2.setBounds(x + 40, y, width, height);
 			s.add(boom2, 1);
 			walls[(x / 40) + 1][(y / 40)].setIcon(new ImageIcon("src/gfx/door/door.png"));
 			walls[(x / 40) + 1][(y / 40)].setName("exit");
 		}
 
+		// Pruefe Felder auf walls
 		// Pruefe ein Feld weiter links
 		if (walls[(x / 40) - 1][(y / 40)].getName().equals("walkable")) {
 			boom3.setBounds(x - 40, y, width, height);
 			s.add(boom3, 1);
-		} else if (walls[(x / 40) - 1][(y / 40)].getName()
-				.equals("destroyable")) {
+		} else if (walls[(x / 40) - 1][(y / 40)].getName().equals("destroyable")) {
 			boom3.setBounds(x - 40, y, width, height);
 			s.add(boom3, 1);
 			walls[(x / 40) - 1][(y / 40)].setIcon(null);
 			walls[(x / 40) - 1][(y / 40)].setName("walkable");
-		} else if (walls[(x / 40) - 1][(y / 40)].getName()
-				.equals("hiddendoor")) {
-			boom3.setBounds(x - 40, y, width, height);
-			s.add(boom3, 1);
-			walls[(x / 40) - 1][(y / 40)].setIcon(new ImageIcon("src/gfx/door/door.png"));
-			walls[(x / 40) - 1][(y / 40)].setName("exit");
+		} else if (walls[(x / 40) - 1][(y / 40)].getName().equals("hidden")) {
+			boom2.setBounds(x + 40, y, width, height);
+			s.add(boom2, 1);
+			walls[(x / 40) + 1][(y / 40)].setIcon(new ImageIcon("src/gfx/door/door.png"));
+			walls[(x / 40) + 1][(y / 40)].setName("exit");
 		}
 
 		// Pruefe ein Feld weiter oben
 		if (walls[(x / 40)][(y / 40) + 1].getName().equals("walkable")) {
 			boom4.setBounds(x, y + 40, width, height);
 			s.add(boom4, 1);
-		} else if (walls[(x / 40)][(y / 40) + 1].getName()
-				.equals("destroyable")) {
+		} else if (walls[(x / 40)][(y / 40) + 1].getName().equals("destroyable")) {
 			boom4.setBounds(x, y + 40, width, height);
 			s.add(boom4, 1);
 			walls[x / 40][(y / 40) + 1].setIcon(null);
 			walls[x / 40][(y / 40) + 1].setName("walkable");
-		} else if (walls[(x / 40)][(y / 40) + 1].getName()
-				.equals("hiddendoor")) {
-			boom4.setBounds(x, y + 40, width, height);
-			s.add(boom4, 1);
-			walls[x / 40][(y / 40) + 1].setIcon(new ImageIcon("src/gfx/door/door.png"));
-			walls[x / 40][(y / 40) + 1].setName("exit");
+		} else if (walls[(x / 40)][(y / 40) + 1].getName().equals("hidden")) {
+			boom2.setBounds(x + 40, y, width, height);
+			s.add(boom2, 1);
+			walls[(x / 40) + 1][(y / 40)].setIcon(new ImageIcon("src/gfx/door/door.png"));
+			walls[(x / 40) + 1][(y / 40)].setName("exit");
 		}
 
 		// Pruefe ein Feld weiter unten
 		if (walls[(x / 40)][(y / 40) - 1].getName().equals("walkable")) {
 			boom5.setBounds(x, y - 40, width, height);
 			s.add(boom5, 1);
-		} else if (walls[(x / 40)][(y / 40) - 1].getName()
-				.equals("destroyable")) {
+		} else if (walls[(x / 40)][(y / 40) - 1].getName().equals("destroyable")) {
 			boom5.setBounds(x, y - 40, width, height);
 			s.add(boom5, 1);
 			walls[x / 40][(y / 40) - 1].setIcon(null);
 			walls[x / 40][(y / 40) - 1].setName("walkable");
-		} else if (walls[(x / 40)][(y / 40) - 1].getName()
-				.equals("hiddendoor")) {
-			boom5.setBounds(x, y - 40, width, height);
-			s.add(boom5, 1);
-			walls[x / 40][(y / 40) - 1].setIcon(new ImageIcon("src/gfx/door/door.png"));
-			walls[x / 40][(y / 40) - 1].setName("exit");
+		} else if (walls[(x / 40)][(y / 40) - 1].getName().equals("hidden")) {
+			boom2.setBounds(x + 40, y, width, height);
+			s.add(boom2, 1);
+			walls[(x / 40) + 1][(y / 40)].setIcon(new ImageIcon("src/gfx/door/door.png"));
+			walls[(x / 40) + 1][(y / 40)].setName("exit");
 		}
 
 		// Pruefe Felder auf Spieler
 		// Aktuelles Feld
 		if (x == player1.getX() && y == player1.getY()) {
 			spielfeld.unbindAllControls();
-			JOptionPane.showMessageDialog(null,
-					"Spieler " + player2.getPlayerID()
-							+ " hat das Spiel gewonnen", "Spielende", 1);
+			JOptionPane.showMessageDialog(null,"Spieler " + player2.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
 		} else if (x == player2.getX() && y == player2.getY()) {
 			spielfeld.unbindAllControls();
-			JOptionPane.showMessageDialog(null,
-					"Spieler " + player1.getPlayerID()
-							+ " hat das Spiel gewonnen", "Spielende", 1);
+			JOptionPane.showMessageDialog(null,"Spieler " + player1.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
 		}
 
 		// Feld weiter rechts
 		if (x + 40 == player1.getX() && y == player1.getY()) {
 			spielfeld.unbindAllControls();
-			JOptionPane.showMessageDialog(null,
-					"Spieler " + player2.getPlayerID()
-							+ " hat das Spiel gewonnen", "Spielende", 1);
+			JOptionPane.showMessageDialog(null,"Spieler " + player2.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
 		} else if (x + 40 == player2.getX() && y == player2.getY()) {
 			spielfeld.unbindAllControls();
-			JOptionPane.showMessageDialog(null,
-					"Spieler " + player1.getPlayerID()
-							+ " hat das Spiel gewonnen", "Spielende", 1);
+			JOptionPane.showMessageDialog(null,"Spieler " + player1.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
 		}
 
 		// Feld weiter links
 		if (x - 40 == player1.getX() && y == player1.getY()) {
 			spielfeld.unbindAllControls();
-			JOptionPane.showMessageDialog(null,
-					"Spieler " + player2.getPlayerID()
-							+ " hat das Spiel gewonnen", "Spielende", 1);
+			JOptionPane.showMessageDialog(null,"Spieler " + player2.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
 		} else if (x - 40 == player2.getX() && y == player2.getY()) {
 			spielfeld.unbindAllControls();
-			JOptionPane.showMessageDialog(null,
-					"Spieler " + player1.getPlayerID()
-							+ " hat das Spiel gewonnen", "Spielende", 1);
+			JOptionPane.showMessageDialog(null,"Spieler " + player1.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
 		}
 
 		// Feld weiter oben
 		if (x == player1.getX() && y + 40 == player1.getY()) {
 			spielfeld.unbindAllControls();
-			JOptionPane.showMessageDialog(null,
-					"Spieler " + player2.getPlayerID()
-							+ " hat das Spiel gewonnen", "Spielende", 1);
+			JOptionPane.showMessageDialog(null,"Spieler " + player2.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
 		} else if (x == player2.getX() && y + 40 == player2.getY()) {
 			spielfeld.unbindAllControls();
-			JOptionPane.showMessageDialog(null,
-					"Spieler " + player1.getPlayerID()
-							+ " hat das Spiel gewonnen", "Spielende", 1);
+			JOptionPane.showMessageDialog(null,"Spieler " + player1.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
 		}
 
 		// Feld weiter unten
 		if (x == player1.getX() && y - 40 == player1.getY()) {
 			spielfeld.unbindAllControls();
-			JOptionPane.showMessageDialog(null,
-					"Spieler " + player2.getPlayerID()
-							+ " hat das Spiel gewonnen", "Spielende", 1);
+			JOptionPane.showMessageDialog(null,"Spieler " + player2.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
 		} else if (x == player2.getX() && y - 40 == player2.getY()) {
 			spielfeld.unbindAllControls();
-			JOptionPane.showMessageDialog(null,
-					"Spieler " + player1.getPlayerID()
-							+ " hat das Spiel gewonnen", "Spielende", 1);
+			JOptionPane.showMessageDialog(null,"Spieler " + player1.getPlayerID() + " hat das Spiel gewonnen", "Spielende", 1);
 		}
 
 		// Pruefe auf Bomben

@@ -157,7 +157,7 @@ public class Spielfeld extends JFrame {
 
 	private String randomLevel() {
 		String path = "src/readSpielfeld/";
-		int low = 1, high = 5;
+		int low = 1, high = 10;
 		String level = "level"+(int)(Math.random() * (high - low) + low)+".txt";
 		
 		return path+level;
@@ -167,13 +167,15 @@ public class Spielfeld extends JFrame {
 		ReadFile rf = null;
 		try {
 			rf = new ReadFile(randomLevel());
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+			System.exit(0);
 		}
 		try {
 			this.spielFeld = rf.read();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
+			System.exit(0);
 		}
 
 		for (int i = 0; i < spielFeld.length; i++) {
@@ -203,12 +205,26 @@ public class Spielfeld extends JFrame {
 					walls[i][j].setName("walkable");
 				}
 
-				// Ausgang
+				// Ausgang ohne Wand
 				if (spielFeld[i][j] == 'T') {
-					walls[i][j] = new JLabel(new ImageIcon(
-							"src/gfx/door/door.png"));
+					walls[i][j] = new JLabel(new ImageIcon("src/gfx/door/door.png"));
 					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
 					walls[i][j].setName("exit");
+					jPanel.add(walls[i][j]);
+
+					JLabel[] toRemove = new JLabel[3];
+					toRemove[0] = this.player1.getBomberMan();
+					toRemove[1] = this.player2.getBomberMan();
+					toRemove[2] = walls[i][j];
+
+					exit = new Tuere(i, j, jPanel, toRemove);
+				}
+				
+				// Ausgang mit Wand
+				if (spielFeld[i][j] == 'U') {
+					walls[i][j] = new JLabel(new ImageIcon("src/gfx/explodable_wall.png"));
+					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
+					walls[i][j].setName("hidden");
 					jPanel.add(walls[i][j]);
 
 					JLabel[] toRemove = new JLabel[3];
