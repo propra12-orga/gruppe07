@@ -170,7 +170,7 @@ public class Spielfeld extends JFrame {
 
 		for (int i = 0; i < spielFeld.length; i++) {
 			for (int j = 0; j < spielFeld[0].length; j++) {
-				// Unzerstuerbare Wand
+				// Unzerstoerbare Wand
 				if (spielFeld[i][j] == 'X') {
 					walls[i][j] = new JLabel(new ImageIcon(
 							"src/gfx/solid_wall.png"));
@@ -179,13 +179,29 @@ public class Spielfeld extends JFrame {
 					jPanel.add(walls[i][j]);
 				}
 
-				// Zerstuerbare Wand
+				// Zerstoerbare Wand
 				if (spielFeld[i][j] == 'Z') {
 					walls[i][j] = new JLabel(new ImageIcon(
 							"src/gfx/explodable_wall.png"));
 					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
 					walls[i][j].setName("destroyable");
 					jPanel.add(walls[i][j]);
+				}
+				
+				// Versteckte Tuer
+				if (spielFeld[i][j] == 'H') {
+					walls[i][j] = new JLabel(new ImageIcon(
+							"src/gfx/explodable_wall.png"));
+					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
+					walls[i][j].setName("hiddendoor");
+					jPanel.add(walls[i][j]);
+					
+					JLabel[] toRemove = new JLabel[3];
+					toRemove[0] = this.player1.getBomberMan();
+					toRemove[1] = this.player2.getBomberMan();
+					toRemove[2] = walls[i][j];
+					
+					exit = new Tuere(i, j, jPanel, toRemove);
 				}
 
 				// Nichts
@@ -197,17 +213,16 @@ public class Spielfeld extends JFrame {
 
 				// Ausgang
 				if (spielFeld[i][j] == 'T') {
-					walls[i][j] = new JLabel(new ImageIcon(
-							"src/gfx/door/door.png"));
+					walls[i][j] = new JLabel(new ImageIcon("src/gfx/door/door.png"));
 					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
 					walls[i][j].setName("exit");
 					jPanel.add(walls[i][j]);
-
+					
 					JLabel[] toRemove = new JLabel[3];
 					toRemove[0] = this.player1.getBomberMan();
 					toRemove[1] = this.player2.getBomberMan();
 					toRemove[2] = walls[i][j];
-
+					
 					exit = new Tuere(i, j, jPanel, toRemove);
 				}
 

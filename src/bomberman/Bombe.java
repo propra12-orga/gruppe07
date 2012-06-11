@@ -158,7 +158,8 @@ public class Bombe extends AbstractAction {
 	public void Explosion() {
 		boom1.setBounds(x, y, width, height);
 		s.add(boom1, 0);
-
+		
+		// Pruefe Felder auf walls
 		// Pruefe ein Feld weiter rechts
 		if (walls[(x / 40) + 1][(y / 40)].getName().equals("walkable")) {
 			boom2.setBounds(x + 40, y, width, height);
@@ -169,9 +170,14 @@ public class Bombe extends AbstractAction {
 			s.add(boom2, 1);
 			walls[(x / 40) + 1][(y / 40)].setIcon(null);
 			walls[(x / 40) + 1][(y / 40)].setName("walkable");
+		} else if (walls[(x / 40) + 1][(y / 40)].getName()
+				.equals("hiddendoor")) {
+			boom2.setBounds(x + 40, y, width, height);
+			s.add(boom2, 1);
+			walls[(x / 40) + 1][(y / 40)].setIcon(new ImageIcon("src/gfx/door/door.png"));
+			walls[(x / 40) + 1][(y / 40)].setName("exit");
 		}
 
-		// Pruefe Felder auf walls
 		// Pruefe ein Feld weiter links
 		if (walls[(x / 40) - 1][(y / 40)].getName().equals("walkable")) {
 			boom3.setBounds(x - 40, y, width, height);
@@ -182,6 +188,12 @@ public class Bombe extends AbstractAction {
 			s.add(boom3, 1);
 			walls[(x / 40) - 1][(y / 40)].setIcon(null);
 			walls[(x / 40) - 1][(y / 40)].setName("walkable");
+		} else if (walls[(x / 40) - 1][(y / 40)].getName()
+				.equals("hiddendoor")) {
+			boom3.setBounds(x - 40, y, width, height);
+			s.add(boom3, 1);
+			walls[(x / 40) - 1][(y / 40)].setIcon(new ImageIcon("src/gfx/door/door.png"));
+			walls[(x / 40) - 1][(y / 40)].setName("exit");
 		}
 
 		// Pruefe ein Feld weiter oben
@@ -194,6 +206,12 @@ public class Bombe extends AbstractAction {
 			s.add(boom4, 1);
 			walls[x / 40][(y / 40) + 1].setIcon(null);
 			walls[x / 40][(y / 40) + 1].setName("walkable");
+		} else if (walls[(x / 40)][(y / 40) + 1].getName()
+				.equals("hiddendoor")) {
+			boom4.setBounds(x, y + 40, width, height);
+			s.add(boom4, 1);
+			walls[x / 40][(y / 40) + 1].setIcon(new ImageIcon("src/gfx/door/door.png"));
+			walls[x / 40][(y / 40) + 1].setName("exit");
 		}
 
 		// Pruefe ein Feld weiter unten
@@ -206,6 +224,12 @@ public class Bombe extends AbstractAction {
 			s.add(boom5, 1);
 			walls[x / 40][(y / 40) - 1].setIcon(null);
 			walls[x / 40][(y / 40) - 1].setName("walkable");
+		} else if (walls[(x / 40)][(y / 40) - 1].getName()
+				.equals("hiddendoor")) {
+			boom5.setBounds(x, y - 40, width, height);
+			s.add(boom5, 1);
+			walls[x / 40][(y / 40) - 1].setIcon(new ImageIcon("src/gfx/door/door.png"));
+			walls[x / 40][(y / 40) - 1].setName("exit");
 		}
 
 		// Pruefe Felder auf Spieler
