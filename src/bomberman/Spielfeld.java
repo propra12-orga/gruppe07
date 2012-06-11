@@ -186,7 +186,7 @@ public class Spielfeld extends JFrame {
 
 	private String randomLevel() {
 		String path = "src/readSpielfeld/";
-		int low = 1, high = 10;
+		int low = 1, high = 5;
 		String level = "level"+(int)(Math.random() * (high - low) + low)+".txt";
 		
 		return path+level;
