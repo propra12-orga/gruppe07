@@ -1,7 +1,6 @@
 package readSpielfeld;
 
 import java.io.*;
-import java.nio.charset.Charset;
 
 /**
  * Liest das Spielfeld aus einer Datei aus.

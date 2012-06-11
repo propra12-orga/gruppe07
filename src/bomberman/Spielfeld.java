@@ -155,10 +155,18 @@ public class Spielfeld extends JFrame {
 		beendenButton.getActionMap().put("bombe2", bombe2);
 	}
 
+	private String randomLevel() {
+		String path = "src/readSpielfeld/";
+		int low = 1, high = 5;
+		String level = "level"+(int)(Math.random() * (high - low) + low)+".txt";
+		
+		return path+level;
+	}
+	
 	private void createWorld() {
 		ReadFile rf = null;
 		try {
-			rf = new ReadFile("src/readSpielfeld/level1.txt");
+			rf = new ReadFile(randomLevel());
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}
@@ -170,7 +178,7 @@ public class Spielfeld extends JFrame {
 
 		for (int i = 0; i < spielFeld.length; i++) {
 			for (int j = 0; j < spielFeld[0].length; j++) {
-				// Unzerstoerbare Wand
+				// Unzerstuerbare Wand
 				if (spielFeld[i][j] == 'X') {
 					walls[i][j] = new JLabel(new ImageIcon(
 							"src/gfx/solid_wall.png"));
@@ -179,29 +187,13 @@ public class Spielfeld extends JFrame {
 					jPanel.add(walls[i][j]);
 				}
 
-				// Zerstoerbare Wand
+				// Zerstuerbare Wand
 				if (spielFeld[i][j] == 'Z') {
 					walls[i][j] = new JLabel(new ImageIcon(
 							"src/gfx/explodable_wall.png"));
 					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
 					walls[i][j].setName("destroyable");
 					jPanel.add(walls[i][j]);
-				}
-				
-				// Versteckte Tuer
-				if (spielFeld[i][j] == 'H') {
-					walls[i][j] = new JLabel(new ImageIcon(
-							"src/gfx/explodable_wall.png"));
-					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
-					walls[i][j].setName("hiddendoor");
-					jPanel.add(walls[i][j]);
-					
-					JLabel[] toRemove = new JLabel[3];
-					toRemove[0] = this.player1.getBomberMan();
-					toRemove[1] = this.player2.getBomberMan();
-					toRemove[2] = walls[i][j];
-					
-					exit = new Tuere(i, j, jPanel, toRemove);
 				}
 
 				// Nichts
@@ -213,16 +205,17 @@ public class Spielfeld extends JFrame {
 
 				// Ausgang
 				if (spielFeld[i][j] == 'T') {
-					walls[i][j] = new JLabel(new ImageIcon("src/gfx/door/door.png"));
+					walls[i][j] = new JLabel(new ImageIcon(
+							"src/gfx/door/door.png"));
 					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
 					walls[i][j].setName("exit");
 					jPanel.add(walls[i][j]);
-					
+
 					JLabel[] toRemove = new JLabel[3];
 					toRemove[0] = this.player1.getBomberMan();
 					toRemove[1] = this.player2.getBomberMan();
 					toRemove[2] = walls[i][j];
-					
+
 					exit = new Tuere(i, j, jPanel, toRemove);
 				}
 
