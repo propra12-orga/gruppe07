@@ -307,16 +307,19 @@ public class Spielfeld extends JFrame {
 		startButton.getActionMap().put("moveLeft", moveLeft);
 		startButton.getActionMap().put("moveUp", moveUp);
 		startButton.getActionMap().put("moveDown", moveDown);
+		startButton.getActionMap().put("bombe1", bombe1);
 		
 		beendenButton.getActionMap().put("moveRight", moveRight);
 		beendenButton.getActionMap().put("moveLeft", moveLeft);
 		beendenButton.getActionMap().put("moveUp", moveUp);
 		beendenButton.getActionMap().put("moveDown", moveDown);
+		beendenButton.getActionMap().put("bombe1", bombe1);
 		
 		resetButton.getActionMap().put("moveRight", moveRight);
 		resetButton.getActionMap().put("moveLeft", moveLeft);
 		resetButton.getActionMap().put("moveUp", moveUp);
 		resetButton.getActionMap().put("moveDown", moveDown);
+		resetButton.getActionMap().put("bombe1", bombe1);
 
 	}
 
@@ -325,16 +328,19 @@ public class Spielfeld extends JFrame {
 		startButton.getActionMap().put("moveLeft2", moveLeft2);
 		startButton.getActionMap().put("moveUp2", moveUp2);
 		startButton.getActionMap().put("moveDown2", moveDown2);
+		startButton.getActionMap().put("bombe2", bombe2);
 		
 		beendenButton.getActionMap().put("moveRight2", moveRight2);
 		beendenButton.getActionMap().put("moveLeft2", moveLeft2);
 		beendenButton.getActionMap().put("moveUp2", moveUp2);
 		beendenButton.getActionMap().put("moveDown2", moveDown2);
+		beendenButton.getActionMap().put("bombe2", bombe2);
 		
 		resetButton.getActionMap().put("moveRight2", moveRight2);
 		resetButton.getActionMap().put("moveLeft2", moveLeft2);
 		resetButton.getActionMap().put("moveUp2", moveUp2);
 		resetButton.getActionMap().put("moveDown2", moveDown2);
+		resetButton.getActionMap().put("bombe2", bombe2);
 		
 	}
 
@@ -343,16 +349,19 @@ public class Spielfeld extends JFrame {
 		startButton.getActionMap().put("moveLeft", null);
 		startButton.getActionMap().put("moveUp", null);
 		startButton.getActionMap().put("moveDown", null);
+		startButton.getActionMap().put("bombe1", null);
 		
 		beendenButton.getActionMap().put("moveRight", null);
 		beendenButton.getActionMap().put("moveLeft", null);
 		beendenButton.getActionMap().put("moveUp", null);
 		beendenButton.getActionMap().put("moveDown", null);
+		beendenButton.getActionMap().put("bombe1", null);
 		
 		resetButton.getActionMap().put("moveRight", null);
 		resetButton.getActionMap().put("moveLeft", null);
 		resetButton.getActionMap().put("moveUp", null);
 		resetButton.getActionMap().put("moveDown", null);
+		resetButton.getActionMap().put("bombe1", null);
 	}
 
 	public void removeKeysP2() {
@@ -360,16 +369,19 @@ public class Spielfeld extends JFrame {
 		startButton.getActionMap().put("moveLeft2", null);
 		startButton.getActionMap().put("moveUp2", null);
 		startButton.getActionMap().put("moveDown2", null);
+		startButton.getActionMap().put("bombe2", null);
 		
 		beendenButton.getActionMap().put("moveRight2", null);
 		beendenButton.getActionMap().put("moveLeft2", null);
 		beendenButton.getActionMap().put("moveUp2", null);
 		beendenButton.getActionMap().put("moveDown2", null);
+		beendenButton.getActionMap().put("bombe2", null);
 		
 		resetButton.getActionMap().put("moveRight2", null);
 		resetButton.getActionMap().put("moveLeft2", null);
 		resetButton.getActionMap().put("moveUp2", null);
 		resetButton.getActionMap().put("moveDown2", null);
+		resetButton.getActionMap().put("bombe2", null);
 	}
 
 	public void unbindAllControls() {

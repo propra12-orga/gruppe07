@@ -33,7 +33,7 @@ public class Bombe extends AbstractAction {
 	private Timer LayTimer = new Timer(1650, new LayBomb());
 	private Timer ExploTimer = new Timer(2425, new ExploBomb());
 	private Timer LayTimer2 = new Timer(0, new LayBomb());
-	private Timer ExploTimer2 = new Timer(500, new ExploBomb());
+	private Timer ExploTimer2 = new Timer(775, new ExploBomb());
 	private boolean kette;
 	private boolean bombIsLayed;
 
@@ -87,7 +87,7 @@ public class Bombe extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (!LayTimer.isRunning()) {
+		if (!LayTimer.isRunning() && !ExploTimer.isRunning()) {
 			x = player1.getX();
 			y = player1.getY();
 			bomb.setBounds(x, y, width, height);
