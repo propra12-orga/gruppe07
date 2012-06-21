@@ -20,6 +20,7 @@ public class Animation implements Runnable {
 	private String richtung;
 	private JLabel walls[][];
 	private Spielfeld spielfeld;
+	private boolean offline;
 	
 	/**
 	 * &Uuml;bergibt die Parameter "BomberMan", "String" und "Spielfeld" an die Klasse Animation.<br>
@@ -28,13 +29,14 @@ public class Animation implements Runnable {
 	 * @param r &Uuml;bergibt die Richtungsanweisungen an die Klasse Animation.<br>
 	 * @param spielfeld Weist der aktuellen Methode Animation die Werte aus der Klasse Spielfeld zu.<br>
 	 */
-	public Animation(BomberMan b, String r, Spielfeld spielfeld) {
+	public Animation(BomberMan b, String r, Spielfeld spielfeld, boolean offline) {
 		this.b = b;
 		this.richtung = r;
 		this.nextPositionX = b.getX();
 		this.nextPositionY = b.getY();
 		this.walls = spielfeld.getWalls();
 		this.spielfeld = spielfeld;
+		this.offline = offline;
 	}	
 	
 	/**
@@ -45,6 +47,17 @@ public class Animation implements Runnable {
 	 */
 	@Override
 	public void run() {
+		
+		// Fuer Server: Sende Richtung an Client
+		if (spielfeld.isServerActive() && offline) {
+			spielfeld.getBombserver().sendPrintln(richtung);
+		}
+		
+		// Fuer Client: Sende Richtung an Server
+		if (spielfeld.isClientActive() && offline) {
+			spielfeld.getBombclient().sendPrintln(richtung);
+		}
+		
 		for(int i=0; i<=4; i++) {
 			ImageIcon img = new ImageIcon("src/gfx/player" + b.getPlayerID() + "/"+ richtung +""+ i +".png");
 			frames[i] = img;
@@ -76,9 +89,21 @@ public class Animation implements Runnable {
 		{
 			if(currentFrame == 4) {
 				t.stop();
-				if (b.getPlayerID() == 1) {
+				
+				// Fuer offlinemodus
+				if (b.getPlayerID() == 1 && !spielfeld.isServerActive() && !spielfeld.isClientActive()) {
 					spielfeld.setKeysBackP1();
-				} else {
+				} else if (b.getPlayerID() == 2 && !spielfeld.isServerActive() && !spielfeld.isClientActive()) {
+					spielfeld.setKeysBackP2();
+				}
+				
+				// Fuer Server
+				if (spielfeld.isServerActive()) {
+					spielfeld.setKeysBackP1();
+				}
+				
+				// Fuer Client
+				if (spielfeld.isClientActive()) {
 					spielfeld.setKeysBackP2();
 				}
 			}

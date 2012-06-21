@@ -8,21 +8,35 @@ public class Move extends AbstractAction {
 	private BomberMan b;
 	private String richtung;
 	private Spielfeld spielfeld;
+	private boolean offline;
 
-	public Move(BomberMan b, String r, Spielfeld spielfeld) {
+	public Move(BomberMan b, String r, Spielfeld spielfeld, boolean offline) {
 		this.b = b;
 		this.richtung = r;
 		this.spielfeld = spielfeld;
+		this.offline = offline;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Animation a = new Animation(this.b, richtung, this.spielfeld);
+		Animation a = new Animation(this.b, richtung, this.spielfeld,offline);
 		Thread t = new Thread(a);
 		t.start();
-		if (b.getPlayerID() == 1) {
+		
+		// Fuer offlinemodus
+		if (b.getPlayerID() == 1 && !spielfeld.isServerActive() && !spielfeld.isClientActive()) {
 		spielfeld.removeKeysP1();
-		} else {
+		} else if (b.getPlayerID() == 2 && !spielfeld.isServerActive() && !spielfeld.isClientActive()) {
+		spielfeld.removeKeysP2();
+		}
+		
+		// Fuer Server
+		if (spielfeld.isServerActive()) {
+		spielfeld.removeKeysP1();
+		}
+		
+		// Fuer Client
+		if (spielfeld.isClientActive()) {
 		spielfeld.removeKeysP2();
 		}
 	}

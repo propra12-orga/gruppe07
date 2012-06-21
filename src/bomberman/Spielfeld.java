@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -16,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
@@ -26,6 +28,7 @@ public class Spielfeld extends JFrame {
 	private JLayeredPane jPanel = new JLayeredPane();
 	private JButton startButton = new JButton();
 	private JButton resetButton = new JButton();
+	private JButton netButton = new JButton();
 	private JButton beendenButton = new JButton();
 	private JLabel introBild = new JLabel(new ImageIcon("src/gfx/intro.jpg"));
 	private JLabel walls[][] = new JLabel[21][15];
@@ -36,6 +39,10 @@ public class Spielfeld extends JFrame {
 	public Tuere exit;
 	private BomberMan player1 = new BomberMan(1);
 	private BomberMan player2 = new BomberMan(2);
+	private boolean servermode = false;
+	private boolean clientmode = false;
+    private Bombserver server = null;
+    private Bombclient client = null;
 
 	Spielfeld(String title) {
 		super(title);
@@ -64,11 +71,7 @@ public class Spielfeld extends JFrame {
 		startButton.setMargin(new Insets(2, 2, 2, 2));
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				introBild.setVisible(false);
-				jPanel.remove(introBild);
-				createWorld();
-				player1.put(jPanel);
-				player2.put(jPanel);
+				startGame(randomLevel());
 			}
 		});
 		cp.add(startButton);
@@ -85,13 +88,51 @@ public class Spielfeld extends JFrame {
 				jPanel.removeAll();
 				jPanel.repaint();
 				
-				createWorld();
+				createWorld(randomLevel());
 				setPlayerKeys();
 				player1.put(jPanel);
 				player2.put(jPanel);
 			}
 		});
 		cp.add(resetButton);
+		
+		netButton.setBounds(344, 680, 137, 25);
+		netButton.setText("Netzwerk");
+		netButton.setMargin(new Insets(2, 2, 2, 2));
+		netButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				Object[] options = {"Host", "Client"};				 
+                int abfrage = JOptionPane.showOptionDialog(null,"Möchten Sie Host oder Client sein?","Bitte auswählen",
+                											JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, 
+                											null, options, options[0]);
+                // Wenn Option Host, starte Bombserver
+    			if (abfrage == 0) {    				
+    				try {
+    					server = new Bombserver(3141, getSpielfeld());
+    				} catch (IOException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+    				server.start();
+    			
+    			// Wenn Option Client, starte Bombclient
+    	        } else if (abfrage == 1) {
+    	        	
+    	        	String ipadresse = JOptionPane.showInputDialog("Bitte IP-Adresse des Hosts eingeben");    	        	
+    	        	try {
+						client = new Bombclient(ipadresse,3141, getSpielfeld());
+					} catch (UnknownHostException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}    	        	
+    	        	client.start();
+    	        }
+			}			
+		});
+		cp.add(netButton);
 
 		beendenButton.setBounds(760, 680, 137, 25);
 		beendenButton.setText("Beenden");
@@ -107,32 +148,33 @@ public class Spielfeld extends JFrame {
 		bombe1 = new Bombe(player1, player2, jPanel, this);
 		bombe2 = new Bombe(player2, player1, jPanel, this);
 		
-		moveRight = new Move(player1, "right", this);
-		moveLeft = new Move(player1, "left", this);
-		moveUp = new Move(player1, "up", this);
-		moveDown = new Move(player1, "down", this);
+		moveRight = new Move(player1, "right", this, true);
+		moveLeft = new Move(player1, "left", this, true);
+		moveUp = new Move(player1, "up", this, true);
+		moveDown = new Move(player1, "down", this, true);
 		
-		moveRight2 = new Move(player2, "right", this);
-		moveLeft2 = new Move(player2, "left", this);
-		moveUp2 = new Move(player2, "up", this);
-		moveDown2 = new Move(player2, "down", this);
+		moveRight2 = new Move(player2, "right", this, true);
+		moveLeft2 = new Move(player2, "left", this, true);
+		moveUp2 = new Move(player2, "up", this, true);
+		moveDown2 = new Move(player2, "down", this, true);
 		setPlayerKeys();
 	}
 
 
 
-	private String randomLevel() {
+	public String randomLevel() {
 		String path = "src/readSpielfeld/";
 		int low = 1, high = 5;
 		String level = "level"+(int)(Math.random() * (high - low) + low)+".txt";
 		
 		return path+level;
 	}
+
 	
-	private void createWorld() {
+	private void createWorld(String level) {
 		ReadFile rf = null;
 		try {
-			rf = new ReadFile(randomLevel());
+			rf = new ReadFile(level);
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 			System.exit(0);
@@ -236,6 +278,8 @@ public class Spielfeld extends JFrame {
 		beendenButton.getActionMap().put("moveRight", moveRight);
 		resetButton.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
 		resetButton.getActionMap().put("moveRight", moveRight);
+		netButton.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+		netButton.getActionMap().put("moveRight", moveRight);
 
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("A"), "moveLeft");
 		startButton.getActionMap().put("moveLeft", moveLeft);
@@ -243,6 +287,8 @@ public class Spielfeld extends JFrame {
 		beendenButton.getActionMap().put("moveLeft", moveLeft);
 		resetButton.getInputMap().put(KeyStroke.getKeyStroke("A"), "moveLeft");
 		resetButton.getActionMap().put("moveLeft", moveLeft);
+		netButton.getInputMap().put(KeyStroke.getKeyStroke("A"), "moveLeft");
+		netButton.getActionMap().put("moveLeft", moveLeft);
 
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
 		startButton.getActionMap().put("moveUp", moveUp);
@@ -250,6 +296,8 @@ public class Spielfeld extends JFrame {
 		beendenButton.getActionMap().put("moveUp", moveUp);
 		resetButton.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
 		resetButton.getActionMap().put("moveUp", moveUp);
+		netButton.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
+		netButton.getActionMap().put("moveUp", moveUp);
 
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
 		startButton.getActionMap().put("moveDown", moveDown);
@@ -257,6 +305,8 @@ public class Spielfeld extends JFrame {
 		beendenButton.getActionMap().put("moveDown", moveDown);
 		resetButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
 		resetButton.getActionMap().put("moveDown", moveDown);
+		netButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
+		netButton.getActionMap().put("moveDown", moveDown);
 
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("F"), "bombe1");
 		startButton.getActionMap().put("bombe1", bombe1);
@@ -264,6 +314,8 @@ public class Spielfeld extends JFrame {
 		beendenButton.getActionMap().put("bombe1", bombe1);
 		resetButton.getInputMap().put(KeyStroke.getKeyStroke("F"), "bombe1");
 		resetButton.getActionMap().put("bombe1", bombe1);
+		netButton.getInputMap().put(KeyStroke.getKeyStroke("F"), "bombe1");
+		netButton.getActionMap().put("bombe1", bombe1);
 
 		// Moves for second player
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight2");
@@ -272,6 +324,8 @@ public class Spielfeld extends JFrame {
 		beendenButton.getActionMap().put("moveRight2", moveRight2);
 		resetButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight2");
 		resetButton.getActionMap().put("moveRight2", moveRight2);
+		netButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight2");
+		netButton.getActionMap().put("moveRight2", moveRight2);
 
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"moveLeft2");
 		startButton.getActionMap().put("moveLeft2", moveLeft2);
@@ -279,6 +333,8 @@ public class Spielfeld extends JFrame {
 		beendenButton.getActionMap().put("moveLeft2", moveLeft2);
 		resetButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"moveLeft2");
 		resetButton.getActionMap().put("moveLeft2", moveLeft2);
+		netButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"moveLeft2");
+		netButton.getActionMap().put("moveLeft2", moveLeft2);
 
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp2");
 		startButton.getActionMap().put("moveUp2", moveUp2);
@@ -286,6 +342,9 @@ public class Spielfeld extends JFrame {
 		beendenButton.getActionMap().put("moveUp2", moveUp2);
 		resetButton.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp2");
 		resetButton.getActionMap().put("moveUp2", moveUp2);
+		netButton.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp2");
+		netButton.getActionMap().put("moveUp2", moveUp2);
+
 
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),"moveDown2");
 		startButton.getActionMap().put("moveDown2", moveDown2);
@@ -293,6 +352,8 @@ public class Spielfeld extends JFrame {
 		beendenButton.getActionMap().put("moveDown2", moveDown2);
 		resetButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),"moveDown2");
 		resetButton.getActionMap().put("moveDown2", moveDown2);
+		netButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),"moveDown2");
+		netButton.getActionMap().put("moveDown2", moveDown2);
 
 		startButton.getInputMap().put(KeyStroke.getKeyStroke("K"), "bombe2");
 		startButton.getActionMap().put("bombe2", bombe2);
@@ -300,6 +361,8 @@ public class Spielfeld extends JFrame {
 		beendenButton.getActionMap().put("bombe2", bombe2);
 		resetButton.getInputMap().put(KeyStroke.getKeyStroke("K"), "bombe2");
 		resetButton.getActionMap().put("bombe2", bombe2);
+		netButton.getInputMap().put(KeyStroke.getKeyStroke("K"), "bombe2");
+		netButton.getActionMap().put("bombe2", bombe2);
 	}
 
 	public void setKeysBackP1() {
@@ -320,6 +383,12 @@ public class Spielfeld extends JFrame {
 		resetButton.getActionMap().put("moveUp", moveUp);
 		resetButton.getActionMap().put("moveDown", moveDown);
 		resetButton.getActionMap().put("bombe1", bombe1);
+		
+		netButton.getActionMap().put("moveRight", moveRight);
+		netButton.getActionMap().put("moveLeft", moveLeft);
+		netButton.getActionMap().put("moveUp", moveUp);
+		netButton.getActionMap().put("moveDown", moveDown);
+		netButton.getActionMap().put("bombe1", bombe1);
 
 	}
 
@@ -342,6 +411,12 @@ public class Spielfeld extends JFrame {
 		resetButton.getActionMap().put("moveDown2", moveDown2);
 		resetButton.getActionMap().put("bombe2", bombe2);
 		
+		netButton.getActionMap().put("moveRight2", moveRight2);
+		netButton.getActionMap().put("moveLeft2", moveLeft2);
+		netButton.getActionMap().put("moveUp2", moveUp2);
+		netButton.getActionMap().put("moveDown2", moveDown2);
+		netButton.getActionMap().put("bombe2", bombe2);
+		
 	}
 
 	public void removeKeysP1() {
@@ -362,6 +437,12 @@ public class Spielfeld extends JFrame {
 		resetButton.getActionMap().put("moveUp", null);
 		resetButton.getActionMap().put("moveDown", null);
 		resetButton.getActionMap().put("bombe1", null);
+		
+		netButton.getActionMap().put("moveRight", null);
+		netButton.getActionMap().put("moveLeft", null);
+		netButton.getActionMap().put("moveUp", null);
+		netButton.getActionMap().put("moveDown", null);
+		netButton.getActionMap().put("bombe1", null);
 	}
 
 	public void removeKeysP2() {
@@ -382,6 +463,12 @@ public class Spielfeld extends JFrame {
 		resetButton.getActionMap().put("moveUp2", null);
 		resetButton.getActionMap().put("moveDown2", null);
 		resetButton.getActionMap().put("bombe2", null);
+		
+		netButton.getActionMap().put("moveRight2", null);
+		netButton.getActionMap().put("moveLeft2", null);
+		netButton.getActionMap().put("moveUp2", null);
+		netButton.getActionMap().put("moveDown2", null);
+		netButton.getActionMap().put("bombe2", null);
 	}
 
 	public void unbindAllControls() {
@@ -393,6 +480,9 @@ public class Spielfeld extends JFrame {
 		
 		resetButton.getInputMap().clear();
 		resetButton.getActionMap().clear();
+		
+		netButton.getInputMap().clear();
+		netButton.getActionMap().clear();
 	}
 
 	public Bombe getBomb1() {
@@ -402,8 +492,52 @@ public class Spielfeld extends JFrame {
 	public Bombe getBomb2() {
 		return bombe2;
 	}
+	
+	public void startGame(String level) {
+		introBild.setVisible(false);
+		jPanel.remove(introBild);
+		createWorld(level);				
+		player1.put(jPanel);
+		player2.put(jPanel);
+	}
+	
+	public Spielfeld getSpielfeld() {
+		return this;
+	}
+	
+	public boolean isServerActive() {
+		return servermode;
+	}
 
-	public static void main(String[] args) {
+	public void setServerActive(boolean active) {
+		servermode = active;
+	}
+
+	public boolean isClientActive() {
+		return clientmode;
+	}
+	
+	public void setClientActive(boolean active) {
+		clientmode = active;
+	}
+	
+	public Bombserver getBombserver() {
+		return server;
+	}
+	
+	public Bombclient getBombclient() {
+		return client;
+	}
+	
+	public BomberMan getPlayer1() {
+		return player1;
+	}
+	
+	public BomberMan getPlayer2() {
+		return player2;
+	}
+
+	public static void main(String[] args) {       
 		new Spielfeld("bomberman");
 	}
 }
