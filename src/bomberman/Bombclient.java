@@ -38,21 +38,27 @@ public class Bombclient extends Thread {
 			Action moveLeft = new Move(spielfeld.getPlayer1(), "left", spielfeld, false);
 			Action moveRight = new Move(spielfeld.getPlayer1(), "right", spielfeld, false);
 			
+			// Bombe fuer Server
+			Action bombe = new Bombe(spielfeld.getPlayer1(), spielfeld.getPlayer2(), spielfeld.getLayeredPane(), spielfeld, false);
+			
 			while (true) {
 				
-				String richtung = in.nextLine();	// Empfange Richtung vom Server (Player1)
+				String action = in.nextLine();	// Empfange Richtung vom Server (Player1)
 				
-				if (richtung.equals("up")) {
+				if (action.equals("up")) {
 						moveUp.actionPerformed(null);
 				}
-				if (richtung.equals("down")) {
+				if (action.equals("down")) {
 						moveDown.actionPerformed(null);
 				}
-				if (richtung.equals("left")) {
+				if (action.equals("left")) {
 						moveLeft.actionPerformed(null);
 				}
-				if (richtung.equals("right")) {
+				if (action.equals("right")) {
 						moveRight.actionPerformed(null);
+				}
+				if (action.equals("bomb")) {
+					bombe.actionPerformed(null);
 				}
 			}
 		}

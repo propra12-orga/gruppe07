@@ -145,8 +145,8 @@ public class Spielfeld extends JFrame {
 		cp.add(beendenButton);
 		setVisible(true);
 		
-		bombe1 = new Bombe(player1, player2, jPanel, this);
-		bombe2 = new Bombe(player2, player1, jPanel, this);
+		bombe1 = new Bombe(player1, player2, jPanel, this, true);
+		bombe2 = new Bombe(player2, player1, jPanel, this, true);
 		
 		moveRight = new Move(player1, "right", this, true);
 		moveLeft = new Move(player1, "left", this, true);
@@ -535,6 +535,10 @@ public class Spielfeld extends JFrame {
 	
 	public BomberMan getPlayer2() {
 		return player2;
+	}
+	
+	public JLayeredPane getLayeredPane() {
+		return jPanel;
 	}
 
 	public static void main(String[] args) {       

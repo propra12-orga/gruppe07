@@ -36,14 +36,16 @@ public class Bombe extends AbstractAction {
 	private Timer ExploTimer2 = new Timer(775, new ExploBomb());
 	private boolean kette;
 	private boolean bombIsLayed;
+	private boolean offline;
 
 	public Bombe(BomberMan player1, BomberMan player2, JLayeredPane s,
-			Spielfeld spielfeld) {
+			Spielfeld spielfeld, boolean offline) {
 		this.player1 = player1;
 		this.player2 = player2;
 		this.s = s;
 		this.spielfeld = spielfeld;
 		this.walls = spielfeld.getWalls();
+		this.offline = offline;
 	}
 
 	/**
@@ -87,6 +89,15 @@ public class Bombe extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Fuer Netzwerkmodus
+		if (spielfeld.isServerActive() && offline) {
+			spielfeld.getBombserver().sendPrintln("bomb");
+		}
+		
+		if (spielfeld.isClientActive() && offline) {
+			spielfeld.getBombclient().sendPrintln("bomb");
+		}
+		
 		if (!LayTimer.isRunning() && !ExploTimer.isRunning()) {
 			x = player1.getX();
 			y = player1.getY();

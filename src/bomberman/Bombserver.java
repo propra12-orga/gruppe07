@@ -69,20 +69,26 @@ public class Bombserver extends Thread {
 		Action moveLeft = new Move(spielfeld.getPlayer2(), "left", spielfeld, false);
 		Action moveRight = new Move(spielfeld.getPlayer2(), "right", spielfeld, false);
 		
+		// Bombe fuer Client
+		Action bombe = new Bombe(spielfeld.getPlayer2(), spielfeld.getPlayer1(), spielfeld.getLayeredPane(), spielfeld, false);
+		
 		while (true) {
-			String richtung = in.nextLine();	// Empfange Richtung vom Client (Player2)
+			String action = in.nextLine();	// Empfange Aktion vom Client (Player2)
 			
-			if (richtung.equals("up")) {
-					moveUp.actionPerformed(null);
+			if (action.equals("up")) {
+				moveUp.actionPerformed(null);
 			}
-			if (richtung.equals("down")) {
-					moveDown.actionPerformed(null);
+			if (action.equals("down")) {
+				moveDown.actionPerformed(null);
 			}
-			if (richtung.equals("left")) {
-					moveLeft.actionPerformed(null);
+			if (action.equals("left")) {
+				moveLeft.actionPerformed(null);
 			}
-			if (richtung.equals("right")) {
-					moveRight.actionPerformed(null);
+			if (action.equals("right")) {
+				moveRight.actionPerformed(null);
+			}
+			if (action.equals("bomb")) {
+				bombe.actionPerformed(null);
 			}
 		}			
 	}
