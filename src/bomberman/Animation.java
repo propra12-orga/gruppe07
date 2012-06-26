@@ -98,12 +98,12 @@ public class Animation implements Runnable {
 				}
 				
 				// Fuer Server
-				if (spielfeld.isServerActive()) {
+				if (spielfeld.isServerActive() && b.getPlayerID() == 1) {
 					spielfeld.setKeysBackP1();
 				}
 				
 				// Fuer Client
-				if (spielfeld.isClientActive()) {
+				if (spielfeld.isClientActive() && b.getPlayerID() == 2) {
 					spielfeld.setKeysBackP2();
 				}
 			}

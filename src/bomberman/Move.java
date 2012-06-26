@@ -31,12 +31,12 @@ public class Move extends AbstractAction {
 		}
 		
 		// Fuer Server
-		if (spielfeld.isServerActive()) {
+		if (spielfeld.isServerActive() && b.getPlayerID() == 1) {
 		spielfeld.removeKeysP1();
 		}
 		
 		// Fuer Client
-		if (spielfeld.isClientActive()) {
+		if (spielfeld.isClientActive() && b.getPlayerID() == 2) {
 		spielfeld.removeKeysP2();
 		}
 	}
