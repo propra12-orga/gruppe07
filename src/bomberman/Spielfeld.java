@@ -568,6 +568,21 @@ public class Spielfeld extends JFrame {
 
 		// Die Zeit zählen
 		Zeit z = new Zeit(this.zeit);
+		final Thread zt = new Thread(z);
+		zt.start();
+
+		resetButton.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent evt) {
+				zt.stop();
+				zeitRestart();
+			}
+		});
+	}
+
+	public void zeitRestart() {
+		zeit.setText("Zeit: 0 Sekunden");
+		Zeit z = new Zeit(this.zeit);
 		Thread zt = new Thread(z);
 		zt.start();
 	}
