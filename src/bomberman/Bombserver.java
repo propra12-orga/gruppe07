@@ -3,6 +3,8 @@ package bomberman;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*; 
 import java.net.*; 
 import java.util.Scanner;
@@ -19,6 +21,8 @@ public class Bombserver extends Thread {
 	private JFrame f = new JFrame("Bitte warten");
 	private Spielfeld spielfeld;
 	private PrintWriter out = null;
+	private Scanner in = null;
+	String action;
 
 	public Bombserver(int serversocket, Spielfeld spielfeld) throws IOException {
 		server = new ServerSocket( serversocket );
@@ -50,7 +54,7 @@ public class Bombserver extends Thread {
 		String level = spielfeld.randomLevel();		// erstelle Randomlevel-Pfad
 		
 		// Richte Scanner und PrintWriter zum Datentausch ein
-		Scanner     in  = new Scanner( client.getInputStream() ); 
+		in  = new Scanner( client.getInputStream() ); 
 		out = new PrintWriter( client.getOutputStream(), true );
 		
 		out.println( level );	// Uebertrage Pfad zum Client
@@ -73,7 +77,9 @@ public class Bombserver extends Thread {
 		Action bombe = new Bombe(spielfeld.getPlayer2(), spielfeld.getPlayer1(), spielfeld.getLayeredPane(), spielfeld, false);
 		
 		while (true) {
-			String action = in.nextLine();	// Empfange Aktion vom Client (Player2)
+			if (in.hasNext()) {
+			action = in.nextLine();	// Empfange Aktion vom Client (Player2)
+			}
 			
 			if (action.equals("up")) {
 				moveUp.actionPerformed(null);
@@ -90,6 +96,11 @@ public class Bombserver extends Thread {
 			if (action.equals("bomb")) {
 				bombe.actionPerformed(null);
 			}
+			if (action.equals("beendet")) {
+				server.close();
+				break;
+			}
+			action = null;
 		}			
 	}
   
@@ -99,6 +110,17 @@ public class Bombserver extends Thread {
 		f.setSize(300, 100);
 		f.setResizable(false);
 		f.setLocationRelativeTo(f.getParent());
+		
+		f.addWindowListener(new WindowAdapter() {
+		    public void windowClosing(WindowEvent e) {
+				try {
+					server.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		    }
+		});
 		
 		// Richte JButton ein
 		JButton abbrechen = new JButton();
@@ -134,5 +156,9 @@ public class Bombserver extends Thread {
 	
 	public void sendPrintln(String send) {
 		out.println(send);
+	}
+	
+	public void setAction(String action) {
+		this.action = action;
 	}
 }

@@ -144,6 +144,15 @@ public class Spielfeld extends JFrame {
 		beendenButton.setMargin(new Insets(2, 2, 2, 2));
 		beendenButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
+				if (servermode) {
+					getBombserver().sendPrintln("beendet");
+					getBombserver().setAction("beendet");
+				}
+				
+				if (clientmode) {
+					getBombclient().sendPrintln("beendet");
+					getBombclient().setAction("beendet");
+				}
 				System.exit(0);
 			}
 		});

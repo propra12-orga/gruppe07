@@ -12,6 +12,7 @@ public class Bombclient extends Thread {
 	private Socket server;
 	private Scanner in  = null; 
 	private PrintWriter out = null;
+	String action;
 	
 	public Bombclient(String ipadresse,int socket, Spielfeld spielfeld) throws UnknownHostException, IOException {
 		server = new Socket(ipadresse, socket);
@@ -43,8 +44,9 @@ public class Bombclient extends Thread {
 			
 			while (true) {
 				
-				String action = in.nextLine();	// Empfange Richtung vom Server (Player1)
-				
+				if (in.hasNext()) {
+					action = in.nextLine();	// Empfange Richtung vom Server (Player1)
+				}
 				if (action.equals("up")) {
 						moveUp.actionPerformed(null);
 				}
@@ -60,6 +62,11 @@ public class Bombclient extends Thread {
 				if (action.equals("bomb")) {
 					bombe.actionPerformed(null);
 				}
+				if (action.equals("beendet")) {
+					server.close();
+					break;
+				}
+				action = null;
 			}
 		}
 		
@@ -79,5 +86,9 @@ public class Bombclient extends Thread {
 	
 	public void sendPrintln(String send) {
 		out.println(send);
+	}
+	
+	public void setAction(String action) {
+		this.action = action;
 	}
 }
