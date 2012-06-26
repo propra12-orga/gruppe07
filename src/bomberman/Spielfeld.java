@@ -3,6 +3,7 @@ package bomberman;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -32,6 +33,9 @@ public class Spielfeld extends JFrame {
 	private JButton beendenButton = new JButton();
 	private JLabel introBild = new JLabel(new ImageIcon("src/gfx/intro.jpg"));
 	private JLabel walls[][] = new JLabel[21][15];
+	private JLabel jPunkte1 = new JLabel();
+	private JLabel jPunkte2 = new JLabel();
+	private JLabel zeit = new JLabel();
 	private char[][] spielFeld;
 	private Action moveRight, moveLeft, moveUp, moveDown, moveRight2,
 			moveLeft2, moveUp2, moveDown2;
@@ -43,6 +47,7 @@ public class Spielfeld extends JFrame {
 	private boolean clientmode = false;
     private Bombserver server = null;
     private Bombclient client = null;
+    private int punkte1=0, punkte2=0;
 
 	Spielfeld(String title) {
 		super(title);
@@ -143,6 +148,22 @@ public class Spielfeld extends JFrame {
 			}
 		});
 		cp.add(beendenButton);
+		
+		jPunkte1.setBounds(65, 30, 100, 25);
+		jPunkte1.setText("Player1: 0 Punkte");
+		jPunkte1.setFont(new Font("Arial Narrow", Font.PLAIN, 14));
+		cp.add(jPunkte1);
+		
+		jPunkte2.setBounds(800, 30, 100, 25);
+		jPunkte2.setText("Player2: 0 Punkte");
+		jPunkte2.setFont(new Font("Arial Narrow", Font.PLAIN, 14));
+		cp.add(jPunkte2);
+		
+		zeit.setBounds(440, 30, 100, 25);
+		zeit.setText("Zeit: 0 Sekunden");
+		zeit.setFont(new Font("Arial Narrow", Font.PLAIN, 14));
+		cp.add(zeit);
+		
 		setVisible(true);
 		
 		bombe1 = new Bombe(player1, player2, jPanel, this, true);
@@ -485,6 +506,32 @@ public class Spielfeld extends JFrame {
 		netButton.getActionMap().clear();
 	}
 
+	public void updatePunktePlayer1(int p) {
+		this.punkte1 = p;
+		jPunkte1.setText("Player1: "+p+" Punkte");
+	}
+	
+	public void updatePunktePlayer2(int p) {
+		this.punkte2 = p;
+		jPunkte2.setText("Player2: "+p+" Punkte");
+	}
+	
+	public int getPunkte1() {
+		return punkte1;
+	}
+	
+	public void setPunkte1(int punkte1) {
+		this.punkte1 = punkte1;
+	}
+	
+	public int getPunkte2() {
+		return punkte2;
+	}
+	
+	public void setPunkte2(int punkte2) {
+		this.punkte2 = punkte2;
+	}
+	
 	public Bombe getBomb1() {
 		return bombe1;
 	}
@@ -499,6 +546,11 @@ public class Spielfeld extends JFrame {
 		createWorld(level);				
 		player1.put(jPanel);
 		player2.put(jPanel);
+		
+		// Die Zeit zählen
+		Zeit z = new Zeit(this.zeit);
+		Thread zt = new Thread(z);
+		zt.start();
 	}
 	
 	public Spielfeld getSpielfeld() {
@@ -540,6 +592,12 @@ public class Spielfeld extends JFrame {
 	public JLayeredPane getLayeredPane() {
 		return jPanel;
 	}
+
+	public JLabel getZeit() {
+		return zeit;
+	}
+
+
 
 	public static void main(String[] args) {       
 		new Spielfeld("bomberman");
