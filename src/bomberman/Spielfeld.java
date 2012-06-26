@@ -91,9 +91,9 @@ public class Spielfeld extends JFrame {
 				jPanel.remove(exit.getWin1());
 				jPanel.remove(exit.getWin2());
 				jPanel.removeAll();
-				jPanel.repaint();
-				
+				jPanel.repaint();				
 				createWorld(randomLevel());
+				
 				setPlayerKeys();
 				player1.put(jPanel);
 				player2.put(jPanel);
@@ -241,12 +241,7 @@ public class Spielfeld extends JFrame {
 					walls[i][j].setName("exit");
 					jPanel.add(walls[i][j]);
 
-					JLabel[] toRemove = new JLabel[3];
-					toRemove[0] = this.player1.getBomberMan();
-					toRemove[1] = this.player2.getBomberMan();
-					toRemove[2] = walls[i][j];
-
-					exit = new Tuere(i, j, jPanel, toRemove);
+					createExit(i,j);
 				}
 				
 				// Ausgang mit Wand
@@ -256,12 +251,7 @@ public class Spielfeld extends JFrame {
 					walls[i][j].setName("hidden");
 					jPanel.add(walls[i][j]);
 
-					JLabel[] toRemove = new JLabel[3];
-					toRemove[0] = this.player1.getBomberMan();
-					toRemove[1] = this.player2.getBomberMan();
-					toRemove[2] = walls[i][j];
-
-					exit = new Tuere(i, j, jPanel, toRemove);
+					createExit(i,j);
 				}
 
 				// Player(s)
@@ -596,7 +586,15 @@ public class Spielfeld extends JFrame {
 	public JLabel getZeit() {
 		return zeit;
 	}
+	
+	public void createExit(int x, int y) {
+		JLabel[] toRemove = new JLabel[3];
+		toRemove[0] = this.player1.getBomberMan();
+		toRemove[1] = this.player2.getBomberMan();
+		toRemove[2] = walls[x][y];
 
+		exit = new Tuere(x, y, jPanel, toRemove);
+	}
 
 
 	public static void main(String[] args) {       

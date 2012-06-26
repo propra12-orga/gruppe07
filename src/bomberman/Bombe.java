@@ -207,6 +207,7 @@ public class Bombe extends AbstractAction {
 		boom1.setBounds(x, y, width, height);
 		s.add(boom1, 0);
 
+		// Pruefe Felder auf walls
 		// Pruefe ein Feld weiter rechts
 		if (walls[(x / 40) + 1][(y / 40)].getName().equals("walkable")) {
 			boom2.setBounds(x + 40, y, width, height);
@@ -227,7 +228,6 @@ public class Bombe extends AbstractAction {
 			updatePunkte(true);
 		}
 
-		// Pruefe Felder auf walls
 		// Pruefe ein Feld weiter links
 		if (walls[(x / 40) - 1][(y / 40)].getName().equals("walkable")) {
 			boom3.setBounds(x - 40, y, width, height);
@@ -240,11 +240,11 @@ public class Bombe extends AbstractAction {
 			walls[(x / 40) - 1][(y / 40)].setName("walkable");
 			updatePunkte(false);
 		} else if (walls[(x / 40) - 1][(y / 40)].getName().equals("hidden")) {
-			boom2.setBounds(x + 40, y, width, height);
-			s.add(boom2, 1);
-			walls[(x / 40) + 1][(y / 40)].setIcon(new ImageIcon(
+			boom3.setBounds(x - 40, y, width, height);
+			s.add(boom3, 1);
+			walls[(x / 40) - 1][(y / 40)].setIcon(new ImageIcon(
 					"src/gfx/door/door.png"));
-			walls[(x / 40) + 1][(y / 40)].setName("exit");
+			walls[(x / 40) - 1][(y / 40)].setName("exit");
 			updatePunkte(true);
 		}
 
@@ -260,11 +260,11 @@ public class Bombe extends AbstractAction {
 			walls[x / 40][(y / 40) + 1].setName("walkable");
 			updatePunkte(false);
 		} else if (walls[(x / 40)][(y / 40) + 1].getName().equals("hidden")) {
-			boom2.setBounds(x + 40, y, width, height);
-			s.add(boom2, 1);
-			walls[(x / 40) + 1][(y / 40)].setIcon(new ImageIcon(
+			boom4.setBounds(x, y + 40, width, height);
+			s.add(boom4, 1);
+			walls[(x / 40)][(y / 40) + 1].setIcon(new ImageIcon(
 					"src/gfx/door/door.png"));
-			walls[(x / 40) + 1][(y / 40)].setName("exit");
+			walls[(x / 40)][(y / 40) + 1].setName("exit");
 			updatePunkte(true);
 		}
 
@@ -280,11 +280,11 @@ public class Bombe extends AbstractAction {
 			walls[x / 40][(y / 40) - 1].setName("walkable");
 			updatePunkte(false);
 		} else if (walls[(x / 40)][(y / 40) - 1].getName().equals("hidden")) {
-			boom2.setBounds(x + 40, y, width, height);
-			s.add(boom2, 1);
-			walls[(x / 40) + 1][(y / 40)].setIcon(new ImageIcon(
+			boom5.setBounds(x , y - 40, width, height);
+			s.add(boom5, 1);
+			walls[(x / 40)][(y / 40) - 1].setIcon(new ImageIcon(
 					"src/gfx/door/door.png"));
-			walls[(x / 40) + 1][(y / 40)].setName("exit");
+			walls[(x / 40)][(y / 40) - 1].setName("exit");
 			updatePunkte(true);
 		}
 		
