@@ -32,7 +32,7 @@ public class Zufallslevel {
 	 * Felder bekommen den Namen "walkable". Als letztes startet eine for-Schleifen die <br>
 	 * Klasse createField(), welche jedem einzelnen Feld Eigenschaften zuweisst.
 	 */
-	public void createZufallsLevel() {
+	public void createZufallsLevelFor2P() {
 		//Player 1
 		x1 = (int)(Math.random() * 3 + 1);				// Formel = (Math.random() * (high - low) + low)
 		y1 = (int)(Math.random() * 2 + 1);
@@ -50,6 +50,135 @@ public class Zufallslevel {
 		walls[x2][y2].setName("walkable");
 		player2.setX(x2 * 40);
 		player2.setY(y2 * 40);
+		
+		//Randwaende oben
+		for (int i=0; i<21;i++) {
+			walls[i][0] = new JLabel(new ImageIcon("src/gfx/solid_wall.png"));
+			walls[i][0].setBounds(40 * i, 0, 40, 40);
+			walls[i][0].setName("nowalkable");
+			jPanel.add(walls[i][0]);
+		}
+		
+		//Randwaende unten
+		for (int i=0; i<21;i++) {
+			walls[i][14] = new JLabel(new ImageIcon("src/gfx/solid_wall.png"));
+			walls[i][14].setBounds(40 * i, 40 * 14, 40, 40);
+			walls[i][14].setName("nowalkable");
+			jPanel.add(walls[i][14]);
+		}
+		
+		//Randwaende links
+		for (int j=1; j<14;j++) {
+			walls[0][j] = new JLabel(new ImageIcon("src/gfx/solid_wall.png"));
+			walls[0][j].setBounds(0, 40 * j, 40, 40);
+			walls[0][j].setName("nowalkable");
+			jPanel.add(walls[0][j]);
+		}
+		
+		//Randwaende rechts
+		for (int j=1; j<14;j++) {
+			walls[20][j] = new JLabel(new ImageIcon("src/gfx/solid_wall.png"));
+			walls[20][j].setBounds(40 * 20, 40 * j, 40, 40);
+			walls[20][j].setName("nowalkable");
+			jPanel.add(walls[20][j]);
+		}
+		
+		// Ausgang, welcher nach dem Zufallsprinzip an eine bestimmte Position gesetzt wird.
+		int exitpos = (int)(Math.random() * 10);
+		int x3 = 0, y3 = 0;
+		
+		if (exitpos == 0) {
+			x3 = (int)(Math.random() * 8 + 1);
+			y3 = (int)(Math.random() * 3 +11);
+		}
+		
+		if (exitpos == 1) {
+			x3 = 6;
+			y3 = 11;
+		}
+		
+		if (exitpos == 2) {
+			x3 = 7;
+			y3 = 10;
+		}
+		
+		if (exitpos == 3) {
+			x3 = 8;
+			y3 = 9;
+		}
+		
+		if (exitpos == 4) {
+			x3 = 9;
+			y3 = 8;
+		}
+		
+		if (exitpos == 5) {
+			x3 = 10;
+			y3 = 7;
+		}
+		
+		if (exitpos == 6) {
+			x3 = 11;
+			y3 = 6;
+		}
+		
+		if (exitpos == 7) {
+			x3 = 12;
+			y3 = 5;
+		}
+		
+		if (exitpos == 8) {
+			x3 = 13;
+			y3 = 4;
+		}
+		
+		if (exitpos == 9) {
+			x3 = (int)(Math.random() * 8 + 12);
+			y3 = (int)(Math.random() * 3 + 1);
+		}		
+		
+		walls[x3][y3] = new JLabel(new ImageIcon("src/gfx/explodable_wall.png"));
+		walls[x3][y3].setBounds(40 * x3, 40 * y3, 40, 40);
+		walls[x3][y3].setName("hidden");
+		jPanel.add(walls[x3][y3]);
+		
+		spielfeld.createExit(x3,y3);
+		
+		// Alles freigebliebene auf "walkable" setzen
+		for (int i = 1; i < 20; i++) {
+			for (int j = 1; j < 14; j++) {				
+				if (!((i == x1 && j == y1) || (i == x2 && j == y2) || (i == x3 && j == y3))) {
+					createWalkable(i,j);
+				}
+			}
+		}
+		
+		// Spielfeldgenerator starten
+		for (int i = 1; i < 14; i++) {
+			for (int j = 1; j < 20; j++) {				
+				createField(j,i);
+			}
+		}
+	}
+	
+	public void createZufallsLevelFor1P() {
+		//Player 1
+		x1 = (int)(Math.random() * 3 + 1);				// Formel = (Math.random() * (high - low) + low)
+		y1 = (int)(Math.random() * 2 + 1);
+		walls[x1][y1] = new JLabel(new ImageIcon(""));
+		walls[x1][y1].setBounds(40 * x1, 40 * y1, 40, 40);
+		walls[x1][y1].setName("walkable");
+		player1.setX(x1 * 40);
+		player1.setY(y1 * 40);
+		
+		//Player 2
+//		x2 = (int)(Math.random() * 3 + 17);
+//		y2 = (int)(Math.random() * 2 + 12);
+//		walls[x2][y2] = new JLabel(new ImageIcon(""));
+//		walls[x2][y2].setBounds(40 * x2, 40 * y2, 40, 40);
+//		walls[x2][y2].setName("walkable");
+//		player2.setX(x2 * 40);
+//		player2.setY(y2 * 40);
 		
 		//Randwaende oben
 		for (int i=0; i<21;i++) {

@@ -76,4 +76,11 @@ public class BomberMan {
 	public int getPlayerID() {
 		return playerID;
 	}
+	
+	public void remove() {
+		x = 0;
+		y = 0;
+		rasterPunktX = 0;
+		rasterPunktY = 0;
+	}
 }

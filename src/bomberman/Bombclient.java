@@ -29,7 +29,7 @@ public class Bombclient extends Thread {
 			
 			
 			String level = in.nextLine();	// Empfange Levelpfad vom server
-			spielfeld.startGame(level);		// Starte Spiel mit empfangenem Levelpfad
+			spielfeld.start2PGame(level);		// Starte Spiel mit empfangenem Levelpfad
 			      
 			spielfeld.removeKeysP1();
 			

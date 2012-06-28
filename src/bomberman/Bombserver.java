@@ -63,7 +63,7 @@ public class Bombserver extends Thread {
 		f.setVisible(false);
 		f.dispose();
 
-		spielfeld.startGame(level);		// Starte Spiel mit generiertem Levelpfad
+		spielfeld.start2PGame(level);		// Starte Spiel mit generiertem Levelpfad
 		
 		spielfeld.removeKeysP2();
 		

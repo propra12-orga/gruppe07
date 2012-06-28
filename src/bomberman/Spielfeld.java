@@ -4,21 +4,18 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
 import javax.swing.Action;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
@@ -27,10 +24,6 @@ import readSpielfeld.ReadFile;
 public class Spielfeld extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JLayeredPane jPanel = new JLayeredPane();
-	private JButton startButton = new JButton();
-	private JButton resetButton = new JButton();
-	private JButton netButton = new JButton();
-	private JButton beendenButton = new JButton();
 	private JLabel introBild = new JLabel(new ImageIcon("src/gfx/intro.jpg"));
 	private JLabel walls[][] = new JLabel[21][15];
 	private JLabel jPunkte1 = new JLabel();
@@ -43,141 +36,65 @@ public class Spielfeld extends JFrame {
 	public Tuere exit;
 	private BomberMan player1 = new BomberMan(1);
 	private BomberMan player2 = new BomberMan(2);
-	private boolean servermode = false;
-	private boolean clientmode = false;
+	public boolean servermode = false;
+	public boolean clientmode = false;
 	private Bombserver server = null;
 	private Bombclient client = null;
 	private int punkte1 = 0, punkte2 = 0;
+	private JPanel spielsteuerung;
+	private Menu menu;
+	private Zufallslevel level;
+	private Zeit z;
+	private Thread zeitThread;
+	public boolean gamerunning;
 
 	Spielfeld(String title) {
 		super(title);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		int frameWidth = 960;
-		int frameHeight = 750;
+		int frameWidth = 844;
+		int frameHeight = 680;
 		setSize(frameWidth, frameHeight);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (d.width - getSize().width) / 2;
 		int y = (d.height - getSize().height) / 2;
 		setLocation(x, y);
+		getContentPane().setBackground(Color.BLACK);
 		setResizable(false);
 		Container cp = getContentPane();
 		cp.setLayout(null);
-
 		Color DARKGREEN = new Color(51, 153, 0);
-		jPanel.setBounds(60, 60, 840, 600);
+		jPanel.setBounds(0, 50, 840, 600);
 		jPanel.setOpaque(true);
 		jPanel.setBackground(DARKGREEN);
 		jPanel.setBorder(new javax.swing.border.LineBorder(Color.BLACK, 3));
 		cp.add(jPanel);
 		jPanel.add(introBild, 0);
 		introBild.setBounds(1, 1, 840, 600);
-		startButton.setBounds(56, 680, 137, 25);
-		startButton.setText("Starten");
-		startButton.setMargin(new Insets(2, 2, 2, 2));
-		startButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				startGame(randomLevel());
-			}
-		});
-		cp.add(startButton);
-
-		resetButton.setBounds(200, 680, 137, 25);
-		resetButton.setText("Neu Starten");
-		resetButton.setMargin(new Insets(2, 2, 2, 2));
-		resetButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				exit.getWin1().setVisible(false);
-				exit.getWin2().setVisible(false);
-				jPanel.remove(exit.getWin1());
-				jPanel.remove(exit.getWin2());
-				jPanel.removeAll();
-				jPanel.repaint();
-				createWorld(randomLevel());
-
-				setPlayerKeys();
-				player1.put(jPanel);
-				player2.put(jPanel);
-				updatePunktePlayer1(0);
-				updatePunktePlayer2(0);
-			}
-		});
-		cp.add(resetButton);
-
-		netButton.setBounds(344, 680, 137, 25);
-		netButton.setText("Netzwerk");
-		netButton.setMargin(new Insets(2, 2, 2, 2));
-		netButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				Object[] options = { "Host", "Client" };
-				int abfrage = JOptionPane.showOptionDialog(null,
-						"Möchten Sie Host oder Client sein?",
-						"Bitte auswählen", JOptionPane.DEFAULT_OPTION,
-						JOptionPane.INFORMATION_MESSAGE, null, options,
-						options[0]);
-				// Wenn Option Host, starte Bombserver
-				if (abfrage == 0) {
-					try {
-						server = new Bombserver(3141, getSpielfeld());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					server.start();
-
-					// Wenn Option Client, starte Bombclient
-				} else if (abfrage == 1) {
-
-					String ipadresse = JOptionPane
-							.showInputDialog("Bitte IP-Adresse des Hosts eingeben");
-					try {
-						client = new Bombclient(ipadresse, 3141, getSpielfeld());
-					} catch (UnknownHostException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					client.start();
-				}
-			}
-		});
-		cp.add(netButton);
-
-		beendenButton.setBounds(760, 680, 137, 25);
-		beendenButton.setText("Beenden");
-		beendenButton.setMargin(new Insets(2, 2, 2, 2));
-		beendenButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				if (servermode) {
-					getBombserver().sendPrintln("beendet");
-					getBombserver().setAction("beendet");
-				}
-
-				if (clientmode) {
-					getBombclient().sendPrintln("beendet");
-					getBombclient().setAction("beendet");
-				}
-				System.exit(0);
-			}
-		});
-		cp.add(beendenButton);
-
-		jPunkte1.setBounds(65, 30, 100, 25);
+		
+		level = new Zufallslevel(this, player1,player2, jPanel);
+		z = new Zeit(this, zeit);
+		zeitThread = new Thread (z);
+		
+		jPunkte1.setBounds(20, 25, 150, 25);
 		jPunkte1.setText("Player1: 0 Punkte");
-		jPunkte1.setFont(new Font("Arial Narrow", Font.PLAIN, 14));
+		jPunkte1.setFont(new Font("Arial", Font.PLAIN, 14));
+		jPunkte1.setForeground(Color.WHITE);
 		cp.add(jPunkte1);
 
-		jPunkte2.setBounds(800, 30, 100, 25);
+		jPunkte2.setBounds(700, 25, 150, 25);
 		jPunkte2.setText("Player2: 0 Punkte");
-		jPunkte2.setFont(new Font("Arial Narrow", Font.PLAIN, 14));
+		jPunkte2.setFont(new Font("Arial", Font.PLAIN, 14));
+		jPunkte2.setForeground(Color.WHITE);
 		cp.add(jPunkte2);
 
-		zeit.setBounds(440, 30, 100, 25);
+		zeit.setBounds(360, 25, 150, 25);
 		zeit.setText("Zeit: 0 Sekunden");
-		zeit.setFont(new Font("Arial Narrow", Font.PLAIN, 14));
+		zeit.setFont(new Font("Arial", Font.PLAIN, 14));
+		zeit.setForeground(Color.WHITE);
 		cp.add(zeit);
-
+		
+		menu = new Menu(this);
+		
 		setVisible(true);
 
 		bombe1 = new Bombe(player1, player2, jPanel, this, true);
@@ -192,7 +109,13 @@ public class Spielfeld extends JFrame {
 		moveLeft2 = new Move(player2, "left", this, true);
 		moveUp2 = new Move(player2, "up", this, true);
 		moveDown2 = new Move(player2, "down", this, true);
+		
+		spielsteuerung = new JPanel();
+		spielsteuerung.setFocusable(true);
+		
 		setPlayerKeys();
+		
+		cp.add(spielsteuerung);
 	}
 
 	public String randomLevel() {
@@ -291,238 +214,76 @@ public class Spielfeld extends JFrame {
 		return walls;
 	}
 
-	public JButton getStartButton() {
-		return startButton;
-	}
-
 	public void setPlayerKeys() {
 		// Moves for first player
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("D"), "moveRight");
-		startButton.getActionMap().put("moveRight", moveRight);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("D"),
-				"moveRight");
-		beendenButton.getActionMap().put("moveRight", moveRight);
-		resetButton.getInputMap().put(KeyStroke.getKeyStroke("D"), "moveRight");
-		resetButton.getActionMap().put("moveRight", moveRight);
-		netButton.getInputMap().put(KeyStroke.getKeyStroke("D"), "moveRight");
-		netButton.getActionMap().put("moveRight", moveRight);
+		spielsteuerung.getInputMap().put(KeyStroke.getKeyStroke("D"), "moveRight");
+		spielsteuerung.getActionMap().put("moveRight", moveRight);
 
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("A"), "moveLeft");
-		startButton.getActionMap().put("moveLeft", moveLeft);
-		beendenButton.getInputMap()
-				.put(KeyStroke.getKeyStroke("A"), "moveLeft");
-		beendenButton.getActionMap().put("moveLeft", moveLeft);
-		resetButton.getInputMap().put(KeyStroke.getKeyStroke("A"), "moveLeft");
-		resetButton.getActionMap().put("moveLeft", moveLeft);
-		netButton.getInputMap().put(KeyStroke.getKeyStroke("A"), "moveLeft");
-		netButton.getActionMap().put("moveLeft", moveLeft);
+		spielsteuerung.getInputMap().put(KeyStroke.getKeyStroke("A"), "moveLeft");
+		spielsteuerung.getActionMap().put("moveLeft", moveLeft);
 
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
-		startButton.getActionMap().put("moveUp", moveUp);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
-		beendenButton.getActionMap().put("moveUp", moveUp);
-		resetButton.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
-		resetButton.getActionMap().put("moveUp", moveUp);
-		netButton.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
-		netButton.getActionMap().put("moveUp", moveUp);
+		spielsteuerung.getInputMap().put(KeyStroke.getKeyStroke("W"), "moveUp");
+		spielsteuerung.getActionMap().put("moveUp", moveUp);
 
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
-		startButton.getActionMap().put("moveDown", moveDown);
-		beendenButton.getInputMap()
-				.put(KeyStroke.getKeyStroke("S"), "moveDown");
-		beendenButton.getActionMap().put("moveDown", moveDown);
-		resetButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
-		resetButton.getActionMap().put("moveDown", moveDown);
-		netButton.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
-		netButton.getActionMap().put("moveDown", moveDown);
+		spielsteuerung.getInputMap().put(KeyStroke.getKeyStroke("S"), "moveDown");
+		spielsteuerung.getActionMap().put("moveDown", moveDown);
 
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("F"), "bombe1");
-		startButton.getActionMap().put("bombe1", bombe1);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("F"), "bombe1");
-		beendenButton.getActionMap().put("bombe1", bombe1);
-		resetButton.getInputMap().put(KeyStroke.getKeyStroke("F"), "bombe1");
-		resetButton.getActionMap().put("bombe1", bombe1);
-		netButton.getInputMap().put(KeyStroke.getKeyStroke("F"), "bombe1");
-		netButton.getActionMap().put("bombe1", bombe1);
+		spielsteuerung.getInputMap().put(KeyStroke.getKeyStroke("F"), "bombe1");
+		spielsteuerung.getActionMap().put("bombe1", bombe1);
 
 		// Moves for second player
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),
-				"moveRight2");
-		startButton.getActionMap().put("moveRight2", moveRight2);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),
-				"moveRight2");
-		beendenButton.getActionMap().put("moveRight2", moveRight2);
-		resetButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),
-				"moveRight2");
-		resetButton.getActionMap().put("moveRight2", moveRight2);
-		netButton.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),
-				"moveRight2");
-		netButton.getActionMap().put("moveRight2", moveRight2);
+		spielsteuerung.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight2");
+		spielsteuerung.getActionMap().put("moveRight2", moveRight2);
 
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),
-				"moveLeft2");
-		startButton.getActionMap().put("moveLeft2", moveLeft2);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),
-				"moveLeft2");
-		beendenButton.getActionMap().put("moveLeft2", moveLeft2);
-		resetButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),
-				"moveLeft2");
-		resetButton.getActionMap().put("moveLeft2", moveLeft2);
-		netButton.getInputMap()
-				.put(KeyStroke.getKeyStroke("LEFT"), "moveLeft2");
-		netButton.getActionMap().put("moveLeft2", moveLeft2);
 
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp2");
-		startButton.getActionMap().put("moveUp2", moveUp2);
-		beendenButton.getInputMap()
-				.put(KeyStroke.getKeyStroke("UP"), "moveUp2");
-		beendenButton.getActionMap().put("moveUp2", moveUp2);
-		resetButton.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp2");
-		resetButton.getActionMap().put("moveUp2", moveUp2);
-		netButton.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp2");
-		netButton.getActionMap().put("moveUp2", moveUp2);
+		spielsteuerung.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "moveLeft2");
+		spielsteuerung.getActionMap().put("moveLeft2", moveLeft2);
 
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),
-				"moveDown2");
-		startButton.getActionMap().put("moveDown2", moveDown2);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),
-				"moveDown2");
-		beendenButton.getActionMap().put("moveDown2", moveDown2);
-		resetButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),
-				"moveDown2");
-		resetButton.getActionMap().put("moveDown2", moveDown2);
-		netButton.getInputMap()
-				.put(KeyStroke.getKeyStroke("DOWN"), "moveDown2");
-		netButton.getActionMap().put("moveDown2", moveDown2);
+		spielsteuerung.getInputMap().put(KeyStroke.getKeyStroke("UP"), "moveUp2");
+		spielsteuerung.getActionMap().put("moveUp2", moveUp2);
 
-		startButton.getInputMap().put(KeyStroke.getKeyStroke("K"), "bombe2");
-		startButton.getActionMap().put("bombe2", bombe2);
-		beendenButton.getInputMap().put(KeyStroke.getKeyStroke("K"), "bombe2");
-		beendenButton.getActionMap().put("bombe2", bombe2);
-		resetButton.getInputMap().put(KeyStroke.getKeyStroke("K"), "bombe2");
-		resetButton.getActionMap().put("bombe2", bombe2);
-		netButton.getInputMap().put(KeyStroke.getKeyStroke("K"), "bombe2");
-		netButton.getActionMap().put("bombe2", bombe2);
+		spielsteuerung.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),"moveDown2");
+		spielsteuerung.getActionMap().put("moveDown2", moveDown2);
+
+		spielsteuerung.getInputMap().put(KeyStroke.getKeyStroke("K"), "bombe2");
+		spielsteuerung.getActionMap().put("bombe2", bombe2);
 	}
 
 	public void setKeysBackP1() {
-		startButton.getActionMap().put("moveRight", moveRight);
-		startButton.getActionMap().put("moveLeft", moveLeft);
-		startButton.getActionMap().put("moveUp", moveUp);
-		startButton.getActionMap().put("moveDown", moveDown);
-		startButton.getActionMap().put("bombe1", bombe1);
-
-		beendenButton.getActionMap().put("moveRight", moveRight);
-		beendenButton.getActionMap().put("moveLeft", moveLeft);
-		beendenButton.getActionMap().put("moveUp", moveUp);
-		beendenButton.getActionMap().put("moveDown", moveDown);
-		beendenButton.getActionMap().put("bombe1", bombe1);
-
-		resetButton.getActionMap().put("moveRight", moveRight);
-		resetButton.getActionMap().put("moveLeft", moveLeft);
-		resetButton.getActionMap().put("moveUp", moveUp);
-		resetButton.getActionMap().put("moveDown", moveDown);
-		resetButton.getActionMap().put("bombe1", bombe1);
-
-		netButton.getActionMap().put("moveRight", moveRight);
-		netButton.getActionMap().put("moveLeft", moveLeft);
-		netButton.getActionMap().put("moveUp", moveUp);
-		netButton.getActionMap().put("moveDown", moveDown);
-		netButton.getActionMap().put("bombe1", bombe1);
-
+		spielsteuerung.getActionMap().put("moveRight", moveRight);
+		spielsteuerung.getActionMap().put("moveLeft", moveLeft);
+		spielsteuerung.getActionMap().put("moveUp", moveUp);
+		spielsteuerung.getActionMap().put("moveDown", moveDown);
+		spielsteuerung.getActionMap().put("bombe1", bombe1);
 	}
 
 	public void setKeysBackP2() {
-		startButton.getActionMap().put("moveRight2", moveRight2);
-		startButton.getActionMap().put("moveLeft2", moveLeft2);
-		startButton.getActionMap().put("moveUp2", moveUp2);
-		startButton.getActionMap().put("moveDown2", moveDown2);
-		startButton.getActionMap().put("bombe2", bombe2);
-
-		beendenButton.getActionMap().put("moveRight2", moveRight2);
-		beendenButton.getActionMap().put("moveLeft2", moveLeft2);
-		beendenButton.getActionMap().put("moveUp2", moveUp2);
-		beendenButton.getActionMap().put("moveDown2", moveDown2);
-		beendenButton.getActionMap().put("bombe2", bombe2);
-
-		resetButton.getActionMap().put("moveRight2", moveRight2);
-		resetButton.getActionMap().put("moveLeft2", moveLeft2);
-		resetButton.getActionMap().put("moveUp2", moveUp2);
-		resetButton.getActionMap().put("moveDown2", moveDown2);
-		resetButton.getActionMap().put("bombe2", bombe2);
-
-		netButton.getActionMap().put("moveRight2", moveRight2);
-		netButton.getActionMap().put("moveLeft2", moveLeft2);
-		netButton.getActionMap().put("moveUp2", moveUp2);
-		netButton.getActionMap().put("moveDown2", moveDown2);
-		netButton.getActionMap().put("bombe2", bombe2);
-
+		spielsteuerung.getActionMap().put("moveRight2", moveRight2);
+		spielsteuerung.getActionMap().put("moveLeft2", moveLeft2);
+		spielsteuerung.getActionMap().put("moveUp2", moveUp2);
+		spielsteuerung.getActionMap().put("moveDown2", moveDown2);
+		spielsteuerung.getActionMap().put("bombe2", bombe2);
 	}
 
 	public void removeKeysP1() {
-		startButton.getActionMap().put("moveRight", null);
-		startButton.getActionMap().put("moveLeft", null);
-		startButton.getActionMap().put("moveUp", null);
-		startButton.getActionMap().put("moveDown", null);
-		startButton.getActionMap().put("bombe1", null);
-
-		beendenButton.getActionMap().put("moveRight", null);
-		beendenButton.getActionMap().put("moveLeft", null);
-		beendenButton.getActionMap().put("moveUp", null);
-		beendenButton.getActionMap().put("moveDown", null);
-		beendenButton.getActionMap().put("bombe1", null);
-
-		resetButton.getActionMap().put("moveRight", null);
-		resetButton.getActionMap().put("moveLeft", null);
-		resetButton.getActionMap().put("moveUp", null);
-		resetButton.getActionMap().put("moveDown", null);
-		resetButton.getActionMap().put("bombe1", null);
-
-		netButton.getActionMap().put("moveRight", null);
-		netButton.getActionMap().put("moveLeft", null);
-		netButton.getActionMap().put("moveUp", null);
-		netButton.getActionMap().put("moveDown", null);
-		netButton.getActionMap().put("bombe1", null);
+		spielsteuerung.getActionMap().put("moveRight", null);
+		spielsteuerung.getActionMap().put("moveLeft", null);
+		spielsteuerung.getActionMap().put("moveUp", null);
+		spielsteuerung.getActionMap().put("moveDown", null);
+		spielsteuerung.getActionMap().put("bombe1", null);
 	}
 
 	public void removeKeysP2() {
-		startButton.getActionMap().put("moveRight2", null);
-		startButton.getActionMap().put("moveLeft2", null);
-		startButton.getActionMap().put("moveUp2", null);
-		startButton.getActionMap().put("moveDown2", null);
-		startButton.getActionMap().put("bombe2", null);
-
-		beendenButton.getActionMap().put("moveRight2", null);
-		beendenButton.getActionMap().put("moveLeft2", null);
-		beendenButton.getActionMap().put("moveUp2", null);
-		beendenButton.getActionMap().put("moveDown2", null);
-		beendenButton.getActionMap().put("bombe2", null);
-
-		resetButton.getActionMap().put("moveRight2", null);
-		resetButton.getActionMap().put("moveLeft2", null);
-		resetButton.getActionMap().put("moveUp2", null);
-		resetButton.getActionMap().put("moveDown2", null);
-		resetButton.getActionMap().put("bombe2", null);
-
-		netButton.getActionMap().put("moveRight2", null);
-		netButton.getActionMap().put("moveLeft2", null);
-		netButton.getActionMap().put("moveUp2", null);
-		netButton.getActionMap().put("moveDown2", null);
-		netButton.getActionMap().put("bombe2", null);
+		spielsteuerung.getActionMap().put("moveRight2", null);
+		spielsteuerung.getActionMap().put("moveLeft2", null);
+		spielsteuerung.getActionMap().put("moveUp2", null);
+		spielsteuerung.getActionMap().put("moveDown2", null);
+		spielsteuerung.getActionMap().put("bombe2", null);
 	}
 
 	public void unbindAllControls() {
-		startButton.getInputMap().clear();
-		startButton.getActionMap().clear();
-
-		beendenButton.getInputMap().clear();
-		beendenButton.getActionMap().clear();
-
-		resetButton.getInputMap().clear();
-		resetButton.getActionMap().clear();
-
-		netButton.getInputMap().clear();
-		netButton.getActionMap().clear();
+		spielsteuerung.getInputMap().clear();
+		spielsteuerung.getActionMap().clear();
 	}
 
 	public void updatePunktePlayer1(int p) {
@@ -558,33 +319,121 @@ public class Spielfeld extends JFrame {
 	public Bombe getBomb2() {
 		return bombe2;
 	}
+	
+	public void prepareForRestart() {
 
-	public void startGame(String level) {
+		gamerunning = false;
+		z.resetzeit();
+		zeitThread.interrupt();
+		
+		zeit.setText("Zeit: 0 Sekunden");
+		updatePunktePlayer1(0);
+		updatePunktePlayer2(0);
+		
+		exit.getWin1().setVisible(false);
+		exit.getWin2().setVisible(false);
+		jPanel.remove(exit.getWin1());
+		jPanel.remove(exit.getWin2());
+		jPanel.removeAll();
+		jPanel.repaint();
+		setPlayerKeys();
+	}
+
+	public void start2PGame(String level) {
 		introBild.setVisible(false);
 		jPanel.remove(introBild);
 		createWorld(level);
 		player1.put(jPanel);
 		player2.put(jPanel);
-
+		spielsteuerung.requestFocusInWindow();
+		gamerunning = true;
+		
 		// Die Zeit zählen
-		Zeit z = new Zeit(this.zeit);
-		final Thread zt = new Thread(z);
-		zt.start();
-
-		resetButton.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent evt) {
-				zt.stop();
-				zeitRestart();
-			}
-		});
+		z = new Zeit(this, zeit);
+		zeitThread = new Thread (z);
+		zeitThread.start();
+	}
+	
+	public void startRandomlevel2PGame() {
+		introBild.setVisible(false);
+		jPanel.remove(introBild);
+		level.createZufallsLevelFor2P();
+		player1.put(jPanel);
+		player2.put(jPanel);
+		spielsteuerung.requestFocusInWindow();
+		gamerunning = true;
+		
+		// Die Zeit zählen
+		z = new Zeit(this, zeit);
+		zeitThread = new Thread (z);
+		zeitThread.start();
+	}
+	
+	public void start1PGame(String level) {
+		removeKeysP2();
+		introBild.setVisible(false);
+		jPanel.remove(introBild);
+		createWorld(level);
+		player2.remove();
+		player1.put(jPanel);
+		spielsteuerung.requestFocusInWindow();
+		gamerunning = true;
+		
+		// Die Zeit zählen
+		z = new Zeit(this, zeit);
+		zeitThread = new Thread (z);
+		zeitThread.start();
+	}
+	
+	public void startRandomlevel1PGame() {
+		removeKeysP2();
+		introBild.setVisible(false);
+		jPanel.remove(introBild);
+		level.createZufallsLevelFor1P();
+		player2.remove();
+		player1.put(jPanel);
+		spielsteuerung.requestFocusInWindow();
+		gamerunning = true;
+		
+		// Die Zeit zählen
+		z = new Zeit(this, zeit);
+		zeitThread = new Thread (z);
+		zeitThread.start();
 	}
 
-	public void zeitRestart() {
-		zeit.setText("Zeit: 0 Sekunden");
-		Zeit z = new Zeit(this.zeit);
-		Thread zt = new Thread(z);
-		zt.start();
+	public void startNetworkGame() {
+		Object[] options = { "Host", "Client" };
+		int abfrage = JOptionPane.showOptionDialog(null,
+				"Möchten Sie Host oder Client sein?",
+				"Bitte auswählen", JOptionPane.DEFAULT_OPTION,
+				JOptionPane.INFORMATION_MESSAGE, null, options,
+				options[0]);
+		// Wenn Option Host, starte Bombserver
+		if (abfrage == 0) {
+			try {
+				server = new Bombserver(3141, getSpielfeld());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			server.start();
+
+			// Wenn Option Client, starte Bombclient
+		} else if (abfrage == 1) {
+
+			String ipadresse = JOptionPane
+					.showInputDialog("Bitte IP-Adresse des Hosts eingeben");
+			try {
+				client = new Bombclient(ipadresse, 3141, getSpielfeld());
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			client.start();
+		}
 	}
 
 	public Spielfeld getSpielfeld() {
