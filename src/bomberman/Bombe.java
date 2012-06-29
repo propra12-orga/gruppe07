@@ -23,12 +23,12 @@ public class Bombe extends AbstractAction {
 	private BomberMan player1;
 	private BomberMan player2;
 	private JLayeredPane s;
-	private JLabel bomb = new JLabel(new ImageIcon("src/gfx/bomb/bomb.gif"));
-	private JLabel boom1 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
-	private JLabel boom2 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
-	private JLabel boom3 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
-	private JLabel boom4 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
-	private JLabel boom5 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
+	public JLabel bomb = new JLabel(new ImageIcon("src/gfx/bomb/bomb.gif"));
+	public JLabel boom1 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
+	public JLabel boom2 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
+	public JLabel boom3 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
+	public JLabel boom4 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
+	public JLabel boom5 = new JLabel(new ImageIcon("src/gfx/bomb/explode.gif"));
 	private int x, y, width = 40, height = 40;
 	private Spielfeld spielfeld;
 	private JLabel walls[][];
@@ -38,7 +38,7 @@ public class Bombe extends AbstractAction {
 	private Timer ExploTimer2 = new Timer(775, new ExploBomb());
 	private boolean kette;
 	private boolean bombIsLayed;
-	private boolean explosion;
+	public boolean explosion;
 	private boolean offline;
 	private int punkte = 0;
 	private int multi = 0;

@@ -171,15 +171,6 @@ public class Zufallslevel {
 		player1.setX(x1 * 40);
 		player1.setY(y1 * 40);
 		
-		//Player 2
-//		x2 = (int)(Math.random() * 3 + 17);
-//		y2 = (int)(Math.random() * 2 + 12);
-//		walls[x2][y2] = new JLabel(new ImageIcon(""));
-//		walls[x2][y2].setBounds(40 * x2, 40 * y2, 40, 40);
-//		walls[x2][y2].setName("walkable");
-//		player2.setX(x2 * 40);
-//		player2.setY(y2 * 40);
-		
 		//Randwaende oben
 		for (int i=0; i<21;i++) {
 			walls[i][0] = new JLabel(new ImageIcon("src/gfx/solid_wall.png"));
@@ -352,12 +343,11 @@ public class Zufallslevel {
 				}
 				
 				if (z == 1) {
-//					createDestroyable(x,y);
-					Gegner gegner = new Gegner(spielfeld,x*40,y*40,jPanel);
+					createDestroyable(x,y);
 				}
 
 			} else {
-				int z = (int) (Math.random() * 3);
+				int z = (int) (Math.random() * 4);
 				
 				if (z == 0) {
 					createWalkable(x,y);
@@ -370,12 +360,15 @@ public class Zufallslevel {
 				if (z == 2) {
 					createNoWalkable(x,y);
 				}
+				if (z == 3) {
+					new Gegner(spielfeld,x*40,y*40,jPanel);
+				}
 			}
 		}
 	}
 	
 	/**
-	 * Wichtigste Methode dieser Klasse. Diese ist dafuer Zustaendig, dass <br>
+	 * Ist dafuer Zustaendig, dass <br>
 	 * Beide Spieler ueberall auf dem Spielfeld hingelangen koennen und nicht durch <br>
 	 * Feste Mauern eingesperrt oder blockiert werden. Es wird wird jeweils ein Feld<br>
 	 * diagonal rechts, oben, diagonal linksoben, links, diagonal linksunten und unten <br>

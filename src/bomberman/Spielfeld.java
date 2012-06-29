@@ -42,7 +42,6 @@ public class Spielfeld extends JFrame {
 	private Bombclient client = null;
 	private int punkte1 = 0, punkte2 = 0;
 	private JPanel spielsteuerung;
-	private Menu menu;
 	private Zufallslevel level;
 	private Zeit z;
 	private Thread zeitThread;
@@ -93,7 +92,7 @@ public class Spielfeld extends JFrame {
 		zeit.setForeground(Color.WHITE);
 		cp.add(zeit);
 		
-		menu = new Menu(this);
+		new Menu(this);
 		
 		setVisible(true);
 
@@ -189,6 +188,14 @@ public class Spielfeld extends JFrame {
 					jPanel.add(walls[i][j]);
 
 					createExit(i, j);
+				}
+				
+				if (spielFeld[i][j] == 'G') {
+					walls[i][j] = new JLabel(new ImageIcon(""));
+					walls[i][j].setBounds(40 * i, 40 * j, 40, 40);
+					walls[i][j].setName("walkable");
+					
+					new Gegner(this,i*40,j*40,jPanel);
 				}
 
 				// Player(s)
@@ -320,8 +327,12 @@ public class Spielfeld extends JFrame {
 		return bombe2;
 	}
 	
+	/**
+	 * Bereitet das Spiel auf den Neustart vor, indem durch gamerunning=false die Threads abgebrochen werden,<br>
+	 * Zeit, Punkte und PlayerKeys zurueckgesetzt werden und das alte Spielfeld bzw. ein eventueller Winscreen<br>
+	 * entfernt wird.
+	 */
 	public void prepareForRestart() {
-
 		gamerunning = false;
 		z.resetzeit();
 		zeitThread.interrupt();
@@ -338,39 +349,39 @@ public class Spielfeld extends JFrame {
 		jPanel.repaint();
 		setPlayerKeys();
 	}
-
+	
+	/**
+	 * Startet ein neues Spiel mit einem existierenden Level, dessen Pfad per String uebergeben werden muss.<br>
+	 * Es werden 2 Spieler auf das Spielfeld gesetzt.
+	 * @param level
+	 */
 	public void start2PGame(String level) {
-		
+		gamerunning = true;
 		introBild.setVisible(false);
 		jPanel.remove(introBild);
 		createWorld(level);
 		player1.put(jPanel);
-		player2.put(jPanel);
-		
-		
+		player2.put(jPanel);		
 		
 		spielsteuerung.requestFocusInWindow();
-		gamerunning = true;
-		
-		Gegner gegner = new Gegner(this,80,40,jPanel);
-		
-//		new Gegner(this,80,40);
-//		new Gegner(this,120,40);
 		
 		// Die Zeit zählen
 		z = new Zeit(this, zeit);
 		zeitThread = new Thread (z);
 		zeitThread.start();
 	}
-	
+	/**
+	 * Startet ein neues Spiel mit einem Zufallsgenerierten Level.<br>
+	 * Es werden 2 Spieler auf das Spielfeld gesetzt.
+	 */
 	public void startRandomlevel2PGame() {
+		gamerunning = true;
 		introBild.setVisible(false);
 		jPanel.remove(introBild);
 		level.createZufallsLevelFor2P();
 		player1.put(jPanel);
 		player2.put(jPanel);
 		spielsteuerung.requestFocusInWindow();
-		gamerunning = true;
 		
 		// Die Zeit zählen
 		z = new Zeit(this, zeit);
@@ -378,7 +389,13 @@ public class Spielfeld extends JFrame {
 		zeitThread.start();
 	}
 	
+	/**
+	 * Startet ein neues Spiel mit einem existierenden Level, dessen Pfad per String uebergeben werden muss.<br>
+	 * Es wird 1 Spieler auf das Spielfeld gesetzt.
+	 * @param level
+	 */
 	public void start1PGame(String level) {
+		gamerunning = true;
 		removeKeysP2();
 		introBild.setVisible(false);
 		jPanel.remove(introBild);
@@ -386,7 +403,6 @@ public class Spielfeld extends JFrame {
 		player2.remove();
 		player1.put(jPanel);
 		spielsteuerung.requestFocusInWindow();
-		gamerunning = true;
 		
 		// Die Zeit zählen
 		z = new Zeit(this, zeit);
@@ -394,6 +410,10 @@ public class Spielfeld extends JFrame {
 		zeitThread.start();
 	}
 	
+	/**
+	 * Startet ein neues Spiel mit einem Zufallsgenerierten Level.<br>
+	 * Es wird 1 Spieler auf das Spielfeld gesetzt.
+	 */
 	public void startRandomlevel1PGame() {
 		gamerunning = true;
 		removeKeysP2();
@@ -410,7 +430,12 @@ public class Spielfeld extends JFrame {
 		zeitThread = new Thread (z);
 		zeitThread.start();
 	}
-
+	
+	/**
+	 * Fragt ab, ob der Spieler Host oder Client sein will und erstellt dementsprechend<br>
+	 * einen neuen Bombserver oder Bombclient. Wenn der Spieler die Option Client ausgewaehlt hat<br>
+	 * muss er zusaetzlich die IP-Adresse des Hosts eingeben.
+	 */
 	public void startNetworkGame() {
 		Object[] options = { "Host", "Client" };
 		int abfrage = JOptionPane.showOptionDialog(null,

@@ -3,8 +3,6 @@ package bomberman;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,6 +12,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+/**
+ * Erzeugt das Hauptmenue des Spiels.
+ */
 public class Menu implements ActionListener {
      
 	 private Spielfeld spielfeld;
@@ -81,7 +82,14 @@ public class Menu implements ActionListener {
           container.add(menueLeiste, 0);
      }
      
+     /**
+      * Erkennt, welches MenuItem betaetigt wurde und fuehrt die ihm zugeteilten Funktionen aus
+      */
      public void actionPerformed(ActionEvent object) {
+    	 
+    	 /* Neustart-Button: Die Funktion des Neustart-Buttons richtet sich nach dem Gamemode, 
+    	  * in dem das Spiel gestartet wurde.
+    	  */
          if (object.getSource() == restart && gamemode.equals("2PGame")){
        	  spielfeld.prepareForRestart();
        	  spielfeld.start2PGame(levelpath);
@@ -95,22 +103,29 @@ public class Menu implements ActionListener {
           	  spielfeld.prepareForRestart();
            	  spielfeld.start1PGame(levelpath);
              }
+         
+         // Einspielermodus-Button
          if (object.getSource() == oneplayer){
        	  chooseLevelFor1P();
          }
+         
+         // Zweispielermodus-Button
           if (object.getSource() == twoplayer){
         	  chooseLevelFor2P();
           }
+          
+          // Netzwerkspiel-Button
           if (object.getSource() == network){
         	  spielfeld.startNetworkGame();
         	  neu.setEnabled(false);
           }
+          
+          // Spiel beenden-Button
           if (object.getSource() == beenden){
 			if (spielfeld.servermode) {
 				spielfeld.getBombserver().sendPrintln("beendet");
 				spielfeld.getBombserver().setAction("beendet");
 			}
-
 			if (spielfeld.clientmode) {
 				spielfeld.getBombclient().sendPrintln("beendet");
 				spielfeld.getBombclient().setAction("beendet");
@@ -119,6 +134,11 @@ public class Menu implements ActionListener {
 		}
      }
      
+     /**
+      * Oeffnet ein neues Fenster, in dem man das Level bzw den Modus Zufallslevel auswaehlen kann.<br>
+      * Nach der Levelauswahl und Betaetigung des OK-Buttons laedt die Funktion start2PGame(levelpath)<br>
+      * bzw. startRandom2PGame() das entsprechende Level und setzt dabei Spieler 1 und 2
+      */
 		public void chooseLevelFor2P() {
 			
 			// Richte JFrame ein
@@ -127,12 +147,7 @@ public class Menu implements ActionListener {
 			chooseframe.setLocationRelativeTo(chooseframe.getParent());
 			chooseframe.getContentPane().setLayout(null);
 			
-			chooseframe.addWindowListener(new WindowAdapter() {
-			    public void windowClosing(WindowEvent e) {
-			    	
-			    }
-			});
-			
+			// Abbrechen Button
 			JButton abbrechen = new JButton();
 			abbrechen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -142,17 +157,19 @@ public class Menu implements ActionListener {
 			});
 			abbrechen.setText("Abbrechen");
 			abbrechen.setBounds(160, 40, 100, 25);
-				
+			
+			// Auswahlbox mit Level
 			levelbox.setSelectedItem( "Level 1" );
 		    levelbox.setMaximumRowCount( 6 );
 		    levelbox.setBounds(140, 10, 130, 20);
 			int number = levelbox.getSelectedIndex() + 1;
 			levelpath = "src/readSpielfeld/level" + number + ".txt";
 		    
-			// Richte Ausgabetext ein
+			// Ausgabetext
 			JLabel text = new JLabel("Level auswaehlen:");
 			text.setBounds(20, 15, 150, 10);
 			
+			// Ok-Button
 			JButton ok = new JButton();
 			ok.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -174,15 +191,20 @@ public class Menu implements ActionListener {
 			ok.setText("OK");
 			ok.setBounds(30, 40, 100, 25);
 			
+			// Fuege die einzelnen Elemente dem Frame hinzu
 			Container cp = chooseframe.getContentPane();
 			cp.add(abbrechen);
 			cp.add(text);
 			cp.add(levelbox);
-			cp.add(ok);
-			
+			cp.add(ok);			
 			chooseframe.setVisible(true);
 		}
-		
+
+	     /**
+	      * Oeffnet ein neues Fenster, in dem man das Level bzw den Modus Zufallslevel auswaehlen kann.<br>
+	      * Nach der Levelauswahl und Betaetigung des OK-Buttons laedt die Funktion start2PGame(levelpath)<br>
+	      * bzw. startRandom2PGame() das entsprechende Level und setzt dabei Spieler 1
+	      */
 		public void chooseLevelFor1P() {
 			
 			// Richte JFrame ein
@@ -190,13 +212,8 @@ public class Menu implements ActionListener {
 			chooseframe.setResizable(false);
 			chooseframe.setLocationRelativeTo(chooseframe.getParent());
 			chooseframe.getContentPane().setLayout(null);
-			
-			chooseframe.addWindowListener(new WindowAdapter() {
-			    public void windowClosing(WindowEvent e) {
-			    	
-			    }
-			});
-			
+
+			// Abbrechen-Button
 			JButton abbrechen = new JButton();
 			abbrechen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -206,17 +223,19 @@ public class Menu implements ActionListener {
 			});
 			abbrechen.setText("Abbrechen");
 			abbrechen.setBounds(160, 40, 100, 25);
-				
+			
+			// Auswahlbox mit Level
 			levelbox.setSelectedItem( "Level 1" );
 		    levelbox.setMaximumRowCount( 6 );
 		    levelbox.setBounds(140, 10, 130, 20);
 			int number = levelbox.getSelectedIndex() + 1;
 			levelpath = "src/readSpielfeld/level" + number + ".txt";
 		    
-			// Richte Ausgabetext ein
+			// Ausgabetext
 			JLabel text = new JLabel("Level auswaehlen:");
 			text.setBounds(20, 15, 150, 10);
 			
+			// OK-Button
 			JButton ok = new JButton();
 			ok.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -238,12 +257,12 @@ public class Menu implements ActionListener {
 			ok.setText("OK");
 			ok.setBounds(30, 40, 100, 25);
 			
+			// Fuege die einzelnen Elemente dem Frame hinzu
 			Container cp = chooseframe.getContentPane();
 			cp.add(abbrechen);
 			cp.add(text);
 			cp.add(levelbox);
 			cp.add(ok);
-			
 			chooseframe.setVisible(true);
 		}
 }
