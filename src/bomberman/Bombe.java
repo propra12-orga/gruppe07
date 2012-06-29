@@ -38,6 +38,7 @@ public class Bombe extends AbstractAction {
 	private Timer ExploTimer2 = new Timer(775, new ExploBomb());
 	private boolean kette;
 	private boolean bombIsLayed;
+	private boolean explosion;
 	private boolean offline;
 	private int punkte = 0;
 	private int multi = 0;
@@ -50,6 +51,7 @@ public class Bombe extends AbstractAction {
 		this.spielfeld = spielfeld;
 		this.walls = spielfeld.getWalls();
 		this.offline = offline;
+		explosion = false;
 	}
 
 	/**
@@ -86,6 +88,10 @@ public class Bombe extends AbstractAction {
 	public JLabel getBomb() {
 		return bomb;
 	}
+	
+	/**
+	 * Prueft, ob gerade auf einem bestimmten Feld eine Explosion stattfindet
+	 */
 
 	public void updatePunkte(boolean isDoor) {
 		if (this.player1.getPlayerID() == 1) {
@@ -148,11 +154,12 @@ public class Bombe extends AbstractAction {
 		public void actionPerformed(ActionEvent e) {
 			s.remove(bomb);
 			bombIsLayed = false;
+			explosion = true;
 			s.repaint();
 			Explosion();
 			LayTimer.stop();
 			LayTimer2.stop();
-
+			
 		}
 	}
 
@@ -165,6 +172,7 @@ public class Bombe extends AbstractAction {
 			s.remove(boom4);
 			s.remove(boom5);
 			s.repaint();
+			explosion = false;
 			ExploTimer.stop();
 			ExploTimer2.stop();
 		}

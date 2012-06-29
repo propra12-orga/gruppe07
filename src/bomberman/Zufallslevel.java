@@ -323,6 +323,7 @@ public class Zufallslevel {
 				
 				if (z == 1) {
 					createDestroyable(x,y);
+
 				}
 			} else {
 				int z = (int) (Math.random() * 3);
@@ -351,7 +352,8 @@ public class Zufallslevel {
 				}
 				
 				if (z == 1) {
-					createDestroyable(x,y);
+//					createDestroyable(x,y);
+					Gegner gegner = new Gegner(spielfeld,x*40,y*40,jPanel);
 				}
 
 			} else {

@@ -340,13 +340,22 @@ public class Spielfeld extends JFrame {
 	}
 
 	public void start2PGame(String level) {
+		
 		introBild.setVisible(false);
 		jPanel.remove(introBild);
 		createWorld(level);
 		player1.put(jPanel);
 		player2.put(jPanel);
+		
+		
+		
 		spielsteuerung.requestFocusInWindow();
 		gamerunning = true;
+		
+		Gegner gegner = new Gegner(this,80,40,jPanel);
+		
+//		new Gegner(this,80,40);
+//		new Gegner(this,120,40);
 		
 		// Die Zeit zählen
 		z = new Zeit(this, zeit);
@@ -386,6 +395,7 @@ public class Spielfeld extends JFrame {
 	}
 	
 	public void startRandomlevel1PGame() {
+		gamerunning = true;
 		removeKeysP2();
 		introBild.setVisible(false);
 		jPanel.remove(introBild);
@@ -393,7 +403,7 @@ public class Spielfeld extends JFrame {
 		player2.remove();
 		player1.put(jPanel);
 		spielsteuerung.requestFocusInWindow();
-		gamerunning = true;
+		
 		
 		// Die Zeit zählen
 		z = new Zeit(this, zeit);
