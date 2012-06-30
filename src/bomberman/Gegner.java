@@ -18,6 +18,7 @@ public class Gegner{
 	private Bombe bombe2;
 	private BomberMan player1;
 	private BomberMan player2;
+	private int punkte = 0;
 	
 	public Gegner(Spielfeld spielfeld, int x, int y, JLayeredPane jPanel) {
 		gegnerimg = new JLabel(new ImageIcon("src/gfx/player3/down0.png"));
@@ -52,6 +53,20 @@ public class Gegner{
 		this.x = x;
 		this.y = y;
 	}
+	
+	public void updatePunkte() {
+		if (this.player1.getPlayerID() == 1) {
+			this.punkte = this.spielfeld.getPunkte1();
+			this.punkte = this.punkte + 50;
+			this.spielfeld.updatePunktePlayer1(this.punkte);
+
+		} else if (this.player1.getPlayerID() == 2) {
+			this.punkte = this.spielfeld.getPunkte2();
+			this.punkte = this.punkte + 50;
+			this.spielfeld.updatePunktePlayer2(this.punkte);
+		}
+	}
+	
 	/**
 	 * Prueft, ob sich ein Gegner auf einem Explosionsfeld befindet. Wenn das der Fall ist,<br>
 	 * wird der GegnerMove-Thread unterbrochen, wodurch das Icon gegnerimg auf Null gesetzt wird<br>
@@ -70,6 +85,7 @@ public class Gegner{
 						(bombe1.boom1.getLocation().x == x && bombe1.boom1.getLocation().y +40 == y) ||
 						(bombe1.boom1.getLocation().x == x && bombe1.boom1.getLocation().y -40 == y))) {
 					gegnermove.interrupt();
+					updatePunkte();
 					break;
 				}
 				
@@ -80,6 +96,7 @@ public class Gegner{
 						(bombe2.boom1.getLocation().x == x && bombe2.boom1.getLocation().y +40 == y) ||
 						(bombe2.boom1.getLocation().x == x && bombe2.boom1.getLocation().y -40 == y))) {
 					gegnermove.interrupt();
+					updatePunkte();
 					break;
 				}
 				
