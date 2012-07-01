@@ -38,7 +38,7 @@ public class Bombserver extends Thread {
 	        serverRunning ( client );
     	} 
     	catch ( IOException e ) {
-    		spielfeld.setServerActive(false);
+    		spielfeld.servermode = false;
     		break;		// Unterbreche schleife, wenn server.close() ausgefuehrt wurde
     	} 
     	finally { 
@@ -50,7 +50,8 @@ public class Bombserver extends Thread {
   
 	private void serverRunning(Socket client) throws IOException {
 
-		spielfeld.setServerActive(true);
+		spielfeld.servermode = true;
+		spielfeld.getMenu().deaktivateNeuButton();
 		String level = spielfeld.randomLevel();		// erstelle Randomlevel-Pfad
 		
 		// Richte Scanner und PrintWriter zum Datentausch ein

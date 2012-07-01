@@ -24,19 +24,19 @@ public class Move extends AbstractAction {
 		t.start();
 		
 		// Fuer offlinemodus
-		if (b.getPlayerID() == 1 && !spielfeld.isServerActive() && !spielfeld.isClientActive()) {
+		if (b.getPlayerID() == 1 && !spielfeld.servermode && !spielfeld.clientmode) {
 		spielfeld.removeKeysP1();
-		} else if (b.getPlayerID() == 2 && !spielfeld.isServerActive() && !spielfeld.isClientActive()) {
+		} else if (b.getPlayerID() == 2 && !spielfeld.servermode && !spielfeld.clientmode) {
 		spielfeld.removeKeysP2();
 		}
 		
 		// Fuer Server
-		if (spielfeld.isServerActive() && b.getPlayerID() == 1) {
+		if (spielfeld.servermode && b.getPlayerID() == 1) {
 		spielfeld.removeKeysP1();
 		}
 		
 		// Fuer Client
-		if (spielfeld.isClientActive() && b.getPlayerID() == 2) {
+		if (spielfeld.clientmode && b.getPlayerID() == 2) {
 		spielfeld.removeKeysP2();
 		}
 	}

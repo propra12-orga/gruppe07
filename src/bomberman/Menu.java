@@ -117,7 +117,6 @@ public class Menu implements ActionListener {
           // Netzwerkspiel-Button
           if (object.getSource() == network){
         	  spielfeld.startNetworkGame();
-        	  neu.setEnabled(false);
           }
           
           // Spiel beenden-Button
@@ -264,5 +263,9 @@ public class Menu implements ActionListener {
 			cp.add(levelbox);
 			cp.add(ok);
 			chooseframe.setVisible(true);
+		}
+		
+		public void deaktivateNeuButton() {
+			neu.setEnabled(false);
 		}
 }

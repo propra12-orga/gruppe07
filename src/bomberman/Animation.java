@@ -49,12 +49,12 @@ public class Animation implements Runnable {
 	public void run() {
 		
 		// Fuer Server: Sende Richtung an Client
-		if (spielfeld.isServerActive() && offline) {
+		if (spielfeld.servermode && offline) {
 			spielfeld.getBombserver().sendPrintln(richtung);
 		}
 		
 		// Fuer Client: Sende Richtung an Server
-		if (spielfeld.isClientActive() && offline) {
+		if (spielfeld.clientmode && offline) {
 			spielfeld.getBombclient().sendPrintln(richtung);
 		}
 		
@@ -91,19 +91,19 @@ public class Animation implements Runnable {
 				t.stop();
 				
 				// Fuer offlinemodus
-				if (b.getPlayerID() == 1 && !spielfeld.isServerActive() && !spielfeld.isClientActive()) {
+				if (b.getPlayerID() == 1 && !spielfeld.servermode && !spielfeld.clientmode) {
 					spielfeld.setKeysBackP1();
-				} else if (b.getPlayerID() == 2 && !spielfeld.isServerActive() && !spielfeld.isClientActive()) {
+				} else if (b.getPlayerID() == 2 && !spielfeld.servermode && !spielfeld.clientmode) {
 					spielfeld.setKeysBackP2();
 				}
 				
 				// Fuer Server
-				if (spielfeld.isServerActive() && b.getPlayerID() == 1) {
+				if (spielfeld.servermode && b.getPlayerID() == 1) {
 					spielfeld.setKeysBackP1();
 				}
 				
 				// Fuer Client
-				if (spielfeld.isClientActive() && b.getPlayerID() == 2) {
+				if (spielfeld.clientmode && b.getPlayerID() == 2) {
 					spielfeld.setKeysBackP2();
 				}
 			}

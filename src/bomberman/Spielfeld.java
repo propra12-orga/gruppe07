@@ -5,6 +5,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -46,10 +48,24 @@ public class Spielfeld extends JFrame {
 	private Zeit z;
 	private Thread zeitThread;
 	public boolean gamerunning;
+	private Menu menu;
 
 	Spielfeld(String title) {
 		super(title);
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+		    public void windowClosing(WindowEvent e) {
+				if (servermode) {
+					getBombserver().sendPrintln("beendet");
+					getBombserver().setAction("beendet");
+				}
+				if (clientmode) {
+					getBombclient().sendPrintln("beendet");
+					getBombclient().setAction("beendet");
+				}
+		    }
+		});
 		int frameWidth = 844;
 		int frameHeight = 680;
 		setSize(frameWidth, frameHeight);
@@ -92,7 +108,7 @@ public class Spielfeld extends JFrame {
 		zeit.setForeground(Color.WHITE);
 		cp.add(zeit);
 		
-		new Menu(this);
+		menu = new Menu(this);
 		
 		setVisible(true);
 
@@ -439,7 +455,7 @@ public class Spielfeld extends JFrame {
 	public void startNetworkGame() {
 		Object[] options = { "Host", "Client" };
 		int abfrage = JOptionPane.showOptionDialog(null,
-				"Möchten Sie Host oder Client sein?",
+				"Moechten Sie Host oder Client sein?",
 				"Bitte auswählen", JOptionPane.DEFAULT_OPTION,
 				JOptionPane.INFORMATION_MESSAGE, null, options,
 				options[0]);
@@ -463,9 +479,6 @@ public class Spielfeld extends JFrame {
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 			client.start();
 		}
@@ -474,21 +487,9 @@ public class Spielfeld extends JFrame {
 	public Spielfeld getSpielfeld() {
 		return this;
 	}
-
-	public boolean isServerActive() {
-		return servermode;
-	}
-
-	public void setServerActive(boolean active) {
-		servermode = active;
-	}
-
-	public boolean isClientActive() {
-		return clientmode;
-	}
-
-	public void setClientActive(boolean active) {
-		clientmode = active;
+	
+	public void interruptBombClient() {
+		client.interrupt();
 	}
 
 	public Bombserver getBombserver() {
@@ -514,7 +515,11 @@ public class Spielfeld extends JFrame {
 	public JLabel getZeit() {
 		return zeit;
 	}
-
+	
+	public Menu getMenu() {
+		return menu;
+	}
+	
 	public void createExit(int x, int y) {
 		JLabel[] toRemove = new JLabel[3];
 		toRemove[0] = this.player1.getBomberMan();

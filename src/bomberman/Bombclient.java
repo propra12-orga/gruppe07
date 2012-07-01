@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.io.*; 
 
 import javax.swing.Action;
+import javax.swing.JOptionPane;
  
 public class Bombclient extends Thread {
 	
@@ -14,19 +15,25 @@ public class Bombclient extends Thread {
 	private PrintWriter out = null;
 	String action;
 	
-	public Bombclient(String ipadresse,int socket, Spielfeld spielfeld) throws UnknownHostException, IOException {
-		server = new Socket(ipadresse, socket);
+	public Bombclient(String ipadresse,int socket, Spielfeld spielfeld) throws UnknownHostException {
+		try {
+			server = new Socket(ipadresse, socket);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,
+					"Verbindung konnte nicht hergestellt werden", "Fehler", 1);
+			
+		}
 		this.spielfeld = spielfeld;
 	}
 	
 	public void run() {
-		spielfeld.setClientActive(true);
  
 		try {
 			// Richte Scanner und PrintWriter zum Datentausch ein
 			in  = new Scanner( server.getInputStream() ); 
 			out = new PrintWriter( server.getOutputStream(), true );
-			
+			spielfeld.clientmode = true;
+			spielfeld.getMenu().deaktivateNeuButton();
 			
 			String level = in.nextLine();	// Empfange Levelpfad vom server
 			spielfeld.start2PGame(level);		// Starte Spiel mit empfangenem Levelpfad
@@ -69,12 +76,18 @@ public class Bombclient extends Thread {
 				action = null;
 			}
 		}
-		
+		catch (NullPointerException e) {
+			
+		}
 		catch ( UnknownHostException e ) { 
 			e.printStackTrace(); 
+			JOptionPane.showMessageDialog(null,
+					"UnknownHost", "Fehler", 1);
 		} 
 		catch ( IOException e ) { 
-			e.printStackTrace(); 
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					"ioexception", "Fehler", 1);
 		}
 		
 		// beende Verbindung

@@ -129,11 +129,11 @@ public class Bombe extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Fuer Netzwerkmodus
-		if (spielfeld.isServerActive() && offline) {
+		if (spielfeld.servermode && offline) {
 			spielfeld.getBombserver().sendPrintln("bomb");
 		}
 
-		if (spielfeld.isClientActive() && offline) {
+		if (spielfeld.clientmode && offline) {
 			spielfeld.getBombclient().sendPrintln("bomb");
 		}
 
