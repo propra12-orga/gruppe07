@@ -14,6 +14,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
  
+/**
+ * Erzeugt den Server, welcher zum spielen im Netzwerk ben&ouml;tigt wird.<br>
+ * <br>
+ * Wartet auf eine Verbindung &uuml;ber die Netzwerk-IP. Wurde eine Verbindung erfolgreich hergestellt, wird das Spiel gestartet.
+ */
 public class Bombserver extends Thread {
 	
 	private ServerSocket server = null;
@@ -24,12 +29,18 @@ public class Bombserver extends Thread {
 	private Scanner in = null;
 	String action;
 
+	/**
+	 * Zugriff auf den Socket und das Spielfeld wird gew&auml;hrt.<br>
+	 * <br>
+	 * @param serversocket Erstellt einen Serversocket, mit dem sich Clienten verbinden k&ouml;nnen.
+	 * @param spielfeld Weist der aktuellen Methode Animation die Werte aus der Klasse Spielfeld zu.<br>
+	 * @throws IOException Erzeugt ein Wartefenster, solange sich kein Client mit dem Server verbunden hat.
+	 */
 	public Bombserver(int serversocket, Spielfeld spielfeld) throws IOException {
 		server = new ServerSocket( serversocket );
 		this.spielfeld = spielfeld;
 	}
 	
-
 	public void run() {
 		zeigeWarteFenster();
     while ( true ) { 
@@ -48,8 +59,12 @@ public class Bombserver extends Thread {
     	}
 	}
   
+	/**
+	 * Aktionen, welche m&ouml;glich sind, w&auml;hrend der Server gestartet ist.
+	 * @param client &Uuml;bernimmt die Aktionen des Clienten und stellt diese auch auf dem Spielfeld des Hosts dar.
+	 * @throws IOException 
+	 */
 	private void serverRunning(Socket client) throws IOException {
-
 		spielfeld.servermode = true;
 		spielfeld.getMenu().deaktivateNeuButton();
 		String level = spielfeld.randomLevel();		// erstelle Randomlevel-Pfad
@@ -105,8 +120,10 @@ public class Bombserver extends Thread {
 		}			
 	}
   
+	/**
+	 * Zeigt das Warte-Fenster beim Host an, solange sich noch kein Client mit dem Host verbunden hat.
+	 */
 	public void zeigeWarteFenster() {
-		
 		// Richte JFrame ein
 		f.setSize(300, 100);
 		f.setResizable(false);
@@ -155,10 +172,16 @@ public class Bombserver extends Thread {
 		f.setVisible(true);
 	}
 	
+	/**
+	 * @param send &Uuml;bergibt saämtliche Aktionen vom Host an den Clienten.
+	 */
 	public void sendPrintln(String send) {
 		out.println(send);
 	}
 	
+	/**
+	 * @param action &Uuml;berpr&uuml;ft, ob Aktionen auf Seiten des Clienten get&auml;tigt wurden.
+	 */
 	public void setAction(String action) {
 		this.action = action;
 	}

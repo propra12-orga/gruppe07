@@ -24,7 +24,7 @@ public class Bombclient extends Thread {
 	 * Zugriff auf die IP-Adresse, den Socket und das Spielfeld wird gew&auml;hrt.<br>
 	 * <br>
 	 * @param ipadresse &Uuml;bergibt die IP-Adresse zur &Uuml;berpr&uuml;fung and das Spiel.<br>
-	 * @param socket Erstellt sucht im Netzwerk einen verf&uuml;gbaren Socket, mit der passenden IP-Adresse.<br>
+	 * @param socket Sucht im Netzwerk einen verf&uuml;gbaren Socket, mit der passenden IP-Adresse.<br>
 	 * @param spielfeld Weist der aktuellen Methode Animation die Werte aus der Klasse Spielfeld zu.<br>
 	 * @throws UnknownHostException Ist die eingegebene IP-Adresse falsch, wird eine Fehlermeldung zur&uuml;ck gegeben.<br>
 	 */
@@ -115,14 +115,14 @@ public class Bombclient extends Thread {
 	}
 	
 	/**
-	 * @param send &Uuml;bergibt die IP-Adresse vom Clienten an den Host.
+	 * @param send &Uuml;bergibt saämtliche Aktionen vom Clienten an den Host.
 	 */
 	public void sendPrintln(String send) {
 		out.println(send);
 	}
 	
 	/**
-	 * @param action &Uuml;berpr&uuml;ft, ob schon Aktionen auf Seiten des Hosts get&auml;tigt wurden.
+	 * @param action &Uuml;berpr&uuml;ft, ob Aktionen auf Seiten des Hosts get&auml;tigt wurden.
 	 */
 	public void setAction(String action) {
 		this.action = action;

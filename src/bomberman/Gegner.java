@@ -6,7 +6,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 
 /**
- * Erstellt eine neue Spielfigur Gegner.
+ * Erstellt eine neue Spielfigur "Gegner".
  */
 public class Gegner{
 	private JLabel gegnerimg;
@@ -39,7 +39,7 @@ public class Gegner{
 	}
 	
 	/**
-	 * Gegner wird auf dem Spielfeld platziert und dem jPanel hinzugefuegt.
+	 * Gegner wird auf dem Spielfeld platziert und dem jPanel hinzugef&uuml;gt.
 	 */
 	public void put(int x,int y) {
 		gegnerimg.setBounds(x, y, width, width);
@@ -54,6 +54,9 @@ public class Gegner{
 		this.y = y;
 	}
 	
+	/**
+	 * Aktualisiert die Punkte von Spieler 1 und Spieler 2
+	 */
 	public void updatePunkte() {
 		if (this.player1.getPlayerID() == 1) {
 			this.punkte = this.spielfeld.getPunkte1();
@@ -68,10 +71,10 @@ public class Gegner{
 	}
 	
 	/**
-	 * Prueft, ob sich ein Gegner auf einem Explosionsfeld befindet. Wenn das der Fall ist,<br>
+	 * Pr&uuml;ft, ob sich ein Gegner auf einem Explosionsfeld befindet. Wenn das der Fall ist,<br>
 	 * wird der GegnerMove-Thread unterbrochen, wodurch das Icon gegnerimg auf Null gesetzt wird<br>
 	 * und die whileschleife unterbrochen wird.<br>
-	 * Wenn ein Gegner sich auf dem selben Feld wie ein Spieler befindet, erhaelt der Spieler eine<br>
+	 * Wenn ein Gegner sich auf dem selben Feld wie ein Spieler befindet, erh&auml;lt der Spieler eine<br>
 	 * Nachricht und seine Keybindings werden entfernt. Ausserdem wird die whileschleife unterbrochen.
 	 */
 	class GegnerInteraktion implements Runnable {
