@@ -7,6 +7,11 @@ import java.io.*;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
  
+/**
+ * Erzeugt den Clienten, welcher zum spielen im Netzwerk ben&ouml;tigt wird.<br>
+ * <br>
+ * Sucht nach der Host-IP und nimmt diese bei Richtigkeit an, um ein Spiel im Netzwerk zu starten.
+ */
 public class Bombclient extends Thread {
 	
 	private Spielfeld spielfeld;
@@ -15,6 +20,14 @@ public class Bombclient extends Thread {
 	private PrintWriter out = null;
 	String action;
 	
+	/**
+	 * Zugriff auf die IP-Adresse, den Socket und das Spielfeld wird gew&auml;hrt.<br>
+	 * <br>
+	 * @param ipadresse &Uuml;bergibt die IP-Adresse zur &Uuml;berpr&uuml;fung and das Spiel.<br>
+	 * @param socket Erstellt sucht im Netzwerk einen verf&uuml;gbaren Socket, mit der passenden IP-Adresse.<br>
+	 * @param spielfeld Weist der aktuellen Methode Animation die Werte aus der Klasse Spielfeld zu.<br>
+	 * @throws UnknownHostException Ist die eingegebene IP-Adresse falsch, wird eine Fehlermeldung zur&uuml;ck gegeben.<br>
+	 */
 	public Bombclient(String ipadresse,int socket, Spielfeld spielfeld) throws UnknownHostException {
 		try {
 			server = new Socket(ipadresse, socket);
@@ -26,6 +39,10 @@ public class Bombclient extends Thread {
 		this.spielfeld = spielfeld;
 	}
 	
+	/**
+	 * Bei verf&uuml;gbarer IP-Adresse wird das Spiel gestartet und alle Werte vom Server eingelesen,<br>
+	 * um eine exakte Kopie des Hosts zu erstellen. Lediglich die Steuerung wird auf Spieler 2 angewandt.
+	 */
 	public void run() {
  
 		try {
@@ -97,10 +114,16 @@ public class Bombclient extends Thread {
 		} 
 	}
 	
+	/**
+	 * @param send &Uuml;bergibt die IP-Adresse vom Clienten an den Host.
+	 */
 	public void sendPrintln(String send) {
 		out.println(send);
 	}
 	
+	/**
+	 * @param action &Uuml;berpr&uuml;ft, ob schon Aktionen auf Seiten des Hosts get&auml;tigt wurden.
+	 */
 	public void setAction(String action) {
 		this.action = action;
 	}

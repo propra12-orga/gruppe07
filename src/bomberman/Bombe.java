@@ -43,6 +43,13 @@ public class Bombe extends AbstractAction {
 	private int punkte = 0;
 	private int multi = 0;
 
+	/**
+	 * 
+	 * @param player1 Spieler 1 wirde an das Bombenobjekt &uuml;bergeben.<br>
+	 * @param player2 Spieler 2 wirde an das Bombenobjekt &uuml;bergeben.<br>
+	 * @param spielfeld Weist der aktuellen Methode Animation die Werte aus der Klasse Spielfeld zu.<br>
+	 * @param offline Wenn der Host offline ist, kann kein Spiel gestartet werden.
+	 */
 	public Bombe(BomberMan player1, BomberMan player2, JLayeredPane s,
 			Spielfeld spielfeld, boolean offline) {
 		this.player1 = player1;
@@ -93,6 +100,10 @@ public class Bombe extends AbstractAction {
 	 * Prueft, ob gerade auf einem bestimmten Feld eine Explosion stattfindet
 	 */
 
+	/**
+	 * @param isDoor Bei erreichen der T&uuml;re werden dem jeweiligen Spieler 100 Punkte gut geschrieben.<br>
+	 * Bei der Zerst&ouml;rung von Steinobjekten wird die Anzeil der zerst&ouml;rten Objekte mit einem Multiplier gut geschrieben.
+	 */
 	public void updatePunkte(boolean isDoor) {
 		if (this.player1.getPlayerID() == 1) {
 			this.punkte = this.spielfeld.getPunkte1();
@@ -150,6 +161,9 @@ public class Bombe extends AbstractAction {
 	}
 
 	// Anfang der Explosion
+	/**
+	 * Bombe wird gelegt und Timer bis zur Explosion gestartet.
+	 */
 	class LayBomb implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			s.remove(bomb);
@@ -164,6 +178,9 @@ public class Bombe extends AbstractAction {
 	}
 
 	// Ende der Explosion
+	/**
+	 * Bombe explodiert und startet den Explosions-Timer. L&auml;uft dieser ab, kann erneut eine Bombe platziert werden.
+	 */
 	class ExploBomb implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			s.remove(boom1);

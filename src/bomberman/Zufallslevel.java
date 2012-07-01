@@ -354,7 +354,7 @@ public class Zufallslevel {
 						new Gegner(spielfeld,x*40,y*40,jPanel);
 						
 					} else {
-						// Wenn falscher Bereich für gegner, spawne destroyable oder walkalbe
+						// Wenn falscher Bereich f&uuml;r gegner, spawne destroyable oder walkalbe
 						int z1 = (int) (Math.random() * 2);
 						if(z1 == 0) {
 							createDestroyable(x,y);
@@ -386,7 +386,7 @@ public class Zufallslevel {
 						new Gegner(spielfeld,x*40,y*40,jPanel);
 						
 					} else {
-						// Wenn falscher Bereich für gegner, spawne destroyable oder walkalbe
+						// Wenn falscher Bereich f&uuml;r gegner, spawne destroyable oder walkalbe
 						int z1 = (int) (Math.random() * 3);
 						if(z1 == 0) {
 							createDestroyable(x,y);

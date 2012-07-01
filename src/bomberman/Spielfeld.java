@@ -381,7 +381,7 @@ public class Spielfeld extends JFrame {
 		
 		spielsteuerung.requestFocusInWindow();
 		
-		// Die Zeit zählen
+		// Die Zeit z&auml;hlen
 		z = new Zeit(this, zeit);
 		zeitThread = new Thread (z);
 		zeitThread.start();
@@ -399,7 +399,7 @@ public class Spielfeld extends JFrame {
 		player2.put(jPanel);
 		spielsteuerung.requestFocusInWindow();
 		
-		// Die Zeit zählen
+		// Die Zeit z&auml;hlen
 		z = new Zeit(this, zeit);
 		zeitThread = new Thread (z);
 		zeitThread.start();
@@ -420,7 +420,7 @@ public class Spielfeld extends JFrame {
 		player1.put(jPanel);
 		spielsteuerung.requestFocusInWindow();
 		
-		// Die Zeit zählen
+		// Die Zeit z&auml;hlen
 		z = new Zeit(this, zeit);
 		zeitThread = new Thread (z);
 		zeitThread.start();
@@ -441,7 +441,7 @@ public class Spielfeld extends JFrame {
 		spielsteuerung.requestFocusInWindow();
 		
 		
-		// Die Zeit zählen
+		// Die Zeit z&auml;hlen
 		z = new Zeit(this, zeit);
 		zeitThread = new Thread (z);
 		zeitThread.start();
@@ -456,7 +456,7 @@ public class Spielfeld extends JFrame {
 		Object[] options = { "Host", "Client" };
 		int abfrage = JOptionPane.showOptionDialog(null,
 				"Moechten Sie Host oder Client sein?",
-				"Bitte auswählen", JOptionPane.DEFAULT_OPTION,
+				"Bitte ausw&auml;hlen", JOptionPane.DEFAULT_OPTION,
 				JOptionPane.INFORMATION_MESSAGE, null, options,
 				options[0]);
 		// Wenn Option Host, starte Bombserver
