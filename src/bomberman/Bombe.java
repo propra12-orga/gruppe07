@@ -205,9 +205,9 @@ public class Bombe extends AbstractAction {
 	/**
 	 * Explosion der Bombe.<br>
 	 * Ein Feld um die Bombe ist als Radius gesetzt. befindet sich in diesem
-	 * Radius ein zerst&ouml;rbarer Stein,<br>
+	 * Radius ein zerstoerbarer Stein,<br>
 	 * so wird dieser entfernt und die Animation der Explosion angezeigt. Das
-	 * selbe gilt f&uuml;r Spieler. Bei<br>
+	 * selbe gilt fuer Spieler. Bei<br>
 	 * Explosion in einem Spieler erscheint eine Meldung mit
 	 * "Spieler x hat das Spiel gewonnen".
 	 */
@@ -302,11 +302,13 @@ public class Bombe extends AbstractAction {
 		// Aktuelles Feld
 		if (x == player1.getX() && y == player1.getY()) {
 			spielfeld.unbindAllControls();
+			spielfeld.gamerunning = false;
 			JOptionPane.showMessageDialog(null,
 					"Spieler " + player2.getPlayerID()
 							+ " hat das Spiel gewonnen", "Spielende", 1);
 		} else if (x == player2.getX() && y == player2.getY()) {
 			spielfeld.unbindAllControls();
+			spielfeld.gamerunning = false;
 			JOptionPane.showMessageDialog(null,
 					"Spieler " + player1.getPlayerID()
 							+ " hat das Spiel gewonnen", "Spielende", 1);
@@ -315,11 +317,13 @@ public class Bombe extends AbstractAction {
 		// Feld weiter rechts
 		if (x + 40 == player1.getX() && y == player1.getY()) {
 			spielfeld.unbindAllControls();
+			spielfeld.gamerunning = false;
 			JOptionPane.showMessageDialog(null,
 					"Spieler " + player2.getPlayerID()
 							+ " hat das Spiel gewonnen", "Spielende", 1);
 		} else if (x + 40 == player2.getX() && y == player2.getY()) {
 			spielfeld.unbindAllControls();
+			spielfeld.gamerunning = false;
 			JOptionPane.showMessageDialog(null,
 					"Spieler " + player1.getPlayerID()
 							+ " hat das Spiel gewonnen", "Spielende", 1);
@@ -328,11 +332,13 @@ public class Bombe extends AbstractAction {
 		// Feld weiter links
 		if (x - 40 == player1.getX() && y == player1.getY()) {
 			spielfeld.unbindAllControls();
+			spielfeld.gamerunning = false;
 			JOptionPane.showMessageDialog(null,
 					"Spieler " + player2.getPlayerID()
 							+ " hat das Spiel gewonnen", "Spielende", 1);
 		} else if (x - 40 == player2.getX() && y == player2.getY()) {
 			spielfeld.unbindAllControls();
+			spielfeld.gamerunning = false;
 			JOptionPane.showMessageDialog(null,
 					"Spieler " + player1.getPlayerID()
 							+ " hat das Spiel gewonnen", "Spielende", 1);
@@ -341,11 +347,13 @@ public class Bombe extends AbstractAction {
 		// Feld weiter oben
 		if (x == player1.getX() && y + 40 == player1.getY()) {
 			spielfeld.unbindAllControls();
+			spielfeld.gamerunning = false;
 			JOptionPane.showMessageDialog(null,
 					"Spieler " + player2.getPlayerID()
 							+ " hat das Spiel gewonnen", "Spielende", 1);
 		} else if (x == player2.getX() && y + 40 == player2.getY()) {
 			spielfeld.unbindAllControls();
+			spielfeld.gamerunning = false;
 			JOptionPane.showMessageDialog(null,
 					"Spieler " + player1.getPlayerID()
 							+ " hat das Spiel gewonnen", "Spielende", 1);
@@ -354,11 +362,13 @@ public class Bombe extends AbstractAction {
 		// Feld weiter unten
 		if (x == player1.getX() && y - 40 == player1.getY()) {
 			spielfeld.unbindAllControls();
+			spielfeld.gamerunning = false;
 			JOptionPane.showMessageDialog(null,
 					"Spieler " + player2.getPlayerID()
 							+ " hat das Spiel gewonnen", "Spielende", 1);
 		} else if (x == player2.getX() && y - 40 == player2.getY()) {
 			spielfeld.unbindAllControls();
+			spielfeld.gamerunning = false;
 			JOptionPane.showMessageDialog(null,
 					"Spieler " + player1.getPlayerID()
 							+ " hat das Spiel gewonnen", "Spielende", 1);
@@ -368,7 +378,7 @@ public class Bombe extends AbstractAction {
 		// Wenn Spieler 1 Bombe legt ...
 		if (player1.getPlayerID() == 1) {
 
-			// Nur ausf�hren, wenn nicht durch eine Kettenreaktion ausgeloest
+			// Nur ausfuehren, wenn nicht durch eine Kettenreaktion ausgeloest
 			// und Bombe 2 liegt
 			if (kette == false && spielfeld.getBomb2().bombActive() == true) {
 
@@ -407,7 +417,7 @@ public class Bombe extends AbstractAction {
 		// Wenn Spieler 2 Bombe legt ...
 		if (player1.getPlayerID() == 2) {
 
-			// Nur ausf�hren, wenn nicht durch eine Kettenreaktion ausgeloest
+			// Nur ausfuehren, wenn nicht durch eine Kettenreaktion ausgeloest
 			// und Bombe 2 liegt
 			if (kette == false && spielfeld.getBomb1().bombActive() == true) {
 

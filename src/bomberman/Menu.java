@@ -19,11 +19,14 @@ public class Menu implements ActionListener {
      
 	 private Spielfeld spielfeld;
      private Container container;
-     private JFrame chooseframe = new JFrame("Bomberman");
+     private JFrame chooseframe;
      private String levelpath;
      private String[] level = {"Level 1","Level 2","Level 3","Level 4","Level 5","Zufallsgenerator"};
-     private JComboBox<Object> levelbox = new JComboBox<Object>(level);
+     private JComboBox<Object> levelbox;
      private String gamemode;
+     private JLabel text;
+     private JButton abbrechen;
+     private JButton ok;
      
      // MenuBar
      private JMenuBar menueLeiste;
@@ -44,15 +47,15 @@ public class Menu implements ActionListener {
           this.spielfeld = spielfeld;
           container = spielfeld.getContentPane();
           
-          // Menüleiste erzeugen
+          // Menuleiste erzeugen
           menueLeiste = new JMenuBar();
           menueLeiste.setBounds(0, 0, 960, 25);
           
-          // Menüelemente erzeugen
+          // Menuelemente erzeugen
           spiel = new JMenu("Spiel");
           neu = new JMenu("Neues Spiel");
           
-          // Untermenüelemente erzeugen
+          // Untermenuelemente erzeugen
           restart = new JMenuItem("Neustart");
           restart.addActionListener(this);
           restart.setEnabled(false);
@@ -66,7 +69,7 @@ public class Menu implements ActionListener {
           network.addActionListener(this);
           
           
-          // Menueelemente hinzufügen
+          // Menueelemente hinzufuegen
           menueLeiste.add(spiel);
           
           // Untermenue "Spiel"
@@ -141,35 +144,42 @@ public class Menu implements ActionListener {
 		public void chooseLevelFor2P() {
 			
 			// Richte JFrame ein
-			chooseframe.setSize(300, 100);
+			chooseframe = new JFrame("2 Spieler");
+			chooseframe.setSize(350, 100);
 			chooseframe.setResizable(false);
 			chooseframe.setLocationRelativeTo(chooseframe.getParent());
 			chooseframe.getContentPane().setLayout(null);
 			
 			// Abbrechen Button
-			JButton abbrechen = new JButton();
+			abbrechen = new JButton();
 			abbrechen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					chooseframe.setVisible(false);
 					chooseframe.dispose();
+					chooseframe = null;
+					levelbox = null;
+					text = null;
+					abbrechen = null;
+					ok = null;					
 				}
 			});
 			abbrechen.setText("Abbrechen");
-			abbrechen.setBounds(160, 40, 100, 25);
+			abbrechen.setBounds(190, 40, 120, 25);
 			
 			// Auswahlbox mit Level
+			levelbox = new JComboBox<Object>(level);
 			levelbox.setSelectedItem( "Level 1" );
 		    levelbox.setMaximumRowCount( 6 );
-		    levelbox.setBounds(140, 10, 130, 20);
+		    levelbox.setBounds(180, 10, 130, 20);
 			int number = levelbox.getSelectedIndex() + 1;
 			levelpath = "src/readSpielfeld/level" + number + ".txt";
 		    
 			// Ausgabetext
-			JLabel text = new JLabel("Level auswaehlen:");
+			text = new JLabel("Level auswaehlen:");
 			text.setBounds(20, 15, 150, 10);
 			
 			// Ok-Button
-			JButton ok = new JButton();
+			ok = new JButton();
 			ok.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					chooseframe.setVisible(false);
@@ -188,7 +198,7 @@ public class Menu implements ActionListener {
 				}
 			});
 			ok.setText("OK");
-			ok.setBounds(30, 40, 100, 25);
+			ok.setBounds(40, 40, 120, 25);
 			
 			// Fuege die einzelnen Elemente dem Frame hinzu
 			Container cp = chooseframe.getContentPane();
@@ -207,35 +217,42 @@ public class Menu implements ActionListener {
 		public void chooseLevelFor1P() {
 			
 			// Richte JFrame ein
-			chooseframe.setSize(300, 100);
+			chooseframe = new JFrame("Einzelspieler");
+			chooseframe.setSize(350, 100);
 			chooseframe.setResizable(false);
 			chooseframe.setLocationRelativeTo(chooseframe.getParent());
 			chooseframe.getContentPane().setLayout(null);
 
 			// Abbrechen-Button
-			JButton abbrechen = new JButton();
+			abbrechen = new JButton();
 			abbrechen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					chooseframe.setVisible(false);
 					chooseframe.dispose();
+					chooseframe = null;
+					levelbox = null;
+					text = null;
+					abbrechen = null;
+					ok = null;
 				}
 			});
 			abbrechen.setText("Abbrechen");
-			abbrechen.setBounds(160, 40, 100, 25);
+			abbrechen.setBounds(190, 40, 120, 25);
 			
 			// Auswahlbox mit Level
+			levelbox = new JComboBox<Object>(level);
 			levelbox.setSelectedItem( "Level 1" );
 		    levelbox.setMaximumRowCount( 6 );
-		    levelbox.setBounds(140, 10, 130, 20);
+		    levelbox.setBounds(180, 10, 130, 20);
 			int number = levelbox.getSelectedIndex() + 1;
 			levelpath = "src/readSpielfeld/level" + number + ".txt";
 		    
 			// Ausgabetext
-			JLabel text = new JLabel("Level auswaehlen:");
+			text = new JLabel("Level auswaehlen:");
 			text.setBounds(20, 15, 150, 10);
 			
 			// OK-Button
-			JButton ok = new JButton();
+			ok = new JButton();
 			ok.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					chooseframe.setVisible(false);
@@ -254,7 +271,7 @@ public class Menu implements ActionListener {
 				}
 			});
 			ok.setText("OK");
-			ok.setBounds(30, 40, 100, 25);
+			ok.setBounds(40, 40, 120, 25);
 			
 			// Fuege die einzelnen Elemente dem Frame hinzu
 			Container cp = chooseframe.getContentPane();

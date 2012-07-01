@@ -28,7 +28,7 @@ public class Zufallslevel {
 	/**
 	 * Methode, die aufgerufen werden muss, ein neues Zufallslevel zu generieren.<br>
 	 * Setzt zuerst die beiden Spieler durch Zufall in einem bestimmten bereich, <br>
-	 * dann die Bombe. Außerdem werden die Randwaende erzeugt. Die uebrig gebliebenen <br>
+	 * dann die Bombe. Ausserdem werden die Randwaende erzeugt. Die uebrig gebliebenen <br>
 	 * Felder bekommen den Namen "walkable". Als letztes startet eine for-Schleifen die <br>
 	 * Klasse createField(), welche jedem einzelnen Feld Eigenschaften zuweisst.
 	 */
@@ -337,31 +337,65 @@ public class Zufallslevel {
 			if((x == 1 && y == 13) || (x == 19 && y == 13) ||
 				checkwalls(x,y)	) {
 				
-				int z = (int) (Math.random() * 2);				
-				if (z == 0) {
+				int z = (int) (Math.random() * 5);				
+				if (z == 0 || z == 1) {
 					createWalkable(x,y);
 				}
 				
-				if (z == 1) {
+				if (z == 2 || z == 3) {
 					createDestroyable(x,y);
+				}
+				
+				if (z == 4) {
+					// Bereich in dem Gegner spawnen darf
+					if ((x > 7 && y <= 6) ||	
+						(y == 8 || y == 9) ||
+						(x <= 13 && y>=10)) {
+						new Gegner(spielfeld,x*40,y*40,jPanel);
+						
+					} else {
+						// Wenn falscher Bereich für gegner, spawne destroyable oder walkalbe
+						int z1 = (int) (Math.random() * 2);
+						if(z1 == 0) {
+							createDestroyable(x,y);
+						} else {
+							createWalkable(x,y);
+						}
+					}
 				}
 
 			} else {
-				int z = (int) (Math.random() * 4);
+				int z = (int) (Math.random() * 7);
 				
-				if (z == 0) {
+				if (z == 0 || z == 1) {
 					createWalkable(x,y);
 				}
 				
-				if (z == 1) {
+				if (z == 2 || z == 3) {
 					createDestroyable(x,y);
 				}
 				
-				if (z == 2) {
+				if (z == 4 || z == 5) {
 					createNoWalkable(x,y);
 				}
-				if (z == 3) {
-					new Gegner(spielfeld,x*40,y*40,jPanel);
+				if (z == 6) {
+					// Bereich in dem Gegner spawnen darf
+					if ((x > 7 && y <= 6) ||	
+						(y == 8 || y == 9) ||
+						(x <= 13 && y>=10)) {
+						new Gegner(spielfeld,x*40,y*40,jPanel);
+						
+					} else {
+						// Wenn falscher Bereich für gegner, spawne destroyable oder walkalbe
+						int z1 = (int) (Math.random() * 3);
+						if(z1 == 0) {
+							createDestroyable(x,y);
+						} else if (z1 == 1) {
+							createWalkable(x,y);
+						} else if (z1 == 2) {
+							createNoWalkable(x,y);
+						}
+					}
 				}
 			}
 		}

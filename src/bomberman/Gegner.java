@@ -101,18 +101,18 @@ public class Gegner{
 				}
 				
 				if (player1.getX() == x && player1.getY() == y) {
+					spielfeld.gamerunning = false;
 					spielfeld.unbindAllControls();
 					JOptionPane.showMessageDialog(null,
 							"Spieler 1 ist tot", "Spielende", 1);
-					spielfeld.gamerunning = false;
 					break;
 				}
 				
 				if (player2.getX() == x && player2.getY() == y) {
+					spielfeld.gamerunning = false;
 					spielfeld.unbindAllControls();
 					JOptionPane.showMessageDialog(null,
 							"Spieler 2 ist tot", "Spielende", 1);
-					spielfeld.gamerunning = false;
 					break;
 				}
 				try {
