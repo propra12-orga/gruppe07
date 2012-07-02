@@ -42,7 +42,7 @@ public class Animation implements Runnable {
 	/**
 	 * Image-wechsel beim laufen der Spielfigur.<br>
 	 * <br>
-	 * @param run Die Bilder der einzelnen Animationszustände werden geladen<br>
+	 * @param run Die Bilder der einzelnen Animationszust&auml;nde werden geladen<br>
 	 * (hier im Ordner player1, die Bilder 0-4 f&uuml;r die derzeit ausgew&auml;hlte Richtung nach einem Tastendruck). 
 	 */
 	@Override

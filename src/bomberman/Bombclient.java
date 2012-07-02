@@ -26,7 +26,7 @@ public class Bombclient extends Thread {
 	 * @param ipadresse &Uuml;bergibt die IP-Adresse zur &Uuml;berpr&uuml;fung and das Spiel.<br>
 	 * @param socket Sucht im Netzwerk einen verf&uuml;gbaren Socket, mit der passenden IP-Adresse.<br>
 	 * @param spielfeld Weist der aktuellen Methode Animation die Werte aus der Klasse Spielfeld zu.<br>
-	 * @throws UnknownHostException Ist die eingegebene IP-Adresse falsch, wird eine Fehlermeldung zur&uuml;ck gegeben.<br>
+	 * @throws UnknownHostException
 	 */
 	public Bombclient(String ipadresse,int socket, Spielfeld spielfeld) throws UnknownHostException {
 		try {
@@ -115,7 +115,7 @@ public class Bombclient extends Thread {
 	}
 	
 	/**
-	 * @param send &Uuml;bergibt saämtliche Aktionen vom Clienten an den Host.
+	 * @param send &Uuml;bergibt s&auml;mtliche Aktionen vom Clienten an den Host.
 	 */
 	public void sendPrintln(String send) {
 		out.println(send);

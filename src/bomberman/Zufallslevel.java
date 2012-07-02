@@ -7,7 +7,6 @@ import javax.swing.JLayeredPane;
 /**
  * Erzeugt ein Zufallsgeneriertes Level nach bestimmten Kriterien.
  */
-
 public class Zufallslevel {
 	
 	private BomberMan player1;
@@ -27,10 +26,10 @@ public class Zufallslevel {
 
 	/**
 	 * Methode, die aufgerufen werden muss, ein neues Zufallslevel zu generieren.<br>
-	 * Setzt zuerst die beiden Spieler durch Zufall in einem bestimmten bereich, <br>
-	 * dann die Bombe. Ausserdem werden die Randwaende erzeugt. Die uebrig gebliebenen <br>
+	 * Setzt zuerst die beiden Spieler durch Zufall in einem bestimmten Bereich, <br>
+	 * dann die Bombe. Ausserdem werden die Randw&auml;nde erzeugt. Die &uuml;brig gebliebenen <br>
 	 * Felder bekommen den Namen "walkable". Als letztes startet eine for-Schleifen die <br>
-	 * Klasse createField(), welche jedem einzelnen Feld Eigenschaften zuweisst.
+	 * Klasse createField(), welche jedem einzelnen Feld Eigenschaften zuweist.
 	 */
 	public void createZufallsLevelFor2P() {
 		//Player 1
@@ -161,6 +160,13 @@ public class Zufallslevel {
 		}
 	}
 	
+	/**
+	 * Methode, die aufgerufen werden muss, ein neues Zufallslevel zu generieren.<br>
+	 * Setzt zuerst die beiden Spieler durch Zufall in einem bestimmten Bereich, <br>
+	 * dann die Bombe. Ausserdem werden die Randw&auml;nde erzeugt. Die &uuml;brig gebliebenen <br>
+	 * Felder bekommen den Namen "walkable". Als letztes startet eine for-Schleifen die <br>
+	 * Klasse createField(), welche jedem einzelnen Feld Eigenschaften zuweist.
+	 */
 	public void createZufallsLevelFor1P() {
 		//Player 1
 		x1 = (int)(Math.random() * 3 + 1);				// Formel = (Math.random() * (high - low) + low)
@@ -282,15 +288,14 @@ public class Zufallslevel {
 	}
 	
 	/**
-	 * Diese Methode weisst jedem Einzelfeld, welches ihm uebergeben wurde, einen<br>
-	 * bestimmten Mauertyp oder ein Lauffeld zu. Zuerst werden den Spielern Platz <br>
-	 * von jeweils 3 Feldern reserviert, die direkt an die Spielerposition anknuepfen<br>
+	 * Diese Methode weisst jedem Einzelfeld, welches ihm &uuml;bergeben wurde, einen<br>
+	 * bestimmten Mauertyp oder ein Lauffeld zu. Zuerst wird den Spielern Platz <br>
+	 * von jeweils 3 Feldern reserviert, die direkt an die Spielerposition ankn&uuml;pfen<br>
 	 * und walkable sind. Dadurch haben die Spieler beim platzieren der ersten Bombe genug<br>
-	 * Ausweichmoeglichkeiten. Als naechtes wird die erste Reihe generiert (beginnend von oben<br>
+	 * Ausweichm&ouml;glichkeiten. Als n&auml;chtes wird die erste Reihe generiert (beginnend von oben<br>
 	 * rechts), welche nach anderen Regeln als der Rest des Spielfelds erzeugt wird.<br>
 	 * Danach geht es weiter mit den restlichen Reihen des Spielfeld.
 	 */
-	
 	public void createField(int x, int y) {
 		if ((x == x1 && y == y1) || (x == x2 && y == y2) || 
 			(x == x1 + 1 && y == y1) || (x == x2 - 1 && y == y2) ||
@@ -402,16 +407,15 @@ public class Zufallslevel {
 	}
 	
 	/**
-	 * Ist dafuer Zustaendig, dass <br>
-	 * Beide Spieler ueberall auf dem Spielfeld hingelangen koennen und nicht durch <br>
+	 * Ist daf&uuml;r Zust&auml;ndig, dass <br>
+	 * beide Spieler &uuml;berall auf dem Spielfeld hingelangen k&ouml;nnen und nicht durch <br>
 	 * Feste Mauern eingesperrt oder blockiert werden. Es wird wird jeweils ein Feld<br>
 	 * diagonal rechts, oben, diagonal linksoben, links, diagonal linksunten und unten <br>
 	 * abgefragt. Wenn mindestens 2 der abgefragten Felder die Mauer "nowalkable" enthalten,<br>
-	 * gibt die Funktion true zurueck und uebermittelt somit der Funktion createField(), dass <br>
+	 * gibt die Funktion true zur&uuml;ck und &uuml;bermittelt somit der Funktion createField(), dass <br>
 	 * das zu erstellende Feld nicht auch den Mauertyp "nowalkable" sein darf, da es sonst zu <br>
 	 * einer Blockade kommen kann.
 	 */
-	
 	public boolean checkwalls(int x, int y) {		
 		// Checke diagonal nach rechts
 		if ((walls[x+1][y-1].getName().equals("nowalkable") &&
@@ -463,7 +467,6 @@ public class Zufallslevel {
 	/**
 	 * Erstellt ein Feld mit dem Namen "walkable", auf dem der Spieler laufen kann
 	 */
-	
 	public void createWalkable(int x, int y) {
 		walls[x][y] = new JLabel(new ImageIcon(""));
 		walls[x][y].setBounds(40 * x, 40 * y, 40, 40);
@@ -471,9 +474,8 @@ public class Zufallslevel {
 	}
 	
 	/**
-	 * Erstellt den Mauertyp "destroyable", welcher durch eine Bombe zerstoert werden kann
+	 * Erstellt den Mauertyp "destroyable", welcher durch eine Bombe zerst&ouml;rt werden kann
 	 */
-	
 	public void createDestroyable(int x, int y) {
 		walls[x][y] = new JLabel(new ImageIcon("src/gfx/explodable_wall.png"));
 		walls[x][y].setBounds(40 * x, 40 * y, 40, 40);
@@ -482,9 +484,8 @@ public class Zufallslevel {
 	}
 	
 	/**
-	 * Erstellt den Mauertyp "nowalkable", welcher unzerstoerbar ist.
+	 * Erstellt den Mauertyp "nowalkable", welcher unzerst&ouml;rbar ist.
 	 */
-	
 	public void createNoWalkable(int x, int y) {
 		walls[x][y] = new JLabel(new ImageIcon("src/gfx/solid_wall.png"));
 		walls[x][y].setBounds(40 * x, 40 * y, 40, 40);

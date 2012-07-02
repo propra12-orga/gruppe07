@@ -23,6 +23,14 @@ import javax.swing.WindowConstants;
 
 import readSpielfeld.ReadFile;
 
+/**
+ * Die eigentliche Main Datei.<br>
+ * <br>
+ * In dieser Klasse werden s&auml;mtliche Aktionen aufgerufen und erstellt.<br>
+ * Dazu z&auml;hlt das Spieldfeld an sich, s&auml;mtliche jLabels, die Bewegungstasten, Spielfiguren, Timer, Host und<br>
+ * Server, Bombe und alles weitere, was zum Spielablauf geh&ouml;rt.
+ *
+ */
 public class Spielfeld extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JLayeredPane jPanel = new JLayeredPane();
@@ -133,6 +141,9 @@ public class Spielfeld extends JFrame {
 		cp.add(spielsteuerung);
 	}
 
+	/**
+	 * @return path + level
+	 */
 	public String randomLevel() {
 		String path = "src/readSpielfeld/";
 		int low = 1, high = 5;
@@ -142,6 +153,12 @@ public class Spielfeld extends JFrame {
 		return path + level;
 	}
 
+	/**
+	 * Liest das Level aus einer Textdatei ein.<br>
+	 * @param level Level 1-5 sind vorhanden und zwischen diesen kann vor dem Spielstart gew&auml;hlt werden.<br>
+	 * Hierbei handelt es sich um ein Textdokument mit 15 Zeilen á 21 Zeichen. Die Zeichen haben folgende Bedeutung:<br>
+	 * X = Unzerst&ouml;rbare Wand, O = Zerst&ouml;rbare Wand, P = Spieler 1, L = Spieler 2 und U = Versteckte T&uuml;re.
+	 */
 	private void createWorld(String level) {
 		ReadFile rf = null;
 		try {
@@ -233,10 +250,17 @@ public class Spielfeld extends JFrame {
 		}
 	}
 
+	/**
+	 * @return walls
+	 */
 	public JLabel[][] getWalls() {
 		return walls;
 	}
 
+	/**
+	 * Erstellt die Bewegung f&uuml;r Spieler 1 (W = Up, A = Left, S = Down, D = Right, F = Lay Bomb).<br>
+	 * Erstellt die Bewegung f&uuml;r Spieler 2 (Pfeil rauf = Up, Pfeil links = Left, Pfeil runter = Down, Pfeil rechts = Right, K = Lay Bomb).<br>
+	 */
 	public void setPlayerKeys() {
 		// Moves for first player
 		spielsteuerung.getInputMap().put(KeyStroke.getKeyStroke("D"), "moveRight");
@@ -272,6 +296,9 @@ public class Spielfeld extends JFrame {
 		spielsteuerung.getActionMap().put("bombe2", bombe2);
 	}
 
+	/**
+	 * Resettet die Tasten von Spieler 1.
+	 */
 	public void setKeysBackP1() {
 		spielsteuerung.getActionMap().put("moveRight", moveRight);
 		spielsteuerung.getActionMap().put("moveLeft", moveLeft);
@@ -280,6 +307,9 @@ public class Spielfeld extends JFrame {
 		spielsteuerung.getActionMap().put("bombe1", bombe1);
 	}
 
+	/**
+	 * Resettet die Tasten von Spieler 2.
+	 */
 	public void setKeysBackP2() {
 		spielsteuerung.getActionMap().put("moveRight2", moveRight2);
 		spielsteuerung.getActionMap().put("moveLeft2", moveLeft2);
@@ -288,6 +318,9 @@ public class Spielfeld extends JFrame {
 		spielsteuerung.getActionMap().put("bombe2", bombe2);
 	}
 
+	/**
+	 * Setzt die Tastenbefehle f&uuml;r Spieler 1 zur&uuml;ck, sodass immer nur eine Aktion pro Tastendruck ausgef&uuml;hrt werden kann.
+	 */
 	public void removeKeysP1() {
 		spielsteuerung.getActionMap().put("moveRight", null);
 		spielsteuerung.getActionMap().put("moveLeft", null);
@@ -296,6 +329,9 @@ public class Spielfeld extends JFrame {
 		spielsteuerung.getActionMap().put("bombe1", null);
 	}
 
+	/**
+	 * Setzt die Tastenbefehle f&uuml;r Spieler 2 zur&uuml;ck, sodass immer nur eine Aktion pro Tastendruck ausgef&uuml;hrt werden kann.
+	 */
 	public void removeKeysP2() {
 		spielsteuerung.getActionMap().put("moveRight2", null);
 		spielsteuerung.getActionMap().put("moveLeft2", null);
@@ -304,48 +340,79 @@ public class Spielfeld extends JFrame {
 		spielsteuerung.getActionMap().put("bombe2", null);
 	}
 
+	/**
+	 * Die Tasten lassen sich unabh&auml;ngig von einander benutzen.
+	 */
 	public void unbindAllControls() {
 		spielsteuerung.getInputMap().clear();
 		spielsteuerung.getActionMap().clear();
 	}
 
+	/**
+	 * Erzeugt ein Layer links oben, indem die Punkte f&uuml;r Spieler 1 gez&auml;hlt werden.
+	 * @param p Punkte von Spieler 1
+	 */
 	public void updatePunktePlayer1(int p) {
 		this.punkte1 = p;
 		jPunkte1.setText("Player1: " + p + " Punkte");
 	}
 
+	/**
+	 * Erzeugt ein Layer rechts oben, indem die Punkte f&uuml;r Spieler 2 gez&auml;hlt werden.
+	 * @param p Punkte von Spieler 2
+	 */
 	public void updatePunktePlayer2(int p) {
 		this.punkte2 = p;
 		jPunkte2.setText("Player2: " + p + " Punkte");
 	}
 
+	/**
+	 * @return punkte 1
+	 */
 	public int getPunkte1() {
 		return punkte1;
 	}
 
+	/**
+	 * Wurde eine Aktion von Spieler 1 ausgef&uuml;hrt, die Punkte gab, werden diese dem Punktekonto gut geschrieben.
+	 * @param punkte1 Punkte von Spieler 1
+	 */
 	public void setPunkte1(int punkte1) {
 		this.punkte1 = punkte1;
 	}
 
+	/**
+	 * @return punkte2
+	 */
 	public int getPunkte2() {
 		return punkte2;
 	}
 
+	/**
+	 * Wurde eine Aktion von Spieler 2 ausgef&uuml;hrt, die Punkte gab, werden diese dem Punktekonto gut geschrieben.
+	 * @param punkte2 Punkte von Spieler 2
+	 */
 	public void setPunkte2(int punkte2) {
 		this.punkte2 = punkte2;
 	}
 
+	/**
+	 * @return bombe1
+	 */
 	public Bombe getBomb1() {
 		return bombe1;
 	}
 
+	/**
+	 * @return bombe2
+	 */
 	public Bombe getBomb2() {
 		return bombe2;
 	}
 	
 	/**
-	 * Bereitet das Spiel auf den Neustart vor, indem durch gamerunning=false die Threads abgebrochen werden,<br>
-	 * Zeit, Punkte und PlayerKeys zurueckgesetzt werden und das alte Spielfeld bzw. ein eventueller Winscreen<br>
+	 * Bereitet das Spiel auf den Neustart vor, indem durch gamerunning = false die Threads abgebrochen werden,<br>
+	 * Zeit, Punkte und PlayerKeys zur&uuml;ckgesetzt werden und das alte Spielfeld bzw. ein eventueller Winscreen<br>
 	 * entfernt wird.
 	 */
 	public void prepareForRestart() {
@@ -367,9 +434,9 @@ public class Spielfeld extends JFrame {
 	}
 	
 	/**
-	 * Startet ein neues Spiel mit einem existierenden Level, dessen Pfad per String uebergeben werden muss.<br>
+	 * Startet ein neues Spiel mit einem existierenden Level, dessen Pfad per String &uuml;bergeben werden muss.<br>
 	 * Es werden 2 Spieler auf das Spielfeld gesetzt.
-	 * @param level
+	 * @param level Eines der vordefinierten Level.
 	 */
 	public void start2PGame(String level) {
 		gamerunning = true;
@@ -406,9 +473,9 @@ public class Spielfeld extends JFrame {
 	}
 	
 	/**
-	 * Startet ein neues Spiel mit einem existierenden Level, dessen Pfad per String uebergeben werden muss.<br>
+	 * Startet ein neues Spiel mit einem existierenden Level, dessen Pfad per String &uuml;bergeben werden muss.<br>
 	 * Es wird 1 Spieler auf das Spielfeld gesetzt.
-	 * @param level
+	 * @param level Eines der vordefinierten Level.
 	 */
 	public void start1PGame(String level) {
 		gamerunning = true;
@@ -449,8 +516,8 @@ public class Spielfeld extends JFrame {
 	
 	/**
 	 * Fragt ab, ob der Spieler Host oder Client sein will und erstellt dementsprechend<br>
-	 * einen neuen Bombserver oder Bombclient. Wenn der Spieler die Option Client ausgewaehlt hat<br>
-	 * muss er zusaetzlich die IP-Adresse des Hosts eingeben.
+	 * einen neuen Bombserver oder Bombclient. Wenn der Spieler die Option Client ausgew&auml;hlt hat<br>
+	 * muss er zus&auml;tzlich die IP-Adresse des Hosts eingeben.
 	 */
 	public void startNetworkGame() {
 		Object[] options = { "Host", "Client" };
@@ -484,42 +551,74 @@ public class Spielfeld extends JFrame {
 		}
 	}
 
+	/**
+	 * @return this
+	 */
 	public Spielfeld getSpielfeld() {
 		return this;
 	}
 	
+	/**
+	 * Der Client wird unterbrochen
+	 */
 	public void interruptBombClient() {
 		client.interrupt();
 	}
 
+	/**
+	 * @return server
+	 */
 	public Bombserver getBombserver() {
 		return server;
 	}
 
+	/**
+	 * @return client
+	 */
 	public Bombclient getBombclient() {
 		return client;
 	}
 
+	/**
+	 * @return player1
+	 */
 	public BomberMan getPlayer1() {
 		return player1;
 	}
 
+	/**
+	 * @return player2
+	 */
 	public BomberMan getPlayer2() {
 		return player2;
 	}
 
+	/**
+	 * @return jPanel
+	 */
 	public JLayeredPane getLayeredPane() {
 		return jPanel;
 	}
 
+	/**
+	 * @return zeit
+	 */
 	public JLabel getZeit() {
 		return zeit;
 	}
 	
+	/**
+	 * @return menu
+	 */
 	public Menu getMenu() {
 		return menu;
 	}
 	
+	/**
+	 * Erzeugt einen Ausgang, der zum Sieg des Spiels f&uuml;hrt.
+	 * @param x x-Koordinaten des Ausgangs
+	 * @param y y-Koordinaten des Ausgangs
+	 */
 	public void createExit(int x, int y) {
 		JLabel[] toRemove = new JLabel[3];
 		toRemove[0] = this.player1.getBomberMan();
@@ -529,6 +628,9 @@ public class Spielfeld extends JFrame {
 		exit = new Tuere(x, y, jPanel, toRemove);
 	}
 
+	/**
+	 * Startet eine Instanz von "bomberman"
+	 */
 	public static void main(String[] args) {
 		new Spielfeld("bomberman");
 	}

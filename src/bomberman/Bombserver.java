@@ -34,7 +34,7 @@ public class Bombserver extends Thread {
 	 * <br>
 	 * @param serversocket Erstellt einen Serversocket, mit dem sich Clienten verbinden k&ouml;nnen.
 	 * @param spielfeld Weist der aktuellen Methode Animation die Werte aus der Klasse Spielfeld zu.<br>
-	 * @throws IOException Erzeugt ein Wartefenster, solange sich kein Client mit dem Server verbunden hat.
+	 * @throws IOException
 	 */
 	public Bombserver(int serversocket, Spielfeld spielfeld) throws IOException {
 		server = new ServerSocket( serversocket );

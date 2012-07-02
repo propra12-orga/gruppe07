@@ -97,10 +97,8 @@ public class Bombe extends AbstractAction {
 	}
 	
 	/**
-	 * Prueft, ob gerade auf einem bestimmten Feld eine Explosion stattfindet
-	 */
-
-	/**
+	 * Pr&uuml;ft, ob gerade auf einem bestimmten Feld eine Explosion stattfindet
+	 * <br>
 	 * @param isDoor Bei erreichen der T&uuml;re werden dem jeweiligen Spieler 100 Punkte gut geschrieben.<br>
 	 * Bei der Zerst&ouml;rung von Steinobjekten wird die Anzeil der zerst&ouml;rten Objekte mit einem Multiplier gut geschrieben.
 	 */

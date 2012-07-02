@@ -19,6 +19,14 @@ public class Tuere extends JFrame {
 	private JLayeredPane jPanel;
 	private JLabel[] toRemove;
 
+	/**
+	 * Übergibt die Parameter rasterPunktX, rasterPunktY, jPanel und toRemove an die Klasse Tuere.<br>
+	 * <br>
+	 * @param rasterPunktX Raster-Punkt x auf dem Spielfeld. In diesem Raster bewegt sich die Spielfigur.
+	 * @param rasterPunktY Raster-Punkt y auf dem Spielfeld. In diesem Raster bewegt sich die Spielfigur.
+	 * @param jPanel Die T&uuml;re kann auf das bereits vorhandene jPanel erzeugt werden.
+	 * @param toRemove Bei einem Sieg, l&auml;sst sich die T&uuml;re entfernen.
+	 */
 	public Tuere(int rasterPunktX, int rasterPunktY, JLayeredPane jPanel, JLabel[] toRemove) {
 		this.jPanel = jPanel;
 		this.toRemove = toRemove;
@@ -28,7 +36,7 @@ public class Tuere extends JFrame {
 
 	
 	/**
-	 * 
+	 * Sieg-Kriterien
 	 * @param b Wenn ein Spieler (b = BomberMan) in der T&uuml;re steht, wird das Spiel beendet.
 	 */
 	public void isExit(BomberMan b) {
@@ -57,11 +65,16 @@ public class Tuere extends JFrame {
 		win2.repaint();
 	}
 
-
+	/**
+	 * @return win1
+	 */
 	public JLabel getWin1() {
 		return win1;
 	}
 
+	/**
+	 * @return win2
+	 */
 	public JLabel getWin2() {
 		return win2;
 	}
