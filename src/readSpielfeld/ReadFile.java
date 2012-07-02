@@ -3,8 +3,10 @@ package readSpielfeld;
 import java.io.*;
 
 /**
- * Liest das Spielfeld aus einer Datei aus.
- * 
+ * Liest das Spielfeld aus einer Datei aus.<br>
+ * <br>
+ * Zur Zeit handelt es sich dabei um 5 verschiedene Level, oder die M&ouml;glichkeit das Spiel mit einem zuf&auml;llig<br>
+ * generierten Level zu starten.
  */
 public class ReadFile {
 	private FileReader input;
@@ -12,7 +14,7 @@ public class ReadFile {
 	private char spielFeld[][] = new char[21][15];
 
 	/**
-	 *  
+	 * Liest Das Level aus einer Textdatei mit dem Namen "levelx.txt" ein (x steht hierbei für eine Zahl zwischen 1 und 5)
 	 * @param fileName Der Dateiname mit Pfad.
 	 * @throws FileNotFoundException 
 	 */
