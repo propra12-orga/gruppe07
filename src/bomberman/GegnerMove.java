@@ -3,7 +3,7 @@ package bomberman;
 import javax.swing.JLabel;
 
 /**
- * Sorgt fuer die Bewegung des Gegners ueber das Spielfeld.
+ * Sorgt f&uuml;r die Bewegung des Gegners &uuml;ber das Spielfeld.
  */
 public class GegnerMove implements Runnable {
 	private JLabel gegnerimg;
@@ -26,9 +26,9 @@ public class GegnerMove implements Runnable {
 
 	/**
 	 * Wenn der Thread gestartet wurde, wird eine whileschleife in Gang gesetzt, die per Zufall eine<br>
-	 * Bewegungsrichtung bestimmt. Dann wird geprueft, ob sich an der Stelle, auf die sich der Gegner<br>
+	 * Bewegungsrichtung bestimmt. Dann wird gepr&uuml;ft, ob sich an der Stelle, auf die sich der Gegner<br>
 	 * bewegen soll, ein freies Feld befindet. Wenn das der Fall ist, bewegt sich der Gegner auf dieses<br>
-	 * Feld, wenn nicht dann bleibt er stehen und wartet auf die naechste Richtungsangabe
+	 * Feld, wenn nicht dann bleibt er stehen und wartet auf die n&auml;chste Richtungsangabe.
 	 */
 	public void run() {
 		while (spielfeld.gamerunning && !death) {

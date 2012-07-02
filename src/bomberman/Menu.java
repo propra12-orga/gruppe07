@@ -13,7 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
- * Erzeugt das Hauptmenue des Spiels.
+ * Erzeugt das Hauptmen&uuml; des Spiels.
  */
 public class Menu implements ActionListener {
      
@@ -42,7 +42,12 @@ public class Menu implements ActionListener {
      private JMenuItem restart;
      private JMenuItem beenden;
 
-     
+     /**
+      * Da sich das Men&uuml; auf dem Spielfeld befindet, werden hiermit alle werte &uuml;bergeben, die f&uuml; eine<br>
+      * Ausf&uuml;hrung ben&ouml;tigt werden.<br>
+      * <br>
+      * @param spielfeld &Uuml;bergibt die Werte aus Spielfeld an Menu
+      */
      public Menu(Spielfeld spielfeld) {
           this.spielfeld = spielfeld;
           container = spielfeld.getContentPane();
@@ -86,7 +91,7 @@ public class Menu implements ActionListener {
      }
      
      /**
-      * Erkennt, welches MenuItem betaetigt wurde und fuehrt die ihm zugeteilten Funktionen aus
+      * Erkennt, welches MenuItem bet&auml;tigt wurde und f&uuml;hrt die ihm zugeteilten Funktionen aus.
       */
      public void actionPerformed(ActionEvent object) {
     	 
@@ -137,9 +142,9 @@ public class Menu implements ActionListener {
      }
      
      /**
-      * Oeffnet ein neues Fenster, in dem man das Level bzw den Modus Zufallslevel auswaehlen kann.<br>
-      * Nach der Levelauswahl und Betaetigung des OK-Buttons laedt die Funktion start2PGame(levelpath)<br>
-      * bzw. startRandom2PGame() das entsprechende Level und setzt dabei Spieler 1 und 2
+      * &Ouml;ffnet ein neues Fenster, in dem man das Level bzw. den Modus Zufallslevel ausw&auml;hlen kann.<br>
+      * Nach der Levelauswahl und Bet&auml;tigung des OK-Buttons, l&auml;dt die Funktion start2PGame(levelpath)<br>
+      * bzw. startRandom2PGame() das entsprechende Level und setzt dabei Spieler 1 und 2.
       */
 		public void chooseLevelFor2P() {
 			
@@ -210,8 +215,8 @@ public class Menu implements ActionListener {
 		}
 
 	     /**
-	      * Oeffnet ein neues Fenster, in dem man das Level bzw den Modus Zufallslevel auswaehlen kann.<br>
-	      * Nach der Levelauswahl und Betaetigung des OK-Buttons laedt die Funktion start2PGame(levelpath)<br>
+	      * &Ouml;ffnet ein neues Fenster, in dem man das Level bzw den Modus Zufallslevel ausw&auml;hlen kann.<br>
+	      * Nach der Levelauswahl und Bet&auml;tigung des OK-Buttons l&auml;dt die Funktion start2PGame(levelpath)<br>
 	      * bzw. startRandom2PGame() das entsprechende Level und setzt dabei Spieler 1
 	      */
 		public void chooseLevelFor1P() {
