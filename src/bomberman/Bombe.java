@@ -45,10 +45,15 @@ public class Bombe extends AbstractAction {
 
 	/**
 	 * 
-	 * @param player1 Spieler 1 wirde an das Bombenobjekt &uuml;bergeben.<br>
-	 * @param player2 Spieler 2 wirde an das Bombenobjekt &uuml;bergeben.<br>
-	 * @param spielfeld Weist der aktuellen Methode Animation die Werte aus der Klasse Spielfeld zu.<br>
-	 * @param offline Wenn der Host offline ist, kann kein Spiel gestartet werden.
+	 * @param player1
+	 *            Spieler 1 wirde an das Bombenobjekt &uuml;bergeben.<br>
+	 * @param player2
+	 *            Spieler 2 wirde an das Bombenobjekt &uuml;bergeben.<br>
+	 * @param spielfeld
+	 *            Weist der aktuellen Methode Animation die Werte aus der Klasse
+	 *            Spielfeld zu.<br>
+	 * @param offline
+	 *            Wenn der Host offline ist, kann kein Spiel gestartet werden.
 	 */
 	public Bombe(BomberMan player1, BomberMan player2, JLayeredPane s,
 			Spielfeld spielfeld, boolean offline) {
@@ -95,36 +100,40 @@ public class Bombe extends AbstractAction {
 	public JLabel getBomb() {
 		return bomb;
 	}
-	
+
 	/**
-	 * Pr&uuml;ft, ob gerade auf einem bestimmten Feld eine Explosion stattfindet
-	 * <br>
-	 * @param isDoor Bei erreichen der T&uuml;re werden dem jeweiligen Spieler 100 Punkte gut geschrieben.<br>
-	 * Bei der Zerst&ouml;rung von Steinobjekten wird die Anzeil der zerst&ouml;rten Objekte mit einem Multiplier gut geschrieben.
+	 * Pr&uuml;ft, ob gerade auf einem bestimmten Feld eine Explosion
+	 * stattfindet <br>
+	 * 
+	 * @param isDoor
+	 *            Bei erreichen der T&uuml;re werden dem jeweiligen Spieler 100
+	 *            Punkte gut geschrieben.<br>
+	 *            Bei der Zerst&ouml;rung von Steinobjekten wird die Anzeil der
+	 *            zerst&ouml;rten Objekte mit einem Multiplier gut geschrieben.
 	 */
 	public void updatePunkte(boolean isDoor) {
 		if (this.player1.getPlayerID() == 1) {
 			this.punkte = this.spielfeld.getPunkte1();
-			
+
 			if (isDoor) {
 				this.punkte = this.punkte + 100;
 			} else {
 				this.multi++;
 				this.punkte = this.punkte + 10 * this.multi;
 			}
-			
+
 			this.spielfeld.updatePunktePlayer1(this.punkte);
 
 		} else if (this.player1.getPlayerID() == 2) {
 			this.punkte = this.spielfeld.getPunkte2();
-			
+
 			if (isDoor) {
 				this.punkte = this.punkte + 100;
 			} else {
 				this.multi++;
 				this.punkte = this.punkte + 10 * this.multi;
 			}
-			
+
 			this.spielfeld.updatePunktePlayer2(this.punkte);
 		}
 	}
@@ -171,13 +180,14 @@ public class Bombe extends AbstractAction {
 			Explosion();
 			LayTimer.stop();
 			LayTimer2.stop();
-			
+
 		}
 	}
 
 	// Ende der Explosion
 	/**
-	 * Bombe explodiert und startet den Explosions-Timer. L&auml;uft dieser ab, kann erneut eine Bombe platziert werden.
+	 * Bombe explodiert und startet den Explosions-Timer. L&auml;uft dieser ab,
+	 * kann erneut eine Bombe platziert werden.
 	 */
 	class ExploBomb implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -246,7 +256,7 @@ public class Bombe extends AbstractAction {
 			boom2.setBounds(x + 40, y, width, height);
 			s.add(boom2, 1);
 			walls[(x / 40) + 1][(y / 40)].setIcon(new ImageIcon(
-					"src/gfx/door/door.png"));
+					"src/gfx/door/door.gif"));
 			walls[(x / 40) + 1][(y / 40)].setName("exit");
 			updatePunkte(true);
 		}
@@ -266,7 +276,7 @@ public class Bombe extends AbstractAction {
 			boom3.setBounds(x - 40, y, width, height);
 			s.add(boom3, 1);
 			walls[(x / 40) - 1][(y / 40)].setIcon(new ImageIcon(
-					"src/gfx/door/door.png"));
+					"src/gfx/door/door.gif"));
 			walls[(x / 40) - 1][(y / 40)].setName("exit");
 			updatePunkte(true);
 		}
@@ -286,7 +296,7 @@ public class Bombe extends AbstractAction {
 			boom4.setBounds(x, y + 40, width, height);
 			s.add(boom4, 1);
 			walls[(x / 40)][(y / 40) + 1].setIcon(new ImageIcon(
-					"src/gfx/door/door.png"));
+					"src/gfx/door/door.gif"));
 			walls[(x / 40)][(y / 40) + 1].setName("exit");
 			updatePunkte(true);
 		}
@@ -303,14 +313,14 @@ public class Bombe extends AbstractAction {
 			walls[x / 40][(y / 40) - 1].setName("walkable");
 			updatePunkte(false);
 		} else if (walls[(x / 40)][(y / 40) - 1].getName().equals("hidden")) {
-			boom5.setBounds(x , y - 40, width, height);
+			boom5.setBounds(x, y - 40, width, height);
 			s.add(boom5, 1);
 			walls[(x / 40)][(y / 40) - 1].setIcon(new ImageIcon(
-					"src/gfx/door/door.png"));
+					"src/gfx/door/door.gif"));
 			walls[(x / 40)][(y / 40) - 1].setName("exit");
 			updatePunkte(true);
 		}
-		
+
 		this.multi = 0;
 
 		// Pruefe Felder auf Spieler

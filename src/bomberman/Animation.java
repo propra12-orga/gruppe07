@@ -59,7 +59,7 @@ public class Animation implements Runnable {
 		}
 		
 		for(int i=0; i<=4; i++) {
-			ImageIcon img = new ImageIcon("src/gfx/player" + b.getPlayerID() + "/"+ richtung +""+ i +".png");
+			ImageIcon img = new ImageIcon("src/gfx/player" + b.getPlayerID() + "/"+ richtung +""+ i +".gif");
 			frames[i] = img;
 		}
 		

@@ -27,7 +27,7 @@ public class BomberMan {
 			x=760;
 			y=520;
 		}
-		bomberMan = new JLabel(new ImageIcon("src/gfx/player"+ this.playerID +"/down0.png"));
+		bomberMan = new JLabel(new ImageIcon("src/gfx/player"+ this.playerID +"/down0.gif"));
 		rasterPunktX = x/40;
 		rasterPunktY = y/40;
 	}
